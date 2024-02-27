@@ -1,0 +1,52 @@
+@import "./variables/variables";
+@import "./rules/rules";
+
+// ------ global styles --------
+body {
+    font-family: $font-family;
+    margin: 0;
+    overflow: hidden;
+    max-height: $window-height;
+}
+
+a {
+
+    &:link,
+    &:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+// ------ main page styles ----------
+.main-container {
+    display: flex;
+    // flex-direction: column;
+    background-color: $main-bg-color;
+    height: $window-height;
+    overflow: hidden;
+    width: $window-width;
+
+    .main-wrapper {
+        display: flex;
+        // width: $window-width;
+        // height: $page-height;
+        flex-direction: column;
+
+        .page-container {
+            background-color: $layout-bg-color;
+            height: $page-height;
+            width: $page-width;
+            border-radius: 16px;
+            padding: 25px 50px 25px 50px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+@import "/src/style/variables/variables";
+
+.top-bar {
+  height: $top-bar-height;
+  background-color: $menu-bg-color;
+  box-shadow: 7px 5px 21px 0px #80808085;
+  z-index: 1;
+
+  .top-bar-logo {
+    width: $menu-width;
+    padding: 10px 20px;
+    height: 100%;
+    img {
+      height: 100%;
+    }
+  }
+
+  &-content {
+    padding: 10px 20px;
+    width: 100%;
+    text-align: right;
+  }
+
+  display: flex;
+  color: $menu-item-color;
+  align-items: center;
+}

@@ -1,0 +1,15 @@
+.wrapper {
+  opacity: 1;
+  // pointer-events: none;
+  position: fixed;
+  z-index: 999;
+  &.animated {
+    animation: fadeOut 1s forwards;
+  }
+}
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    display: none;
+  }
+}

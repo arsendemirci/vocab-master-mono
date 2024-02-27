@@ -1,0 +1,73 @@
+@mixin fadeIn($direction: "", $defaultTransform: "") {
+  $id: unique-id();
+  $name: "fadeIn-" + $id;
+  // $transformY: 0px;
+  // $transformX: 0px;
+  // @if $direction== "down" {
+  //   $name: "fadeInDown-" + $name;
+  //   $transformY: -20px;
+  // }
+  // @if $direction== "up" {
+  //   $name: "fadeInUp-" + $name;
+  //   $transformY: 20px;
+  // }
+  // @if $direction== "left" {
+  //   $name: "fadeInLeft-" + $id;
+  //   $transformX: 20px;
+  // }
+  // @if $direction== "right" {
+  //   $name: "fadeInRight-" + $id;
+  //   $transformX: -20px;
+  // }
+  animation: #{$name} 0.5s ease-in 0s 1 forwards;
+  // pointer-events: all;
+  @keyframes #{$name} {
+    0% {
+      // visibility: hidden;
+      opacity: 0;
+      // transform: translate($transformX, $transformY) #{$defaultTransform};
+    }
+    100% {
+      // visibility: visible;
+      opacity: 1;
+      // transform: translate(0px, 0px) #{$defaultTransform};
+    }
+  }
+}
+
+@mixin fadeOut($direction: "", $defaultTransform: "") {
+  $id: unique-id();
+  $name: "fadeOut-" + $id;
+  // $transformY: 0px;
+  // $transformX: 0px;
+  // @if $direction== "down" {
+  //   $name: "fadeOutDown-" + $id;
+  //   $transformY: 20px;
+  // }
+  // @if $direction== "up" {
+  //   $name: "fadeOutUp-" + $id;
+  //   $transformY: -20px;
+  // }
+  // @if $direction== "left" {
+  //   $name: "fadeOutLeft-" + $id;
+  //   $transformX: -20px;
+  // }
+  // @if $direction== "right" {
+  //   $name: "fadeOutRight-" + $id;
+  //   $transformX: 20px;
+  // }
+  animation: #{$name} 0.5s ease-in 0s 1 forwards;
+  // pointer-events: none;
+  @keyframes #{$name} {
+    0% {
+      // visibility: visible;
+      opacity: 1;
+      // transform: translate(0, 0) #{$defaultTransform};
+    }
+    100% {
+      // visibility: hidden;
+      opacity: 0;
+      // transform: translate($transformX, $transformY) #{$defaultTransform};
+    }
+  }
+}

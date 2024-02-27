@@ -1,0 +1,21 @@
+.button {
+  overflow: hidden;
+  user-select: none;
+  display: inline-flex;
+  vertical-align: middle;
+  text-align: center;
+  padding: 8px;
+  border-radius: 50%;
+  outline: 0;
+  position: relative;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  color: currentcolor;
+  svg {
+    pointer-events: none;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}

@@ -1,0 +1,11 @@
+//------ main layout ------
+$window-height: 960px;
+$window-width: 1180px;
+$top-bar-height: 120px;
+$menu-width: 280px;
+
+$page-width: calc($window-width - $menu-width);
+$page-height: calc($window-height - $top-bar-height);
+$top-bar-width: $window-width;
+$menu-height: calc($window-height - $top-bar-height);
+$menu-item-width: calc($menu-width - 30px);

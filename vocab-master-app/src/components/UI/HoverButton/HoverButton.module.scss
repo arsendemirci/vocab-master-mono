@@ -1,0 +1,65 @@
+.button {
+  border: 1px solid white;
+  color: white;
+  height: 60px;
+  margin: 5px;
+  width: 60px;
+  overflow: hidden;
+  border-radius: 24px;
+  display: flex;
+  padding: 10px;
+  gap: 15px;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 24px;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(100, 100, 100, 0.8);
+  position: relative;
+
+  cursor: pointer;
+  svg {
+    transition: 0.5s all;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+  }
+  .hovertip {
+    position: absolute;
+    left: 60px;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  &:hover {
+    background-color: #d30808;
+    justify-content: left;
+    width: 120px;
+    .hovertip {
+      //   position: unset;
+      //   left: unset;
+      opacity: 1;
+    }
+  }
+
+  .icon {
+    position: relative;
+  }
+}
+
+.button > .icon {
+  position: relative;
+}
+
+.animated {
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+  &.spin {
+    &:hover {
+      svg {
+        -webkit-transfrom: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

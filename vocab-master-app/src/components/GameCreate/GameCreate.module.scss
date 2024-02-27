@@ -1,0 +1,29 @@
+.box {
+  border-radius: 12px;
+  position: relative;
+  padding: 10px;
+  border-radius: 12px;
+  padding-top: 16px;
+  background-color: white;
+  display: flex;
+  box-shadow: 0 0 4px #0000002e;
+  .boxtitle {
+    display: inline;
+    position: absolute;
+    top: 5px;
+    left: 25px;
+    background-color: white;
+    padding: 0 10px;
+    font-size: 18px;
+  }
+  .border {
+    border: 1.4px solid #00000045;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    & > div {
+      margin: 20px;
+    }
+  }
+
+}

@@ -1,0 +1,38 @@
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 20px 0;
+  background-color: $menu-item-bg-hover-color;
+  border-radius: 12px;
+  .card {
+    display: inline-flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
+    border-radius: 16px;
+    color: white;
+    // background-color:$menu-item-bg-hover-color;
+
+    .question {
+      letter-spacing: 1px;
+    }
+  }
+  .submit {
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: transparent;
+    &:hover {
+      background-color: lighten($menu-item-bg-hover-color, 5%);
+    }
+  }
+}
+.icon {
+  background-color: transparent;
+  &:hover {
+    background-color: lighten($menu-item-bg-hover-color, 5%);
+  }
+}
