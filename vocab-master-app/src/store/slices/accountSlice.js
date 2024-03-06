@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   activePanel: "login",
+  registeredUserId: 0,
   loginForm: {
     email: {
       error: false,
@@ -23,8 +24,12 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     setActivePanel: (state, { payload }) => {
-      state.activePanel = payload;
+      state.activePanel = payload.panel;
+      if (payload.userId) {
+        state.registeredUserId = payload.userId;
+      }
     },
+
     validateLogin: (state, { payload }) => {
       console.log("payload", payload);
       state.loginForm = payload.loginForm;

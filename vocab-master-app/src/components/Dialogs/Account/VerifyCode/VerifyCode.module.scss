@@ -8,10 +8,34 @@
   align-items: center;
   gap: 20px;
   padding: 20px;
+  hr {
+    color: black;
+    width: 100%;
+    margin: 0;
+  }
+  p {
+    margin: 5px;
+  }
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    > div {
+      > label {
+        &:not(:global .Mui-focused) {
+          transform: translate(14px, 19px) scale(1);
+          font-size: 18px;
+        }
+      }
+      width: 60%;
+      p {
+        font-size: 18px;
+      }
+      input {
+        font-size: 22px;
+      }
+    }
   }
 }

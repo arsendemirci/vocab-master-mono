@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Modal.module.scss";
-import { Button, Icon } from "components";
+import { Button, Icon, IconButton } from "components";
 import { dialogComponents, dialog } from "components/Dialogs";
 import { createPortal } from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,6 +24,7 @@ function Modal() {
   };
   let wrapperClass = `${styles.wrapper} ${show && styles.show}`;
   const containerClass = `${styles.container}`;
+  const clClose = `${styles.close}`;
 
   useEffect(() => {
     if (modal.show) {
@@ -44,10 +45,16 @@ function Modal() {
     <>
       <div className={wrapperClass}>
         <div>
-          <Button onClick={closeClick}>
+          {/* <Button onClick={closeClick}>
             <Icon icon="times" width={24} height={24} color="white" />
-          </Button>
+          </Button> */}
           <div className={containerClass}>
+            <IconButton
+              className={clClose}
+              iconName="close"
+              iconColor="black"
+              onClick={closeClick}
+            />
             {LoadDialog({ component: modal.component })}
           </div>
         </div>

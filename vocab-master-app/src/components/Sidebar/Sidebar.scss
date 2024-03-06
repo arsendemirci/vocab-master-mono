@@ -14,7 +14,7 @@ $profile-height: 360px;
   background-color: $layout-bg-color;
   .sidebar-wrapper {
     width: $menu-width;
-    height: calc($menu-height - $profile-height);
+    height: 530px;
     display: flex;
     position: relative;
     border-bottom-right-radius: 30px;

@@ -19,6 +19,7 @@ const IconButton = (props) => {
         icon={props.iconName}
         width={props.iconWidth}
         height={props.iconHeight}
+        color={props.iconColor}
       />
 
       {renderRipple()}

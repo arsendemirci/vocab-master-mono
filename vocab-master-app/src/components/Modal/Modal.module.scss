@@ -12,6 +12,7 @@
       }
     }
   }
+
   z-index: 17;
   display: flex;
   justify-content: center;
@@ -36,6 +37,11 @@
   }
 
   .container {
+    .close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
     transition: all 0.4s ease-in;
     background-color: #fff;
     border-radius: 10px;

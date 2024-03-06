@@ -52,7 +52,7 @@ const sideMenu = [
   {
     navigate: () => links.QuickGame(),
     public: true,
-    icon: "play",
+    icon: "joystick",
     label: "Quick Play",
   },
   {

@@ -84,6 +84,9 @@ function Sign() {
       dispatch(validateRegister({ registerEmailValidation }));
     } else {
       resetSignup();
+      dispatch(
+        setActivePanel({ panel: "verify", userId: registerData.userId })
+      );
       console.log("REGISTRATION SUCCESS proceed to verification", registerData);
     }
   };
@@ -174,7 +177,7 @@ function Sign() {
             </p>
             <p>
               If you already have an account click &nbsp;
-              <a onClick={() => dispatch(setActivePanel("login"))}>
+              <a onClick={() => dispatch(setActivePanel({ panel: "login" }))}>
                 <strong>here</strong>
               </a>
               &nbsp; to login.
@@ -186,7 +189,9 @@ function Sign() {
             <p>Login to your VM account entering your e-mail and password.</p>
             <p>
               If you dont have a VM account click &nbsp;
-              <a onClick={() => dispatch(setActivePanel("register"))}>
+              <a
+                onClick={() => dispatch(setActivePanel({ panel: "register" }))}
+              >
                 <strong>here</strong>
               </a>
               &nbsp; to create.

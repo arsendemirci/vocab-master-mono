@@ -99,29 +99,36 @@ module.exports = {
       res.status(statusCode.SERVER_ERROR).send(err);
     }
   },
-  verifyUser: async (req, res) => {
-    const { userId, verificationCode } = req.body;
-    const verification = await userService.GetUserVerification(
-      userId,
-      verificationCode
-    );
-    if (verification) {
-      const currentDate = new Date();
-      const validDate = new Date(verification.validDate);
+  verifyUser: async (req, res,next) => {
+    try {
+      const { userId, verificationCode } = req.body;
+      console.log(
+        `user id is ${userId}, verificationCode is ${verificationCode}`
+      );
+      const verification = await userService.GetUserVerification(
+        userId,
+        verificationCode
+      );
+      if (verification) {
+        const currentDate = new Date();
+        const validDate = new Date(verification.validDate);
 
-      if (validDate > currentDate) {
-        const data = await userService.VerifyUser(userId);
-        if (data) {
-          req.userId = userId;
-          req.auth = tokenUtils.createToken(userId);
+        if (validDate > currentDate) {
+          const data = await userService.VerifyUser(userId);
+          if (data) {
+            req.userId = userId;
+            req.auth = tokenUtils.createToken(userId);
 
-          next();
+            next();
+          }
+        } else {
+          res.status(statusCode.CUSTOM_ERROR).json(errorCode.CODE_EXPIRED);
         }
       } else {
-        res.status(statusCode.CUSTOM_ERROR).json(errorCode.CODE_EXPIRED);
+        res.status(statusCode.CUSTOM_ERROR).json(errorCode.INVALID_CODE);
       }
-    } else {
-      res.status(statusCode.CUSTOM_ERROR).json(errorCode.INVALID_CODE);
+    } catch (err) {
+      res.status(statusCode.SERVER_ERROR).send(err);
     }
   },
 };

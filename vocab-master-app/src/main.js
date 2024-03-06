@@ -12,6 +12,7 @@ const createWindow = () => {
     width: 1180,
     height: 960,
     resizable: false,
+    autoHideMenuBar: true,
     frame: true,
     useContentSize: true,
     webPreferences: {

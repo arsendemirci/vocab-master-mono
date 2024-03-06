@@ -22,7 +22,9 @@ function App() {
         <section className="main-wrapper">
           <Topbar />
           <div className="page-container">
-            <Router />
+            <div>
+              <Router />
+            </div>
           </div>
         </section>
       </main>
