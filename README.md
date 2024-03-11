@@ -9,6 +9,8 @@ Intention of the application is to provide a flexible environment for improving 
 The project is a desktop application developed using electron.js, node.js and react.js.
 <br>
 <br>
+
+### :clapper: Demo
 Check on demo here : https://youtu.be/RTKxaEdobcg
 <br>
 <br>
@@ -22,6 +24,7 @@ Check on demo here : https://youtu.be/RTKxaEdobcg
  - reusable custom hooks
  - button click ripple effect hook
  - state management with redux-toolkit (RTK)
+ - state lifting, custom state hooks 
  - state persistence with redux-persist
  - dynamic router archictecture
 <br>
@@ -38,6 +41,7 @@ Check on demo here : https://youtu.be/RTKxaEdobcg
 ### &nbsp;<img src="vocab-master-app/src/assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;Electron.js 
  - usage of contextBridge to enable contextIsolation(for security reasons)
  - communication between UI and node.js using IPC
+ - dynamic IPC handlers
 <br>
 
 ### &nbsp;<img src="vocab-master-app/src/assets/images/logo/sass_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;CSS / SCSS 
