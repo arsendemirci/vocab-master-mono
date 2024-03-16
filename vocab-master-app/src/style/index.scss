@@ -42,7 +42,7 @@ a {
       height: $page-height;
       width: $page-width;
       border-radius: 16px;
-      padding: 25px 30px;
+      padding: 25px 30px $window-bottom-space 30px;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;

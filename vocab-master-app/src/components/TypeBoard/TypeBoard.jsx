@@ -74,7 +74,7 @@ function TypeBoard() {
   }, [gameState.activeQuestion]);
 
   return (
-    <div>
+    <div className="typeboard-wrap">
       {gameState.status === gameConfig.status.ACTIVE && (
         <div className="typeboard">
           <QuestionBoard

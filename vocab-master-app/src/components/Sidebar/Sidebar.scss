@@ -10,11 +10,11 @@ $profile-height: 360px;
   height: $menu-height;
   display: flex;
   flex-direction: column;
-  align-self: flex-end;
+  justify-content:space-between;
   background-color: $layout-bg-color;
   .sidebar-wrapper {
     width: $menu-width;
-    height: 530px;
+    height: 370px;
     display: flex;
     position: relative;
     border-bottom-right-radius: 30px;
