@@ -8,7 +8,7 @@ module.exports = {
   },
   [ipcConfig.channel.GET_LISTS]: async () => {
     const res = await http.get("/secure/list");
-    console.log("responce received ", res.data);
+    // console.log("responce received ", res.data);
     return res.data;
   },
 };

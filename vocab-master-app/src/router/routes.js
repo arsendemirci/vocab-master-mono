@@ -1,5 +1,5 @@
 import React from "react";
-import { Game, Profile, Words, Home } from "#views";
+import { CreateGame, Profile, Words, Home, PlayGame } from "#views";
 
 const routes = {
   Home: {
@@ -10,15 +10,17 @@ const routes = {
   },
   CreateGame: {
     path: "/game",
-    element: <Game />,
+    element: <CreateGame />,
     title: "Create Game",
   },
+  PlayGame: {
+    path: "/play",
+    element: <PlayGame />,
+    title: "Play Game",
+  },
   QuickGame: {
-    path: "/game/:quick",
-    navigate: () => {
-      return "/game/quick";
-    },
-    element: <Game />,
+    path: "/play/quick",
+    element: <PlayGame quick={true} />,
     title: "Quick Game",
   },
   Profile: {
@@ -47,6 +49,8 @@ Object.entries(routes).map(([name, route]) => {
       return route["path"];
     });
 });
+
+
 
 const sideMenu = [
   {

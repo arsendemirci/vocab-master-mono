@@ -27,8 +27,6 @@ const initial = {
 };
 // Hook
 function useRippleEffect({ onClick, origin }) {
-  console.log("useripple effect triggered");
-
   const [state, setState] = useState(initial);
 
   const clickHandler = (e) => {

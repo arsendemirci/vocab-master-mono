@@ -28,10 +28,8 @@ function Modal() {
 
   useEffect(() => {
     if (modal.show) {
-      console.log("modal is showing");
       setShow(true);
     } else {
-      console.log("modal is hiding");
       setShow(false);
     }
     // if (hidden) {
@@ -45,9 +43,6 @@ function Modal() {
     <>
       <div className={wrapperClass}>
         <div>
-          {/* <Button onClick={closeClick}>
-            <Icon icon="times" width={24} height={24} color="white" />
-          </Button> */}
           <div className={containerClass}>
             <IconButton
               className={clClose}

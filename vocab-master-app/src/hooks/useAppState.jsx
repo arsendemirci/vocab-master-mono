@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 function useAppState() {
   const appState = useSelector((state) => state.appStore);
   const userState = useSelector((state) => state.userStore);
+  const userId = userState.user.id;
   const dispatch = useDispatch();
   const loaderShow = () => {
     dispatch(showLoader());
@@ -24,11 +25,12 @@ function useAppState() {
   };
 
   return {
-    userId: userState.user.id,
+    userId,
     showLoader: loaderShow,
     showModal: modalShow,
     hideLoader: loaderHide,
     hideModal: modalHide,
+    loggedIn: userId > 0,
   };
 }
 

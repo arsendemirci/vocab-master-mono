@@ -20,7 +20,6 @@ const VerifyCode = ({ userId }) => {
   const ipc = useIPC();
   const onSubmit = async (data) => {
     showLoader();
-    console.log("Verify SUBMIT data is", userId, data.code);
     const userData = await ipc.verifyUser(userId, data.code);
     hideLoader(() => {
       if (userData.error) {

@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron");
+import installExtension, { REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 require("./backend/services/index.js");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -35,7 +36,11 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
-
+app.whenReady().then(() => {
+  installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+});
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.

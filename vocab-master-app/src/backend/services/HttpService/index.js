@@ -20,7 +20,7 @@ HttpService.interceptors.request.use(
 
 HttpService.interceptors.response.use(
   (res) => {
-    // console.log("response received from api", response.data);
+    console.log("response received from api", res.data);
     if (res && res.data && res.data.auth) {
       storage.setObject({
         [storage.key.ACCESS_TOKEN]: res.data.auth.accessToken,

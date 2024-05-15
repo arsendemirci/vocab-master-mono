@@ -4,7 +4,6 @@ import { setUserProfile } from "#userSlice";
 
 function Profile() {
   const userState = useSelector((state) => state.userStore);
-  console.log("user state", userState);
   const dispatch = useDispatch();
   const setProfile = () => {
     dispatch(setUserProfile());

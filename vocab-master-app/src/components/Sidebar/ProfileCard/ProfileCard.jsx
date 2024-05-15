@@ -8,10 +8,10 @@ import { dialog } from "components/Dialogs";
 import { Button } from "components";
 
 const ProfileCard = (props) => {
+  console.log("[RENDERING] ProfileCard Component");
   const userState = useSelector((state) => state.userStore);
   const avatars = require.context("../../../assets/images/avatar", true);
   const dispatch = useDispatch();
-  console.log("user state", userState.profile);
   const avatarImage = avatars(
     `./${userState.profile.avatar || "guest.png"}`
   ).default;

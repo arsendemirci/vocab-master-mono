@@ -27,6 +27,7 @@ export const gameSlice = createSlice({
       state.game.settings.list.title = payload.label;
     },
     startGame: (state, { payload }) => {
+      console.log('starting the game store',payload);
       state.game.status = gameConfig.status.ACTIVE;
       state.game.activeQuestion = 0;
       state.game.score = 0;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { nextQuestion } from "#gameSlice";
 import {
@@ -12,12 +12,11 @@ import { gameConfig } from "#config";
 import { Keyboard, InputArea, QuestionBoard } from "components";
 import { playAudio, getCleanWords } from "#gameUtils";
 
-function TypeBoard() {
+const TypeBoard = memo(function TypeBoard() {
+  console.log("[RENDERING] TypeBoard Component");
   const gameState = useSelector((state) => state.gameStore.game);
   const boardState = useSelector((state) => state.boardStore);
   const dispatch = useDispatch();
-
-  console.log("typeboard is triggered", gameState);
 
   const setText = (key) => {
     dispatch(addChar({ char: key }));
@@ -91,6 +90,6 @@ function TypeBoard() {
       )}
     </div>
   );
-}
+});
 
 export default TypeBoard;

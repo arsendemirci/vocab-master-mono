@@ -2,6 +2,7 @@ import React, { forwardRef, useState, useImperativeHandle } from "react";
 import "./Key.scss";
 
 const Key = forwardRef(function ({ keyMap, setText }, ref) {
+  console.log("[RENDERING] Key Component");
   const [animation, setAnimation] = useState("");
   const pressKey = (event) => {
     if (!event) {

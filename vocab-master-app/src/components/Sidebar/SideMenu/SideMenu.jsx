@@ -2,13 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "components";
 import styles from "./SideMenu.module.scss";
-import { useIPC } from "#hooks";
+import { useIPC, useAppState } from "#hooks";
 import { sideMenu } from "#routes";
-const SideMenu = ({ loggedIn }) => {
+const SideMenu = () => {
+  console.log("[RENDERING] SideMenu Component", sideMenu);
+
   const navigate = useNavigate();
   const clSidebar = `${styles.sidebar}`;
   const ipc = useIPC();
-  console.log("is logged in ", loggedIn);
+  const { loggedIn } = useAppState();
   return (
     <nav>
       <ul className={clSidebar}>
@@ -17,6 +19,7 @@ const SideMenu = ({ loggedIn }) => {
             key={index + 1}
             className={`${!menu.public && !loggedIn && styles.disabled}`}
             onClick={() => {
+              console.log("menu", menu);
               return !menu.public && !loggedIn
                 ? false
                 : navigate(menu.navigate());

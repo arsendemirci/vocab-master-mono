@@ -22,7 +22,6 @@ export const userSlice = createSlice({
       console.log("setting profile info");
     },
     setUserInfo: (state, { payload }) => {
-      console.log("payload storing", payload);
       state.user = { ...payload.user };
       state.profile = { ...payload.profile };
     },

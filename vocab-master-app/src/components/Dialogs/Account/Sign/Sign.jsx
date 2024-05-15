@@ -15,9 +15,8 @@ import {
 import validation from "#utils/validation.js";
 
 function Sign() {
+  console.log("[RENDERING] Sign Component");
   const { showLoader, hideLoader, hideModal } = useAppState();
-  // console.log("show hide", loader);
-  console.log("Sign COMPONENT IS RENDERING");
   const account = useSelector((state) => state.accountStore);
   const dispatch = useDispatch();
   const ipc = useIPC();
@@ -36,7 +35,6 @@ function Sign() {
   } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
 
   const onSubmitLogin = async (data) => {
-    console.log("submitted form ", data);
     showLoader();
     const loginData = await ipc.login(data.email, data.password);
     hideLoader(() => {
@@ -53,19 +51,15 @@ function Sign() {
             msg: code === httpConfig.errorCode.INVALID_PASSWORD && msg,
           },
         };
-        // setAccouunt((prev) => ({ ...prev, loginForm: loginFormState }));
         dispatch(validateLogin({ loginForm }));
       } else {
         resetSignin();
-        // setAccouunt((prev) => ({ ...prev, pageOpen: false }));
-        // login successfull, dispatch setUserInfo and animate leave
         dispatch(setUserInfo(loginData));
         hideModal();
       }
     });
   };
   const onSubmitRegister = async (data) => {
-    console.log("submitted register form ", data);
 
     const registerData = await ipc.register(
       data.name,
@@ -79,15 +73,12 @@ function Sign() {
         error: code === httpConfig.errorCode.REGISTERED_EMAIL,
         msg: code === httpConfig.errorCode.REGISTERED_EMAIL && msg,
       };
-
-      // setAccouunt((prev) => ({ ...prev, loginForm: loginFormState }));
       dispatch(validateRegister({ registerEmailValidation }));
     } else {
       resetSignup();
       dispatch(
         setActivePanel({ panel: "verify", userId: registerData.userId })
       );
-      console.log("REGISTRATION SUCCESS proceed to verification", registerData);
     }
   };
   const containerClass = `${styles.container} ${styles[account.activePanel]}`;
@@ -96,9 +87,7 @@ function Sign() {
   const panelLeft = `${styles.panel} ${styles.panelLeft}`;
   const panelRight = `${styles.panel} ${styles.panelRight}`;
 
-  useEffect(() => {
-    console.log("formstate", loginErrors, registerErrors);
-  });
+
   return (
     <div className={containerClass}>
       <div className={signupClass}>
