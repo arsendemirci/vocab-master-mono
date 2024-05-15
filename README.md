@@ -14,10 +14,10 @@ The project is a desktop application developed using electron.js, node.js and re
 Check on demo here : https://youtu.be/RTKxaEdobcg
 <br>
 <br>
-<p align="right"><img src="vocab-master-mono/assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="40" height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/js_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/next-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/ts-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/node.js_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/react_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/sass_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="vocab-master-mono/assets/images/logo/pack_logo.png" alt="drawing" width="40"  height="40" /> </p>
+<p align="right"><img src="assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="40" height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/js_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/next-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/ts-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/node.js_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/react_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/sass_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="assets/images/logo/pack_logo.png" alt="drawing" width="40"  height="40" /> </p>
 
 ## :hotsprings: Development Coverage
-### &nbsp;<img src="vocab-master-app/src/assets/images/logo/react_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;React
+### &nbsp;<img src="assets/images/logo/react_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;React
  - Icon Wrapper component
  - Modal Wrapper Component (with dynamic component loader)
  - useRef, useState, useImperativeHandle, forwardRef, createElement, createPortal
@@ -29,7 +29,7 @@ Check on demo here : https://youtu.be/RTKxaEdobcg
  - dynamic router archictecture
 <br>
 
-### &nbsp;<img src="vocab-master-app/src/assets/images/logo/node.js_logo.png?raw=true" style="vertical-align:middle" alt="drawing" width="20" height="20" />&nbsp;&nbsp;Node.js
+### &nbsp;<img src="assets/images/logo/node.js_logo.png?raw=true" style="vertical-align:middle" alt="drawing" width="20" height="20" />&nbsp;&nbsp;Node.js
  - RESTful API with express.js
  - SQLite integration
  - RCS pattern implementation (Route-Controller-Service)
@@ -38,18 +38,18 @@ Check on demo here : https://youtu.be/RTKxaEdobcg
  - JWT Authentication and login persistence
 <br>
 
-### &nbsp;<img src="vocab-master-app/src/assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;Electron.js 
+### &nbsp;<img src="assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;Electron.js 
  - usage of contextBridge to enable contextIsolation(for security reasons)
  - communication between UI and node.js using IPC
  - dynamic IPC handlers
 <br>
 
-### &nbsp;<img src="vocab-master-app/src/assets/images/logo/sass_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;CSS / SCSS 
+### &nbsp;<img src="assets/images/logo/sass_logo.png?raw=true" alt="drawing" width="20" height="20" />&nbsp;&nbsp;CSS / SCSS 
  - custom animations
  - scss vaiables, scss rules
 <br>
 
-### &nbsp;<img src="vocab-master-app/src/assets/images/logo/pack_logo.png?raw=true" alt="drawing" width="20" height="22" /> &nbsp;&nbsp;Webpack 
+### &nbsp;<img src="assets/images/logo/pack_logo.png?raw=true" alt="drawing" width="20" height="22" /> &nbsp;&nbsp;Webpack 
  - sass-loader to use scss/sass in the project
  - path aliasing to use named paths instead of relative paths
  - additinalData to set scss modules globally available in the project
