@@ -9,7 +9,7 @@ The project is a web application developed using next.js, react.js and TypeScrip
 <br>
 <br>
 
-<img src="../assets/images/logo/next-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/ts-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/react_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/sass_logo.png" alt="drawing" width="40"  height="40" />
+<p align="right"><img src="../assets/images/logo/next-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/ts-logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/react_logo.png" alt="drawing" width="40"  height="40" /> &nbsp;&nbsp;<img src="../assets/images/logo/sass_logo.png" alt="drawing" width="40"  height="40" /></p>
 
 
 
