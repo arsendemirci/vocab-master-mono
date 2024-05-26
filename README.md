@@ -1,5 +1,11 @@
 
-<h1>:star: vocab-master  <img src="assets/images/logo/next-logo.png" alt="drawing" width="33"  height="33" align="right" /><img src="assets/images/logo/ts-logo.png" alt="drawing" width="30"  height="33" align="right" /><img src="assets/images/logo/node.js_logo.png" alt="drawing" width="33"  height="33" align="right" /> <img src="assets/images/logo/react_logo.png" alt="drawing" width="33"  height="33" align="right" /> <img src="assets/images/logo/sass_logo.png" alt="drawing" width="33"  height="33" align="right" /><img src="assets/images/logo/pack_logo.png" alt="drawing" width="33"  height="33" align="right" /><img src="assets/images/logo/electron_logo.png?raw=true" alt="drawing" width="33" height="33" align="right"/><img src="assets/images/logo/js_logo.png" alt="drawing" width="33"  height="33" align="right" /> </h1> 
+<h1>:star: vocab-master  </h1> 
+
+![Static Badge](https://img.shields.io/badge/JS-JavaScript-yellow?style=plastic&logo=JavaScript) ![Static Badge](https://img.shields.io/badge/React-18.2.0-blue?style=plastic&logo=React) ![Static Badge](https://img.shields.io/badge/Sass-1.69.5-pink?style=plastic&logo=Sass) ![Static Badge](https://img.shields.io/badge/node.js-v21.6.2-green?style=plastic&logo=Node.js)
+![Static Badge](https://img.shields.io/badge/electron-28.0.0-%2347848F?style=plastic&logo=Electron&logoColor=%2344C1C5&color=%2347848F) ![Static Badge](https://img.shields.io/badge/next.js-14.2.3-%23000000?style=plastic&logo=Next.js)
+
+
+
 vocab-master is a desktop application to practice on typing and vocabulary
 
 ### :eyes: Overview
