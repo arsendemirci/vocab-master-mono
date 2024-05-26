@@ -1,8 +1,8 @@
 
 <h1>:star: vocab-master  </h1> 
 
-![Static Badge](https://img.shields.io/badge/JS-JavaScript-yellow?style=plastic&logo=JavaScript) ![Static Badge](https://img.shields.io/badge/React-18.2.0-blue?style=plastic&logo=React) ![Static Badge](https://img.shields.io/badge/Sass-1.69.5-pink?style=plastic&logo=Sass) ![Static Badge](https://img.shields.io/badge/node.js-v21.6.2-green?style=plastic&logo=Node.js)
-![Static Badge](https://img.shields.io/badge/electron-28.0.0-%2347848F?style=plastic&logo=Electron&logoColor=%2344C1C5&color=%2347848F) ![Static Badge](https://img.shields.io/badge/next.js-14.2.3-%23000000?style=plastic&logo=Next.js)
+![Static Badge](https://img.shields.io/badge/JS-JavaScript-yellow?style=plastic&logo=JavaScript) ![Static Badge](https://img.shields.io/badge/TS-TypeScript-%233178C6?style=plastic&logo=TypeScript) ![Static Badge](https://img.shields.io/badge/React-18.2.0-blue?style=plastic&logo=React) ![Static Badge](https://img.shields.io/badge/Sass-1.69.5-pink?style=plastic&logo=Sass) ![Static Badge](https://img.shields.io/badge/node.js-v21.6.2-green?style=plastic&logo=Node.js)
+![Static Badge](https://img.shields.io/badge/electron-28.0.0-%2347848F?style=plastic&logo=Electron&logoColor=%2344C1C5&color=%2347848F) ![Static Badge](https://img.shields.io/badge/next.js-14.2.3-%23000000?style=plastic&logo=Next.js) 
 
 
 
