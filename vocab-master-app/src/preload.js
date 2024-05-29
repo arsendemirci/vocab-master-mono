@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 import { ipcConfig } from "#config";
 const { ipcRenderer, contextBridge } = require("electron");
+// const storage = require("#storageUtils");
 
 contextBridge.exposeInMainWorld("api", {
   applicationExit: () => ipcRenderer.invoke(ipcConfig.channel.APP_EXIT),
@@ -17,5 +18,6 @@ contextBridge.exposeInMainWorld("api", {
   verifyUser: (userId, code) =>
     ipcRenderer.invoke(ipcConfig.channel.VERIFY_USER, userId, code),
   test: () => ipcRenderer.invoke(ipcConfig.channel.TEST),
+  signout: () => ipcRenderer.invoke(ipcConfig.channel.SIGNOUT),
   close: () => ipcRenderer.removeAllListeners(),
 });

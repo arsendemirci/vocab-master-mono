@@ -9,7 +9,6 @@
 
   .headline {
     > p {
-      margin: 30px;
       font-size: 18px;
     }
   }
@@ -23,7 +22,6 @@
     height: 1.5em;
     opacity: 0.5;
     font-size: 27px;
-    margin-bottom: 50px;
     &:before {
       content: "";
       // use the linear-gradient for the fading effect

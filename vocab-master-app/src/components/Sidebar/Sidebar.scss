@@ -10,7 +10,7 @@ $profile-height: 360px;
   height: $menu-height;
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  justify-content: space-between;
   background-color: $layout-bg-color;
   .sidebar-wrapper {
     width: $menu-width;
@@ -24,6 +24,7 @@ $profile-height: 360px;
     background-color: $menu-bg-color;
     margin-bottom: 16px;
     box-shadow: 11px 4px 21px -7px #808080c7;
+    flex: 1;
     .scrollbox-wrapper {
       .menu-footer {
         display: flex;

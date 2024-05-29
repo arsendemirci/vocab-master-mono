@@ -7,8 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { hideModal } from "#appSlice";
 
 const LoadDialog = (props) => {
+  // console.log(
+  //   "props component",
+  //   props,
+  //   (({ show, component, ...rest }) => rest)(props)
+  // );
   if (typeof dialogComponents[props.component] !== "undefined") {
-    return React.createElement(dialogComponents[props.component]);
+    return React.createElement(dialogComponents[props.component], { ...props });
   }
   return React.createElement(() => (
     <div>The component has not been created yet.</div>
@@ -50,7 +55,7 @@ function Modal() {
               iconColor="black"
               onClick={closeClick}
             />
-            {LoadDialog({ component: modal.component })}
+            {LoadDialog({ ...modal })}
           </div>
         </div>
       </div>

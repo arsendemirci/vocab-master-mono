@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Icon } from "components";
 import styles from "./SideMenu.module.scss";
 import { useIPC, useAppState } from "#hooks";
@@ -11,6 +11,7 @@ const SideMenu = () => {
   const clSidebar = `${styles.sidebar}`;
   const ipc = useIPC();
   const { loggedIn } = useAppState();
+  const location = useLocation();
   return (
     <nav>
       <ul className={clSidebar}>
@@ -19,7 +20,7 @@ const SideMenu = () => {
             key={index + 1}
             className={`${!menu.public && !loggedIn && styles.disabled}`}
             onClick={() => {
-              console.log("menu", menu);
+              console.log("menu", menu, location);
               return !menu.public && !loggedIn
                 ? false
                 : navigate(menu.navigate());

@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { resetUserInfo } from "#userSlice";
 import { showModal } from "#appSlice";
 import { dialog } from "components/Dialogs";
-
+import { useIPC } from "#hooks";
 import { Button } from "components";
-
 const ProfileCard = (props) => {
+  const ipc = useIPC();
   console.log("[RENDERING] ProfileCard Component");
   const userState = useSelector((state) => state.userStore);
   const avatars = require.context("../../../assets/images/avatar", true);
@@ -24,6 +24,7 @@ const ProfileCard = (props) => {
 
   const onButtonClick = () => {
     if (userState.user.id) {
+      ipc.signout();
       dispatch(resetUserInfo());
     } else {
       dispatch(showModal({ component: dialog.ACCOUNT }));

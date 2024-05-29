@@ -18,5 +18,6 @@ export default {
     VERIFY_USER: "verify_user",
     REFRESH: "refresh_token",
     TEST: "test",
+    SIGNOUT: "signout",
   },
 };

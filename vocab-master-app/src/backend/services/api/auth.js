@@ -7,6 +7,10 @@ module.exports = {
 
     return res.data;
   },
+  [ipcConfig.channel.SIGNOUT]: async (event) => {
+    storage.remove(storage.key.ACCESS_TOKEN);
+    storage.remove(storage.key.REFRESH_TOKEN);
+  },
   [ipcConfig.channel.REGISTER]: async (event, name, email, password) => {
     const res = await http.post(`/public/auth/register`, {
       name,
