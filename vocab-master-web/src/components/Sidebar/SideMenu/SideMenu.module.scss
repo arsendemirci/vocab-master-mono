@@ -1,0 +1,61 @@
+.sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 16px;
+  padding-left: 10px;
+  list-style-type: none;
+
+  li {
+    background-color: $menu-item-bg-color;
+    color: $menu-item-color;
+    user-select: none;
+    cursor: pointer;
+    width: $menu-item-width;
+    height: 50px;
+    display: flex;
+    transition: all 0.25s ease-in-out;
+    align-items: center;
+    font-size: 22px;
+    padding: 8px 5px 8px 20px;
+    border-radius: 22px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    .routeLink {
+      visibility: hidden;
+      display: none;
+    }
+    a {
+      display: inline-flex;
+      align-items: center;
+    }
+    &.disabled {
+      color: $button-disabled-color;
+      text-shadow: 0 0 1px $button-disabled-color;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    svg {
+      transition: all 0.5s;
+    }
+    label {
+      padding-left: 15px;
+      transition: all 0.25s ease-in-out;
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: $button-primary-bg-color;
+
+      label {
+        padding-left: 40px;
+        transform: skewX(-20deg);
+        color: $menu-item-bg-color;
+      }
+      svg {
+        -webkit-transfrom: rotate(360deg);
+        transform: rotate(360deg);
+        color: $menu-item-bg-color;
+      }
+    }
+  }
+}

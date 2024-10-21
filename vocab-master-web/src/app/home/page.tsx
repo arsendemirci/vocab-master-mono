@@ -24,7 +24,7 @@ export default function Home() {
       <div className={clFeatures}>
         <div className={clCard}>
           <Image
-            src={require("../assets/images/brain.png").default}
+            src={require("../../assets/images/brain.png").default}
             alt="brain"
           />
           <h3>Practice Makes Perfect</h3>
@@ -32,7 +32,7 @@ export default function Home() {
         </div>
         <div className={clCard}>
           <Image
-            src={require("../assets/images/graph.png").default}
+            src={require("../../assets/images/graph.png").default}
             alt="graph"
           />
           <h3>Watch Your Progress</h3>
@@ -42,7 +42,7 @@ export default function Home() {
         </div>
         <div className={clCard}>
           <Image
-            src={require("../assets/images/customization.png").default}
+            src={require("../../assets/images/customization.png").default}
             alt="customization"
           />
           <h3>Customize Your Experience</h3>

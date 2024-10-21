@@ -4,7 +4,11 @@ import { gameConfig } from "#config";
 const initialState = {
   lists: [],
   game: {
-    settings: { list: { id: 0, title: "Vocabulary List" } },
+    settings: {
+      list: { id: 0, title: "Vocabulary List" },
+      questionType: gameConfig.questionType.Normal,
+      length: gameConfig.length["5"],
+    },
     status: gameConfig.status.NOT_STARTED,
     questions: [],
     score: 0,
@@ -26,8 +30,14 @@ export const gameSlice = createSlice({
       state.game.settings.list.id = payload.id;
       state.game.settings.list.title = payload.label;
     },
+    selectQuestionType: (state, { payload }) => {
+      state.game.settings.questionType = payload;
+    },
+    selectQuizLength: (state, { payload }) => {
+      state.game.settings.length = payload;
+    },
     startGame: (state, { payload }) => {
-      console.log('starting the game store',payload);
+      console.log("starting the game store", payload);
       state.game.status = gameConfig.status.ACTIVE;
       state.game.activeQuestion = 0;
       state.game.score = 0;
@@ -57,5 +67,7 @@ export const {
   nextQuestion,
   restartGame,
   resetGame,
+  selectQuestionType,
+  selectQuizLength,
 } = gameSlice.actions;
 export default gameSlice.reducer;

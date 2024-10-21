@@ -10,9 +10,15 @@ export default {
     ADJECTIVES: "adjectives",
   },
   length: {
-    SHORT: 5,
-    MEDIUM: 10,
-    LONG: 15,
+    5: 5,
+    10: 10,
+    15: 15,
+    ALL: 999,
+  },
+  questionType: {
+    NORMAL: 1,
+    MIXED: 2,
+    REVERSE: 3,
   },
   mode: {
     TIME_TRIAL: {

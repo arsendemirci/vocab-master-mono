@@ -5,7 +5,7 @@ module.exports = {
     const dao = new db();
     const data = await dao.all(dao.query.GetListWordsByListId(listId));
     const { shuffle } = require("../utils/arrayUtils");
-    let words = shuffle(data).slice(0, 5);
+    let words = shuffle(data);
     return words;
   },
   getListsAll: async () => {

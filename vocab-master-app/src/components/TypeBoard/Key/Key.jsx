@@ -11,7 +11,8 @@ const Key = forwardRef(function ({ keyMap, setText }, ref) {
         setAnimation("animation");
       });
     } else {
-      setText(keyMap.char);
+      // here will be dynamic according to selected keyboarad language
+      setText(keyMap.char_tr);
     }
   };
   useImperativeHandle(ref, () => ({
@@ -25,11 +26,11 @@ const Key = forwardRef(function ({ keyMap, setText }, ref) {
   return (
     <button
       onClick={pressKey}
-      className={`key ${animation} ${keyMap.class}`}
+      className={`key ${animation} ${keyMap?.class}`}
       ref={ref}
       onAnimationEnd={onAnimationEnd}
     >
-      {keyMap.label}
+      {keyMap?.label}
     </button>
   );
 });

@@ -13,6 +13,7 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
   }
 
   useEventListener("keydown", (event) => {
+    console.log("event key code", event.keyCode);
     event.preventDefault();
     if (event.key === "Enter") {
       handleEnter();
@@ -22,12 +23,26 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
     }
     if (keyMap[event.keyCode] && !keyMap[event.keyCode].noText) {
       keyRefs[event.keyCode].current.pressKey();
-      setText(event.key);
+      // this should be dynamic according to selected language
+      setText(keyMap[event.keyCode].char_tr);
     }
   });
+  // tr will be dynamic according to selected language
   return (
     <div className="keyboard">
-      <div className="keyrow-1">
+      {keyboardConfig["tr"].rows.map((row, i) => (
+        <div className={`keyrow-${i + 1}`}>
+          {Object.entries(row).map(([key, value]) => (
+            <Key
+              keyMap={keyMap[value]}
+              ref={keyRefs[value]}
+              setText={setText}
+              key={value}
+            />
+          ))}
+        </div>
+      ))}
+      {/* <div className="keyrow-1">
         <Key
           keyMap={keyMap[keyCode.keyQ]}
           ref={keyRefs[keyCode.keyQ]}
@@ -78,6 +93,16 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
           ref={keyRefs[keyCode.keyP]}
           setText={setText}
         />
+        <Key
+          keyMap={keyMap[keyCode.keyG_tr]}
+          ref={keyRefs[keyCode.keyG_tr]}
+          setText={setText}
+        />
+        <Key
+          keyMap={keyMap[keyCode.keyU_tr]}
+          ref={keyRefs[keyCode.keyU_tr]}
+          setText={setText}
+        />
       </div>
       <div className="keyrow-2">
         <Key
@@ -125,6 +150,16 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
           ref={keyRefs[keyCode.keyL]}
           setText={setText}
         />
+        <Key
+          keyMap={keyMap[keyCode.keyS_tr]}
+          ref={keyRefs[keyCode.keyS_tr]}
+          setText={setText}
+        />
+        <Key
+          keyMap={keyMap[keyCode.keyI_tr]}
+          ref={keyRefs[keyCode.keyI_tr]}
+          setText={setText}
+        />
       </div>
       <div className="keyrow-3">
         <Key
@@ -162,6 +197,16 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
           ref={keyRefs[keyCode.keyM]}
           setText={setText}
         />
+        <Key
+          keyMap={keyMap[keyCode.keyO_tr]}
+          ref={keyRefs[keyCode.keyO_tr]}
+          setText={setText}
+        />
+        <Key
+          keyMap={keyMap[keyCode.keyC_tr]}
+          ref={keyRefs[keyCode.keyC_tr]}
+          setText={setText}
+        />
       </div>
       <div className="keyrow-4">
         <Key
@@ -169,7 +214,7 @@ function Keyboard({ setText, handleBackspace, handleEnter }) {
           ref={keyRefs[keyCode.space]}
           setText={setText}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,18 +1,68 @@
-@import 'variables';
-  
-  html,
-  body {
-    max-width: 100vw;
-    overflow-x: hidden;
+@import "variables/variables";
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: $main-bg-color;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ------ main page styles ----------
+.main-container {
+  display: flex;
+  // flex-direction: column;
+  background-color: $main-bg-color;
+  height: $window-height;
+  overflow: hidden;
+  width: $window-width;
+
+  .main-wrapper {
+    display: flex;
+    // width: $window-width;
+    // height: $page-height;
+    flex-direction: column;
+
+    .page-container {
+      position: relative;
+      background-color: $layout-bg-color;
+      // height: $page-height;
+      width: $page-width;
+      border-radius: 16px;
+      padding: 25px 30px $window-bottom-space 30px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      overflow: hidden;
+    }
   }
-  
-  body {
-        background-color: $mainBgColor;
-      
-  }
-  
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $button-primary-bg-color;
+  border-radius: 10px;
+  // border-top-left-radius: 0;
+  // border-bottom-left-radius: 0;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darken($color: $button-primary-bg-color, $amount: 10);
+}

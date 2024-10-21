@@ -1,0 +1,11 @@
+.toolbar {
+  display: flex;
+  border: 1px solid gray;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: linear-gradient(270deg, #58aecf73, transparent);
+  border-radius: 12px;
+  .searchInput {
+    background-color: white;
+  }
+}

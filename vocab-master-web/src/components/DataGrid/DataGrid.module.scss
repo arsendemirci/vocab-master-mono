@@ -1,0 +1,92 @@
+.scroller {
+  overflow: auto;
+  max-height: 900px;
+  /* padding: 20px; */
+  box-shadow: 0 0 20px 0 rgba(119, 136, 153, 0.297);
+  border-radius: 12px;
+  &.scrolling {
+    padding-right: 10px;
+    .table {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+}
+.table {
+  overflow: hidden;
+  border: 1px solid rgba(119, 136, 153, 0.644);
+  border-radius: 12px;
+  background-color: white;
+  //   box-shadow: 0 0 20px 0 rgba(119, 136, 153, 0.544);
+  font-size: 18px;
+  animation: shrinkFadeIn 0.6s forwards;
+  transform: scales(1.18);
+  opacity: 0;
+
+  @keyframes slideFadeInLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+  @keyframes shrinkFadeIn {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes scaleFadeIn {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes splashIn {
+    to {
+      transform: scale(1) translateX(0);
+      opacity: 1;
+    }
+  }
+}
+.row {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(119, 136, 153, 0.644);
+  }
+  &.header {
+    padding: 6px;
+    background: linear-gradient(270deg, #ffda00, transparent);
+    margin-bottom: 10px;
+    /* box-shadow: 0px 20px 13px 10px #80808047; */
+    border: 1px solid #8080805c;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  > div {
+    &:nth-child(1) {
+      width: 10%;
+    }
+
+    width: 45%;
+    padding: 5px 10px;
+  }
+  @for $i from 1 through 10 {
+    &:not(.header):not(.score):nth-child(#{$i}n) {
+      animation: slideFadeInLeft 0.8s forwards;
+      opacity: 0;
+      transform: translateX(40px);
+      animation-delay: #{($i * 0.12) + 0.2}s;
+    }
+  }
+  .itemIcon {
+    width: 50px;
+  }
+  &.header {
+    > div {
+      font-weight: bolder;
+    }
+  }
+}

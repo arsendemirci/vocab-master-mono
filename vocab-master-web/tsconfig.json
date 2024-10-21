@@ -28,9 +28,21 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@types": ["./src/types"],
+      "@icon": ["./src/components/shared/Icon/Icon"],
+      "@config": ["./src/config"],
+      "@api/*": ["./src/server/services/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/Sidebar/SideMenu/SideMenu.jsx",
+    "src/app/game/page.tsx",
+    "src/server/db/db.js"
+  ],
   "exclude": ["node_modules"]
 }

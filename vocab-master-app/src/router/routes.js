@@ -50,8 +50,6 @@ Object.entries(routes).map(([name, route]) => {
     });
 });
 
-
-
 const sideMenu = [
   {
     navigate: () => links.QuickGame(),

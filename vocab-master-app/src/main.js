@@ -1,5 +1,7 @@
 const { app, BrowserWindow } = require("electron");
-import installExtension, { REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 require("./backend/services/index.js");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -10,7 +12,7 @@ if (require("electron-squirrel-startup")) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1200,
+    width: 1390,
     height: 800,
     resizable: true,
     autoHideMenuBar: true,
@@ -38,8 +40,8 @@ const createWindow = () => {
 app.on("ready", createWindow);
 app.whenReady().then(() => {
   installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log('An error occurred: ', err));
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log("An error occurred: ", err));
 });
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
