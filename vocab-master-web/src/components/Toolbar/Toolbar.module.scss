@@ -1,11 +1,21 @@
 .toolbar {
   display: flex;
+  align-items: center;
   border: 1px solid gray;
-  padding: 10px;
+  padding: 8px 15px;
   margin-bottom: 10px;
-  background: linear-gradient(270deg, #58aecf73, transparent);
+  background: linear-gradient(30deg, #58aecf73, transparent);
   border-radius: 12px;
+
   .searchInput {
     background-color: white;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+  .title {
+    color: rgb(13 95 132 / 99%);
+    font-weight: bold;
+    font-size: 22px;
+    text-shadow: 0 0 1px #00000091;
   }
 }

@@ -1,8 +1,8 @@
 // import gameConfig from "./enums.js";
 import ipcConfig from "./ipcChannels.js";
-import iconConfig from "./svgIcons.js";
+import iconConfig from "./svgIcons";
 import keyboardConfig from "./keyboard.js";
-import httpConfig from "./http.js";
+
 import pathConfig from "./path.js";
 import mockData from "./mock.js";
 import menu from "./menu.ts";
@@ -14,7 +14,6 @@ export default {
   ipcConfig,
   iconConfig,
   keyboardConfig,
-  httpConfig,
   pathConfig,
   mockData,
   menu,
@@ -26,7 +25,6 @@ export {
   ipcConfig,
   iconConfig,
   keyboardConfig,
-  httpConfig,
   pathConfig,
   mockData,
   menu,

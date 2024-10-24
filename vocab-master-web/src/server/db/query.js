@@ -6,6 +6,11 @@ export default {
             CROSS JOIN Word_List wl ON wl.wordId = w.id AND wl.listId = vl.id 
             WHERE wl.listId = ${listID} `;
   },
+  GetListDetails: (listID) => {
+    return `SELECT id, title, description 
+            FROM VocabularyLists 
+            WHERE id=${listID}`;
+  },
   GetListsAll: () => {
     return `SELECT id, title, description 
             FROM VocabularyLists`;
@@ -34,6 +39,18 @@ export default {
     return `SELECT id, firstName, lastName, avatar 
             FROM Profiles
             Where userId = ${userId} AND isDefault = 1`;
+  },
+  AddWordToList: (wordId, listId) => {
+    return `INSERT INTO Word_List(wordId,listId) VALUES ("${wordId}","${listId}")`;
+  },
+  DeleteList: (id) => {
+    return `DELETE FROM VocabularyLists Where id=${id}`;
+  },
+  InsertList: (title, description) => {
+    return `INSERT INTO VocabularyLists(title,description) VALUES ("${title}","${description}")`;
+  },
+  InsertWord: (question, check) => {
+    return `INSERT INTO Words(question,"check") VALUES ("${question}","${check}")`;
   },
   InsertUser: (email, password) => {
     return `INSERT INTO Users(email,password) VALUES ("${email}","${password}")`;

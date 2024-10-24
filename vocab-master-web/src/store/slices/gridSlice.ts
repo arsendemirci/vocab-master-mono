@@ -18,11 +18,18 @@ export const gridSlice = createSlice({
     //   console.log("state", state);
     // },
     setGridData: (state, { payload }) => {
-      console.log("payload", payload);
       state.tableData = payload;
+    },
+    addToGridData: (state, { payload }) => {
+      state.tableData.unshift(payload);
+    },
+    deleteRow: (state, { payload }) => {
+      let itemIndex = state.tableData.findIndex((i) => i.id === payload);
+      state.tableData.splice(itemIndex, 1);
     },
   },
 });
 
-export const { setSearch, setGridData } = gridSlice.actions;
+export const { setSearch, setGridData, addToGridData, deleteRow } =
+  gridSlice.actions;
 export default gridSlice.reducer;

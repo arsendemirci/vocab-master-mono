@@ -3,11 +3,14 @@ import { TextField, InputAdornment } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import { setSearch } from "@/store/slices/gridSlice";
 import { useDispatch } from "react-redux";
-const Toolbar = () => {
+import { ToolbarProps } from "@types";
+
+const Toolbar: React.FC<ToolbarProps> = ({ title }) => {
   const dispatch = useDispatch();
 
   return (
     <div className={style.toolbar}>
+      <div className={style.title}>{title}</div>
       <TextField
         label="Search"
         size="small"

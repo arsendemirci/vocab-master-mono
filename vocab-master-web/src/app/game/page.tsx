@@ -23,11 +23,6 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
-// import { gameConfig } from "#config";
-
-// import { Button } from "components";
-// import { useNavigate } from "react-router-dom";
-// import { links } from "#routes";
 
 function CreateGame() {
   console.log("[RENDERING] CreateGame Component", Object.entries(QuizLength));

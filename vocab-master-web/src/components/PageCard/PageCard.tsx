@@ -1,40 +1,36 @@
 "use client";
-import {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  forwardRef,
-} from "react";
-import { AppContext } from "@/providers/contextProvider";
+import { useEffect, useState, useRef, forwardRef } from "react";
+import { useSelector } from "react-redux";
+import { StoreType } from "@/types";
 import styles from "./PageCard.module.scss";
 import { PageCardProps } from "@types";
-import { PageLoader } from "@/components";
+import { PageLoader, BreadCrumbs } from "@/components";
 import { usePathname } from "next/navigation";
 
 const PageCard: React.FC<PageCardProps> = forwardRef(
   ({ children }: PageCardProps, refPage: any) => {
+    const appStore = useSelector((state: StoreType) => state.appSlice);
     const [mainClass, setMainClass] = useState(`${styles.main}`);
-    const ctx = useContext(AppContext);
     const pathName = usePathname();
     const divRef = useRef<any>();
 
     useEffect(() => {
-      if (ctx.pageClass === "close" && ctx.currentPath === pathName) return;
-      setMainClass(`${styles.main} ${styles[ctx.pageClass]}`);
+      if (appStore.pageClass === "close" && appStore.currentPath === pathName)
+        return;
+      setMainClass(`${styles.main} ${styles[appStore.pageClass]}`);
 
-      if (ctx.pageClass === "open") {
+      if (appStore.pageClass === "open") {
         const { current } = divRef;
         if (current !== null) {
           current.scrollIntoView({ block: "end", behavior: "smooth" });
         }
       }
-    }, [ctx.pageClass]);
+    }, [appStore.pageClass]);
 
     return (
       <>
-        <PageLoader show={ctx.pageClass !== "open"}></PageLoader>
+        <PageLoader show={appStore.pageClass !== "open"}></PageLoader>
+        <BreadCrumbs />
         <section ref={refPage} className={mainClass}>
           <div ref={divRef}></div>
           <div className={styles.wrapper}>

@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppSliceType } from "@/types";
 
 const initialState: AppSliceType = {
+  currentPath: "/lists",
+  pageClass: "",
   loader: { show: false },
   modal: {
     show: false,
@@ -12,6 +14,12 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setPageClass: (state, { payload }) => {
+      state.pageClass = payload;
+    },
+    setCurrentPath: (state, { payload }) => {
+      state.currentPath = payload;
+    },
     showModal: (state, { payload }) => {
       state.modal = { show: true, ...payload };
     },
@@ -27,6 +35,12 @@ export const appSlice = createSlice({
   },
 });
 
-export const { showModal, hideModal, showLoader, hideLoader } =
-  appSlice.actions;
+export const {
+  showModal,
+  hideModal,
+  showLoader,
+  hideLoader,
+  setPageClass,
+  setCurrentPath,
+} = appSlice.actions;
 export default appSlice.reducer;

@@ -6,7 +6,7 @@ import { DataGrid, Toolbar } from "@/components";
 export default function Words() {
   return (
     <div>
-      <Toolbar />
+      <Toolbar title="All Words" />
       <DataGrid gridType={GridStateEnum.WORDS} />
     </div>
   );

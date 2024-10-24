@@ -9,7 +9,7 @@
     "strictPropertyInitialization": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -40,7 +40,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/Sidebar/SideMenu/SideMenu.jsx",
     "src/app/game/page.tsx",
     "src/server/db/db.js"
   ],

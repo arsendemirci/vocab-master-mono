@@ -3,10 +3,10 @@
 import { GridStateEnum } from "@/config/enums";
 import { DataGrid, Toolbar } from "@/components";
 
-export default function Words() {
+export default function Lists() {
   return (
     <div>
-      <Toolbar />
+      <Toolbar title="Vocabulary Lists" />
       <DataGrid gridType={GridStateEnum.LISTS} />
     </div>
   );

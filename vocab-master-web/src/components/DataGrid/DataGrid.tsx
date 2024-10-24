@@ -1,18 +1,26 @@
+"use client";
 import style from "./DataGrid.module.scss";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { StoreType } from "@/types";
+import { StoreType, DataGridCType } from "@/types";
+import { RowAdder } from "@/components";
+import { setCurrentPath } from "@/store/slices/appSlice";
 import { gridState } from "@/config";
-import { GridStateEnum } from "@/config/enums";
-import { setGridData } from "@/store/slices/gridSlice";
+import {
+  setGridData,
+  addToGridData,
+  deleteRow,
+} from "@/store/slices/gridSlice";
+import { Edit, Delete } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import axios from "axios";
 
-const DataGrid: FC<{ gridType: GridStateEnum }> = ({ gridType }) => {
-  const { columns, dataUrl } = gridState[gridType];
+const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
+  const { columns, editUrl, dataUrl, formData, deleteUrl } =
+    gridState[gridType];
   const gridStore = useSelector((state: StoreType) => state.gridSlice);
 
   const dispatch = useDispatch();
-
   const [isOverflow, setIsOverflow] = useState(false);
   const refTable = useRef<HTMLDivElement>(null);
   const refArea = useRef<HTMLDivElement>(null);
@@ -24,7 +32,19 @@ const DataGrid: FC<{ gridType: GridStateEnum }> = ({ gridType }) => {
     }
     return isOverflowing;
   };
-
+  const onClickEdit = (item: any) => {
+    if (editUrl) {
+      dispatch(setCurrentPath(editUrl(item.id)));
+    }
+  };
+  const onClickDelete = async (id: number) => {
+    if (deleteUrl) {
+      const response = await axios.delete(deleteUrl(), { data: id });
+      if (response?.data === "OK") {
+        dispatch(deleteRow(id));
+      }
+    }
+  };
   useEffect(() => {
     if (isOverflowActive(refTable.current) && !isOverflow) {
       setIsOverflow(true);
@@ -35,23 +55,37 @@ const DataGrid: FC<{ gridType: GridStateEnum }> = ({ gridType }) => {
   });
   useEffect(() => {
     (async () => {
-      const response = (await axios.get(dataUrl)).data;
+      const response = (await axios.get(dataUrl(ownerID))).data;
       dispatch(setGridData(response));
     })();
   }, []);
+
   return (
     <>
-      <div className={`${style.row} ${style.header}`}>
+      <div
+        className={`${style.row} ${style.header} ${
+          isOverflow && style.overflow
+        }`}
+      >
         {columns.map((col) => (
           <div key={col.key}>{col.header}</div>
         ))}
+        <div key="actions">Actions</div>
       </div>
       <div
         className={`${style.scroller} ${isOverflow && style.scrolling}`}
         ref={refArea}
       >
         <div className={style.table} ref={refTable}>
-          {gridStore.tableData.length &&
+          {!!formData && (
+            <RowAdder
+              onSave={(addData: any) => dispatch(addToGridData(addData))}
+              rowStyle={style.row}
+              formData={formData}
+              ownerId={ownerID}
+            />
+          )}
+          {!!gridStore.tableData.length &&
             gridStore.tableData
               .filter(
                 (item) =>
@@ -62,13 +96,24 @@ const DataGrid: FC<{ gridType: GridStateEnum }> = ({ gridType }) => {
               )
               .map((l: any, index: any) => {
                 return (
-                  <div key={index} className={`${style.row}`}>
+                  <div key={l.id} className={`${style.row}`}>
                     {columns.map((col) => (
                       <div key={col.key}>{l[col.key]}</div>
                     ))}
+                    <div key={`actions_${index}`}>
+                      <IconButton onClick={() => onClickEdit(l)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton onClick={() => onClickDelete(l.id)}>
+                        <Delete />
+                      </IconButton>
+                    </div>
                   </div>
                 );
               })}
+          {!gridStore.tableData.length && (
+            <div className={style.noData}>There is nothing to display!</div>
+          )}
         </div>
       </div>
     </>

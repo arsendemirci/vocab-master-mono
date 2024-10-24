@@ -17,6 +17,12 @@ export enum QuizLength {
 export enum GridStateEnum {
   WORDS = "words",
   LISTS = "lists",
+  LIST_DETAIL = "listDetail",
+}
+export enum ServiceNames {
+  WORD = "word",
+  LIST = "list",
+  GAME = "game",
 }
 
 export default { GameStatus, QuestionType, QuizLength, GridStateEnum };
