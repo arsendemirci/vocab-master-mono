@@ -20,7 +20,7 @@ const BreadCrumbs = () => {
   const params = useParams();
   const [crumb, setCrumb] = useState<NavLinkType[]>([]);
   useEffect(() => {
-    const crumbList = [];
+    const crumbList: NavLinkType[] = [];
     const parent = menu.find((i) => appStore.currentPath.includes(i.href));
     if (parent && parent.href !== "/home") {
       crumbList.push(parent);

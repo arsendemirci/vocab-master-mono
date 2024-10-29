@@ -3,24 +3,27 @@ import style from "./DataGrid.module.scss";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreType, DataGridCType } from "@/types";
-import { RowAdder } from "@/components";
+import { RowAdder, RowEditor } from "@/components";
+import { Fragment } from "react";
 import { setCurrentPath } from "@/store/slices/appSlice";
 import { gridState } from "@/config";
+import { GridActionStateEnum } from "@/config/enums";
 import {
   setGridData,
   addToGridData,
-  deleteRow,
+  setActionState,
 } from "@/store/slices/gridSlice";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import axios from "axios";
-
-const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
-  const { columns, editUrl, dataUrl, formData, deleteUrl } =
+const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
+  const { columns, editUrl, editPostUrl, dataUrl, formData, deleteUrl } =
     gridState[gridType];
+
   const gridStore = useSelector((state: StoreType) => state.gridSlice);
 
   const dispatch = useDispatch();
+  // const [height, setHeight] = useState(0);
   const [isOverflow, setIsOverflow] = useState(false);
   const refTable = useRef<HTMLDivElement>(null);
   const refArea = useRef<HTMLDivElement>(null);
@@ -32,19 +35,33 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
     }
     return isOverflowing;
   };
+
   const onClickEdit = (item: any) => {
-    if (editUrl) {
+    if (editPostUrl) {
+      const { id, ...form } = item;
+
+      dispatch(setActionState({ id, action: GridActionStateEnum.EDIT, form }));
+    } else if (editUrl) {
       dispatch(setCurrentPath(editUrl(item.id)));
     }
   };
+
   const onClickDelete = async (id: number) => {
     if (deleteUrl) {
-      const response = await axios.delete(deleteUrl(), { data: id });
+      let method = "delete";
+      let delData: any = { data: id };
+      if (formData && formData.primaryKey && formData.ownerKey) {
+        method = "post";
+        delData = { [formData.primaryKey]: id, [formData.ownerKey]: ownerID };
+      }
+
+      const response = await axios[method](deleteUrl(), delData);
       if (response?.data === "OK") {
-        dispatch(deleteRow(id));
+        dispatch(setActionState({ id, action: GridActionStateEnum.DELETE }));
       }
     }
   };
+
   useEffect(() => {
     if (isOverflowActive(refTable.current) && !isOverflow) {
       setIsOverflow(true);
@@ -73,6 +90,9 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
         <div key="actions">Actions</div>
       </div>
       <div
+        style={{
+          maxHeight: `calc(${style.scrollerHeight} - ${height || 0}px)`,
+        }}
         className={`${style.scroller} ${isOverflow && style.scrolling}`}
         ref={refArea}
       >
@@ -94,21 +114,36 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
                     .toLowerCase()
                     .includes(gridStore.search.toLowerCase())
               )
-              .map((l: any, index: any) => {
+              .map((l: any) => {
                 return (
-                  <div key={l.id} className={`${style.row}`}>
-                    {columns.map((col) => (
-                      <div key={col.key}>{l[col.key]}</div>
-                    ))}
-                    <div key={`actions_${index}`}>
-                      <IconButton onClick={() => onClickEdit(l)}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton onClick={() => onClickDelete(l.id)}>
-                        <Delete />
-                      </IconButton>
+                  <Fragment key={l.id}>
+                    <div
+                      className={`${style.row} 
+                              
+                                  ${
+                                    gridStore.actionState[l.id] &&
+                                    style[
+                                      `${gridStore.actionState[l.id].action}`
+                                    ]
+                                  }`}
+                    >
+                      {columns.map((col) => (
+                        <div key={col.key}>{l[col.key]}</div>
+                      ))}
+                      <div className={style.actions}>
+                        <IconButton onClick={() => onClickEdit(l)}>
+                          <Edit color="primary" />
+                        </IconButton>
+                        <IconButton onClick={() => onClickDelete(l.id)}>
+                          <Delete color="error" />
+                        </IconButton>
+                      </div>
                     </div>
-                  </div>
+                    {gridStore.actionState[l.id] &&
+                      gridStore.actionState[l.id].form && (
+                        <RowEditor id={l.id} editPostUrl={editPostUrl} />
+                      )}
+                  </Fragment>
                 );
               })}
           {!gridStore.tableData.length && (
@@ -119,5 +154,4 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID }) => {
     </>
   );
 };
-
 export default DataGrid;

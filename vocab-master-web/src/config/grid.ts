@@ -18,6 +18,8 @@ const gridState: GridStateType = {
         { header: "Answer", key: "check" },
       ],
     },
+    editPostUrl: api.word.updateWord.getUrl(),
+    deleteUrl: api.word.deleteWord.getUrl,
   },
   lists: {
     columns: [
@@ -54,7 +56,9 @@ const gridState: GridStateType = {
         { header: "Answer", key: "check" },
       ],
     },
+    editPostUrl: api.word.updateWord.getUrl(),
     dataUrl: api.list.getListById.getUrl,
+    deleteUrl: api.word.deleteWordFromList.getUrl,
   },
 };
 export default gridState;

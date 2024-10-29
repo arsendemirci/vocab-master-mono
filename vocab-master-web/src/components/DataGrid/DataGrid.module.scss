@@ -1,7 +1,10 @@
+$shadow_action: 0 0px 2px 1px #404040;
+$shadow_default: 0 0px 0px 0px #40404000;
+:export {
+  scrollerHeight: $page-scroller-height;
+}
 .scroller {
   overflow: auto;
-  max-height: $page-scroller-height;
-  /* padding: 20px; */
   box-shadow: 0 0 20px 0 rgba(119, 136, 153, 0.297);
   border-radius: 12px;
   &.scrolling {
@@ -15,10 +18,9 @@
 }
 .table {
   overflow: hidden;
-  border: 1px solid rgba(119, 136, 153, 0.644);
+  border: $default-border;
   border-radius: 12px;
   background-color: white;
-  //   box-shadow: 0 0 20px 0 rgba(119, 136, 153, 0.544);
   font-size: 18px;
   animation: shrinkFadeIn 0.6s forwards;
   transform: scales(1.18);
@@ -28,6 +30,21 @@
     to {
       opacity: 1;
       transform: translateX(0px);
+    }
+  }
+  @keyframes slideFadeOutLeft {
+    0% {
+      opacity: 1;
+      height: 60px;
+    }
+    20% {
+      background: transparentize($mui-error-color, 0.9);
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0;
+      height: 0;
+      display: none;
     }
   }
   @keyframes shrinkFadeIn {
@@ -48,6 +65,49 @@
       opacity: 1;
     }
   }
+  @keyframes goEdited {
+    0% {
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+    }
+    100% {
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+      // box-shadow: 0 -40px 23px 2px #80808038;
+      border-top-right-radius: 12px;
+      border-top-left-radius: 12px;
+      box-shadow: $shadow_action;
+    }
+  }
+}
+
+@mixin rowAnimateEdited($name, $color) {
+  animation: $name 0.6s forwards ease-out;
+  @keyframes #{$name} {
+    0% {
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+      border-top-right-radius: 12px;
+      border-top-left-radius: 12px;
+      box-shadow: $shadow_action;
+    }
+    40% {
+      background: transparentize($color, 0.9);
+    }
+    100% {
+      margin-top: 0;
+      margin-left: 0;
+      margin-right: 0;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      box-shadow: $shadow_default;
+    }
+  }
 }
 
 .row {
@@ -56,15 +116,46 @@
   max-height: 60px;
   overflow: hidden;
   padding-left: 15px;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid rgba(119, 136, 153, 0.644);
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  box-shadow: $shadow_default;
+  &.deleted {
+    border-color: $mui-error-color;
+    opacity: 1;
+    animation: slideFadeOutLeft 0.5s forwards ease-out !important;
+    pointer-events: none;
   }
+  &.saved {
+    @include rowAnimateEdited(saveEdited, $mui-success-color);
+  }
+  &.canceled {
+    @include rowAnimateEdited(cancelEdited, gray);
+  }
+  &.edited {
+    animation: goEdited 0.26s forwards ease-in-out;
+
+    .actions {
+      * {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    > div {
+      border-left: none !important;
+      padding-bottom: 0 !important;
+      &:not(:first-child):not(:last-child) {
+        padding-left: 20px;
+      }
+    }
+  }
+
   &.header {
     background: linear-gradient(270deg, #ffda00, transparent);
     margin-bottom: 10px;
-    /* box-shadow: 0px 20px 13px 10px #80808047; */
-    border: 1px solid #8080805c;
+    border: $default-border;
     border-radius: 12px;
     border-radius: 12px;
     &.overflow {
@@ -72,18 +163,26 @@
     }
   }
   > div {
-    &:last-child {
+    &:not(:first-child) {
       border-left: 1px solid gray;
-      width: 10%;
     }
-    &:nth-child(1) {
+    &:last-child {
+      width: 10%;
+      border-width: 3px;
+    }
+    &:first-child {
       width: 10%;
     }
 
     width: 35%;
     padding: 8px 10px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
   }
-  &:not(.header):not(.score) {
+  &:not(.header):not(.score):not(.deleted):not(.edited):not(.editor):not(
+      .saved
+    ):not(.canceled) {
     animation: slideFadeInLeft 0.8s forwards;
     opacity: 0;
     transform: translateX(40px);

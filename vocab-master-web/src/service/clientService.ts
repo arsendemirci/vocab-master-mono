@@ -21,12 +21,42 @@ const ClientService: ClientServiceType = {
         return response;
       },
     },
+    updateWord: {
+      getUrl: () => `/api/word/updateWord`,
+      call: async (data: WordFormType) => {
+        const response = await axios.post(
+          ClientService.word.updateWord.getUrl(),
+          data
+        );
+        return response;
+      },
+    },
     addWordToList: {
       getUrl: () => `/api/word/addWordToList`,
       call: async (data: WordFormType, listId: number) => {
         const response = await axios.post(
           ClientService.word.addWordToList.getUrl(),
           { data, listId }
+        );
+        return response;
+      },
+    },
+    deleteWord: {
+      getUrl: () => `/api/word/deleteWord`,
+      call: async (id: number) => {
+        const response = await axios.delete(
+          ClientService.word.deleteWord.getUrl(),
+          { data: id }
+        );
+        return response;
+      },
+    },
+    deleteWordFromList: {
+      getUrl: () => `/api/word/deleteWordFromList`,
+      call: async (wordId: number, listId: number) => {
+        const response = await axios.post(
+          ClientService.word.deleteWord.getUrl(),
+          { wordId, listId }
         );
         return response;
       },
@@ -63,6 +93,16 @@ const ClientService: ClientServiceType = {
       call: async (data: ListFormType) => {
         const response = await axios.post(
           ClientService.list.addList.getUrl(),
+          data
+        );
+        return response;
+      },
+    },
+    updateListDetails: {
+      getUrl: () => `/api/list/updateListDetails`,
+      call: async (data: ListFormType) => {
+        const response = await axios.post(
+          ClientService.list.updateListDetails.getUrl(),
           data
         );
         return response;

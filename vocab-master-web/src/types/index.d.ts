@@ -4,6 +4,7 @@ import {
   QuizLength,
   GridStateEnum,
   ServiceNames,
+  GridActionStateEnum,
 } from "@/config/enums";
 
 export interface IconType {
@@ -77,17 +78,22 @@ export interface GridDataType {
 export interface GridSliceType {
   search: string;
   tableData: any[];
+  actionState:
+    | { [key: number]: { action: GridActionStateEnum; form: any | undefined } }
+    | {};
+  formState: { [key: number]: BaseObjectType };
 }
 
 export interface DataGridCType {
   gridType: GridStateEnum;
   ownerID?: number;
+  height?: any;
 }
 export interface ToolbarProps {
   title?: string;
 }
 export interface GridFormDataType {
-  postUrl: string;
+  postUrl: ApiUrl;
   primaryKey: string;
   defaultState: Object;
   ownerKey?: string;
@@ -109,6 +115,7 @@ export interface GridStateType {
     dataUrl: (...args) => ApiUrl;
     formData?: GridFormDataType;
     editUrl?: Function;
+    editPostUrl?: ApiUrl;
     deleteUrl?: Function;
   };
 }

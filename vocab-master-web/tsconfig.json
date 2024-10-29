@@ -32,7 +32,8 @@
       "@types": ["./src/types"],
       "@icon": ["./src/components/shared/Icon/Icon"],
       "@config": ["./src/config"],
-      "@api/*": ["./src/server/services/*"]
+      "@api/*": ["./src/server/services/*"],
+      "@hooks": ["./src/hooks"]
     }
   },
   "include": [

@@ -6,7 +6,7 @@ export async function GET(
   request: Request,
   { params }: { params: { slug: string[] } }
 ) {
-  let args = params.slug.slice(1);
+  let args = params.slug.length > 1 ? params.slug.slice(1) : [];
   return Response.json(await WordService[params.slug[0]](...args));
 }
 export async function POST(
@@ -15,5 +15,14 @@ export async function POST(
 ) {
   const postData = await request.json();
   console.log(`postData`, postData);
+
   return Response.json(await WordService[params.slug[0]](postData));
+}
+export async function DELETE(
+  request: Request,
+  { params }: { params: { slug: string[] } }
+) {
+  const reqData = await request.json();
+
+  return Response.json(await WordService[params.slug[0]](reqData));
 }

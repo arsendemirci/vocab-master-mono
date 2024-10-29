@@ -43,14 +43,33 @@ export default {
   AddWordToList: (wordId, listId) => {
     return `INSERT INTO Word_List(wordId,listId) VALUES ("${wordId}","${listId}")`;
   },
+  DeleteWord: (wordId) => {
+    return `DELETE FROM Words WHERE id=${wordId}`;
+  },
+  DeleteWordFromList: (wordId, listId) => {
+    return `DELETE FROM Word_List WHERE wordId=${wordId} AND listId=${listId}`;
+  },
   DeleteList: (id) => {
     return `DELETE FROM VocabularyLists Where id=${id}`;
+  },
+  DeleteListWords: (listId) => {
+    return `DELETE FROM Word_List Where listId=${listId}`;
   },
   InsertList: (title, description) => {
     return `INSERT INTO VocabularyLists(title,description) VALUES ("${title}","${description}")`;
   },
   InsertWord: (question, check) => {
     return `INSERT INTO Words(question,"check") VALUES ("${question}","${check}")`;
+  },
+  UpdateWord: (id, question, check) => {
+    return `UPDATE Words SET question="${question}",
+                            "check"="${check}" 
+            WHERE id=${id}`;
+  },
+  UpdateListDetails: (id, title, description) => {
+    return `UPDATE VocabularyLists SET title="${title}",
+                            description="${description}" 
+            WHERE id=${id}`;
   },
   InsertUser: (email, password) => {
     return `INSERT INTO Users(email,password) VALUES ("${email}","${password}")`;

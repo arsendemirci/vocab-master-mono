@@ -6,6 +6,7 @@ export { default as DataGrid } from "./DataGrid/DataGrid";
 export { default as Toolbar } from "./Toolbar/Toolbar";
 export { default as BreadCrumbs } from "./BreadCrumbs/BreadCrumbs";
 export { default as RowAdder } from "./RowAdder/RowAdder";
+export { default as RowEditor } from "./RowEditor/RowEditor";
 // export { default as Key } from "./TypeBoard/Key/Key.jsx";
 // export { default as Keyboard } from "./TypeBoard/Keyboard/Keyboard.jsx";
 // export { default as InputArea } from "./TypeBoard/InputArea/InputArea.jsx";

@@ -32,7 +32,7 @@ const RowAdder: FC<RowAdderProps> = ({
     setInputFields(defaultState);
   };
   return (
-    <form className={rowStyle} onSubmit={postData}>
+    <form key="rowAdd" className={rowStyle} onSubmit={postData}>
       <div>
         <Add />
       </div>
@@ -42,6 +42,7 @@ const RowAdder: FC<RowAdderProps> = ({
             variant="outlined"
             label={col.header}
             size="small"
+            fullWidth
             value={inputFields[col.key]}
             onChange={(e) =>
               setInputFields({ ...inputFields, [col.key]: e.target.value })
@@ -50,9 +51,9 @@ const RowAdder: FC<RowAdderProps> = ({
         </div>
       ))}
 
-      <div key={`actions_add`}>
+      <div>
         <IconButton type="submit">
-          <Save />
+          <Save color="success" />
         </IconButton>
       </div>
     </form>
