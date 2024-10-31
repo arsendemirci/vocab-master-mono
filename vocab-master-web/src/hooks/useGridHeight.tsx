@@ -15,7 +15,6 @@ const useGridHeight = () => {
       const sumSpace =
         refHeight + paddingBottom + paddingTop + marginBottom + marginTop;
 
-      console.log("padding values", sumSpace);
       setGridHeight(sumSpace);
     }
   }, []);

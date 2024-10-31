@@ -1,0 +1,49 @@
+// ------ main page styles ----------
+.mainContainer {
+  display: flex;
+  // flex-direction: column;
+
+  height: $window-height;
+  overflow: hidden;
+  width: $window-width;
+  &.menu_closed {
+    background-image: linear-gradient(
+      to right,
+      $layout-bg-color 50%,
+      $layout-bg-color 0%
+    );
+    .pageContainer {
+      width: $page-width-closed;
+    }
+  }
+  &.menu_open {
+    background-image: linear-gradient(
+      to right,
+      $main-bg-color 50%,
+      $layout-bg-color 0%
+    );
+    .pageContainer {
+      width: $page-width-open;
+    }
+  }
+  .mainWrapper {
+    display: flex;
+    // width: $window-width;
+    // height: $page-height;
+    flex-direction: column;
+
+    .pageContainer {
+      transition: width 0.24s ease-in-out;
+      position: relative;
+      background-color: $layout-bg-color;
+      // height: $page-height;
+
+      border-radius: 16px;
+      padding: 25px 30px $window-bottom-space 30px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      overflow: hidden;
+    }
+  }
+}

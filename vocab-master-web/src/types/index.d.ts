@@ -42,7 +42,8 @@ export interface LoaderPropsType {
 
 export interface AppSliceType {
   currentPath: string;
-  pageClass: string;
+  pageClass: "page_open" | "page_closed";
+  menuClass: "menu_open" | "menu_closed";
   loader: { show: boolean };
   modal: {
     show: boolean;

@@ -15,11 +15,14 @@ const PageCard: React.FC<PageCardProps> = forwardRef(
     const divRef = useRef<any>();
 
     useEffect(() => {
-      if (appStore.pageClass === "close" && appStore.currentPath === pathName)
+      if (
+        appStore.pageClass === "page_closed" &&
+        appStore.currentPath === pathName
+      )
         return;
       setMainClass(`${styles.main} ${styles[appStore.pageClass]}`);
 
-      if (appStore.pageClass === "open") {
+      if (appStore.pageClass === "page_open") {
         const { current } = divRef;
         if (current !== null) {
           current.scrollIntoView({ block: "end", behavior: "smooth" });
@@ -29,9 +32,12 @@ const PageCard: React.FC<PageCardProps> = forwardRef(
 
     return (
       <>
-        <PageLoader show={appStore.pageClass !== "open"}></PageLoader>
+        <PageLoader show={appStore.pageClass !== "page_open"}></PageLoader>
         <BreadCrumbs />
-        <section ref={refPage} className={mainClass}>
+        <section
+          ref={refPage}
+          className={`${mainClass} ${styles[appStore.menuClass]}`}
+        >
           <div ref={divRef}></div>
           <div className={styles.wrapper}>
             <div className={styles.body}>{children}</div>

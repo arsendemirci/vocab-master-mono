@@ -1,13 +1,20 @@
-.top-bar {
+.topBar {
   height: $top-bar-height;
-  max-width: $top-bar-width;
+  // max-width: $top-bar-width;
   background-color: $menu-bg-color;
   box-shadow: 7px 5px 21px 0px #80808085;
   z-index: 1;
   justify-content: space-between;
-
-  .top-bar-logo {
-    width: $menu-width;
+  transition: all 0.24s ease-in-out;
+  &.menu_open {
+    max-width: $top-bar-width-open;
+  }
+  &.menu_closed {
+    max-width: $top-bar-width-closed;
+    height: 0;
+  }
+  .topBarLogo {
+    width: $menu-width-open;
     padding: 10px 20px;
     height: 100%;
     img {
@@ -15,7 +22,7 @@
     }
   }
 
-  &-content {
+  .topBarContent {
     padding: 10px 20px;
   }
 

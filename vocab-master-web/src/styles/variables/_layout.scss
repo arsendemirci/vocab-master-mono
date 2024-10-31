@@ -2,17 +2,22 @@
 $window-height: 100vh;
 $window-width: 100vw;
 $top-bar-height: 150px;
-$menu-width: 280px;
+$menu-width-open: 280px;
+$menu-width-closed: 80px;
 $window-bottom-space: 25px;
 $keyboard-width: 976px;
 $breadCrumbsHeight: 48px;
 $pageHeightFix: $top-bar-height + $breadCrumbsHeight + 52px;
+$pageHeightFixClosed: $breadCrumbsHeight + 52px;
 
 $scrollerHeightFix: $pageHeightFix + $breadCrumbsHeight + 190px;
 
-$page-width: calc($window-width - $menu-width);
-$page-height: calc($window-height - $pageHeightFix);
+$page-width-open: calc($window-width - $menu-width-open);
+$page-width-closed: calc($window-width - $menu-width-closed);
+$page-height-open: calc($window-height - $pageHeightFix);
+$page-height-closed: calc($window-height - $pageHeightFixClosed);
 $page-scroller-height: calc($window-height - $scrollerHeightFix);
-$top-bar-width: calc($window-width - $menu-width);
+$top-bar-width-open: calc($window-width - $menu-width-open);
+$top-bar-width-closed: calc($window-width - $menu-width-closed);
 $menu-height: calc($window-height - $top-bar-height);
-$menu-item-width: calc($menu-width - 40px);
+$menu-item-width: calc($menu-width-open - 40px);

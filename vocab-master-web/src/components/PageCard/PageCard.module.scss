@@ -12,7 +12,7 @@ $transformOutEnter: perspective(1100px) translateX(-500px) rotateY(50deg)
 .main {
   width: 100%;
   padding: 20px;
-  height: $page-height;
+
   // margin: 25px 30px $window-bottom-space 30px;
   // max-width: $pageMaxWidth;
   // margin-top: $pageMarginTop;
@@ -22,16 +22,22 @@ $transformOutEnter: perspective(1100px) translateX(-500px) rotateY(50deg)
   border: 1px solid gray;
   background-color: $page-bg-color;
   opacity: 0;
-  transition: background-color 0.65s ease-in-out;
+  transition: background-color 0.65s ease-in-out, height 0.3s ease-out;
   transform: perspective(1200px) translateX(-500px) rotateY(50deg) scale(0.4);
   margin-bottom: 120px;
-  &.close {
+  &.menu_open {
+    height: $page-height-open;
+  }
+  &.menu_closed {
+    height: $page-height-closed;
+  }
+  &.page_closed {
     animation: fadeOut 0.65s ease-in-out forwards;
     .wrapper {
       opacity: 0;
     }
   }
-  &.open {
+  &.page_open {
     animation: fadeIn 0.65s ease-in-out forwards;
     .wrapper {
       opacity: 1;

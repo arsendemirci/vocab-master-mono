@@ -2,7 +2,7 @@ import style from "./BreadCrumbs.module.scss";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPageClass } from "@/store/slices/appSlice";
+import { openPage, closePage } from "@/store/slices/appSlice";
 import { useParams } from "next/navigation";
 import { usePathname, useRouter } from "next/navigation";
 import { Icon } from "@/components";
@@ -40,12 +40,23 @@ const BreadCrumbs = () => {
     setCrumb(crumbList);
   }, [appStore.currentPath]);
   useEffect(() => {
-    console.log("currentPath");
-    if (pathName !== appStore.currentPath) {
-      dispatch(setPageClass("close"));
-      setTimeout(() => router.push(appStore.currentPath), 450);
+    if (!appStore.currentPath) {
+      //here means no app navigation history (user comes by the url)
+      dispatch(setCurrentPath(pathName));
     } else {
-      dispatch(setPageClass("open"));
+      console.log(
+        "currentPath",
+        appStore.currentPath,
+        pathName,
+        window.history
+      );
+
+      if (pathName !== appStore.currentPath) {
+        dispatch(closePage());
+        setTimeout(() => router.push(appStore.currentPath), 450);
+      } else {
+        dispatch(openPage());
+      }
     }
   }, [appStore.currentPath, pathName]);
 
