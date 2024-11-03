@@ -1,3 +1,22 @@
+@keyframes goLogoOpen {
+  0% {
+    opacity: 0;
+  }
+  65% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes goLogoClosed {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 .topBar {
   height: $top-bar-height;
   // max-width: $top-bar-width;
@@ -5,13 +24,25 @@
   box-shadow: 7px 5px 21px 0px #80808085;
   z-index: 1;
   justify-content: space-between;
-  transition: all 0.24s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
   &.menu_open {
     max-width: $top-bar-width-open;
+    // opacity: 1;
+
+    img {
+      animation: goLogoOpen 0.5s ease-in-out;
+    }
   }
   &.menu_closed {
     max-width: $top-bar-width-closed;
     height: 0;
+    // opacity: 0;
+
+    img {
+      animation: goLogoClosed 0.5s ease-in-out;
+    }
   }
   .topBarLogo {
     width: $menu-width-open;
@@ -19,6 +50,7 @@
     height: 100%;
     img {
       height: 100%;
+      transition: all 0.5s ease-in-out;
     }
   }
 

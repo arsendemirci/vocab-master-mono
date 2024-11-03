@@ -1,27 +1,55 @@
-// ------ main page styles ----------
-.mainContainer {
-  display: flex;
-  // flex-direction: column;
-
-  height: $window-height;
-  overflow: hidden;
-  width: $window-width;
-  &.menu_closed {
+@keyframes goOpenMenu {
+  0% {
     background-image: linear-gradient(
       to right,
       $layout-bg-color 50%,
       $layout-bg-color 0%
     );
-    .pageContainer {
-      width: $page-width-closed;
-    }
   }
-  &.menu_open {
+  99% {
+    background-image: linear-gradient(
+      to right,
+      $layout-bg-color 50%,
+      $layout-bg-color 0%
+    );
+  }
+  100% {
     background-image: linear-gradient(
       to right,
       $main-bg-color 50%,
       $layout-bg-color 0%
     );
+  }
+}
+@keyframes goClosedMenu {
+  from {
+    background-image: linear-gradient(
+      to right,
+      $layout-bg-color 50%,
+      $layout-bg-color 0%
+    );
+  }
+  to {
+    background-image: linear-gradient(
+      to right,
+      $layout-bg-color 50%,
+      $layout-bg-color 0%
+    );
+  }
+}
+.mainContainer {
+  display: flex;
+  height: $window-height;
+  overflow: hidden;
+  width: $window-width;
+  &.menu_closed {
+    animation: goClosedMenu 0.25s ease forwards;
+    .pageContainer {
+      width: $page-width-closed;
+    }
+  }
+  &.menu_open {
+    animation: goOpenMenu 0.25s ease forwards;
     .pageContainer {
       width: $page-width-open;
     }

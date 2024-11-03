@@ -1,6 +1,7 @@
 export { default as Topbar } from "./Topbar/Topbar";
 export { default as Sidebar } from "./Sidebar/Sidebar";
 export { default as SideMenu } from "./Sidebar/SideMenu/SideMenu";
+export { default as ProfileMenu } from "./Sidebar/ProfileMenu/ProfileMenu";
 export { default as Icon } from "./Icon/Icon";
 export { default as PageCard } from "./PageCard/PageCard";
 export { default as DataGrid } from "./DataGrid/DataGrid";

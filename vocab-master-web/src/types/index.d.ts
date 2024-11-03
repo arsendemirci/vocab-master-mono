@@ -65,11 +65,42 @@ export interface GameSliceType {
     activeQuestion: any;
   };
 }
+export interface FormFieldValidationType {
+  error: boolean;
+  msg: string;
+}
+export interface AccountSliceType {
+  activePanel: "login" | "register";
+  registeredUserId: number;
+  loginForm: {
+    email: FormFieldValidationType;
+    password: FormFieldValidationType;
+  };
+  registerForm: {
+    email: FormFieldValidationType;
+  };
+}
 
+export interface UserSliceType {
+  user: {
+    id: number;
+    email: string;
+    name: string;
+    verified: boolean;
+  };
+  profile: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    avatar: string;
+  };
+}
 export interface StoreType {
   appSlice: AppSliceType;
   gameSlice: GameSliceType;
   gridSlice: GridSliceType;
+  accountSlice: AccountSliceType;
+  userSlice: UserSliceType;
 }
 
 export interface GridDataType {

@@ -7,6 +7,7 @@ $menu-width-closed: 80px;
 $window-bottom-space: 25px;
 $keyboard-width: 976px;
 $breadCrumbsHeight: 48px;
+$profile-container-height: 400px;
 $pageHeightFix: $top-bar-height + $breadCrumbsHeight + 52px;
 $pageHeightFixClosed: $breadCrumbsHeight + 52px;
 
@@ -17,7 +18,10 @@ $page-width-closed: calc($window-width - $menu-width-closed);
 $page-height-open: calc($window-height - $pageHeightFix);
 $page-height-closed: calc($window-height - $pageHeightFixClosed);
 $page-scroller-height: calc($window-height - $scrollerHeightFix);
-$top-bar-width-open: calc($window-width - $menu-width-open);
-$top-bar-width-closed: calc($window-width - $menu-width-closed);
-$menu-height: calc($window-height - $top-bar-height);
+$top-bar-width-open: calc($window-width - $menu-width-open - 20px);
+$top-bar-width-closed: calc($window-width - $menu-width-closed - 20px);
+
+$menu-height: calc(
+  $window-height - $top-bar-height - $profile-container-height
+);
 $menu-item-width: calc($menu-width-open - 40px);

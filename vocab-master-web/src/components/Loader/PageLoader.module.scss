@@ -14,12 +14,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
-  background: linear-gradient(
-    30deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.22) 40%,
-    rgba(0, 0, 0, 0.18) 60%,
-    rgba(0, 0, 0, 0) 100%
+  background: radial-gradient(
+    circle,
+    #000000ae -91%,
+    rgb(255 255 255 / 0%) 100%
   );
   transition: opacity 0.4s ease-out;
   &.show {
