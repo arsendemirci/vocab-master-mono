@@ -3,7 +3,6 @@ import { shuffle } from "@/utils/arrayUtils";
 import { ListFormType } from "@types";
 
 export const getListById = async (listId: number) => {
-  console.log("buraya geldim mi", listId);
   const dao = new db();
   const data = await dao.all(dao.query.GetListWordsByListId(listId));
 

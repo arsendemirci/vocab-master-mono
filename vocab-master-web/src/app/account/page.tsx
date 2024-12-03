@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import styles from "./Sign.module.scss";
+"use client";
+import styles from "./page.module.scss";
 import { Box, TextField, Button } from "@mui/material";
 // import { Button, Icon } from "components";
 // import {  useAppState } from "#hooks";
@@ -15,7 +15,7 @@ import {
 import validation from "@/utils/validation";
 import { StoreType } from "@types";
 
-function Page() {
+const Page = () => {
   console.log("[RENDERING] Sign Component");
   // const { showLoader, hideLoader, hideModal } = useAppState();
   const account = useSelector((state: StoreType) => state.accountSlice);
@@ -94,28 +94,32 @@ function Page() {
           <h1>Create Account</h1>
           <TextField
             label="Name *"
+            fullWidth
             type="text"
             variant="outlined"
             error={!!registerErrors?.name}
-            helperText={registerErrors?.name?.message}
+            helperText={registerErrors?.name?.message?.toString()}
             {...registerSignup("name", validation.name)}
           />
           <TextField
             label="Email *"
+            fullWidth
             type="text"
             variant="outlined"
             error={!!registerErrors?.email || account.registerForm.email.error}
             helperText={
-              registerErrors?.email?.message || account.registerForm.email.msg
+              registerErrors?.email?.message?.toString() ||
+              account.registerForm.email.msg
             }
             {...registerSignup("email", validation.email)}
           />
           <TextField
             label="Password *"
+            fullWidth
             type="password"
             variant="outlined"
             error={!!registerErrors?.password}
-            helperText={registerErrors?.password?.message}
+            helperText={registerErrors?.password?.message?.toString()}
             {...registerSignup("password", validation.password)}
           />
           <Button type="submit">Sign Up</Button>
@@ -125,26 +129,28 @@ function Page() {
         <form className={styles.formPart} onSubmit={handleLogin(onSubmitLogin)}>
           <h1>Sign in</h1>
           <TextField
-            name="email"
             label="Email *"
+            fullWidth
             type="text"
             variant="outlined"
             error={!!loginErrors?.email || !!account.loginForm.email.error}
             helperText={
-              loginErrors?.email?.message || account.loginForm.email.msg
+              loginErrors?.email?.message?.toString() ||
+              account.loginForm.email.msg
             }
             {...registerSignin("email", validation.email)}
           />
           <TextField
-            name="password"
             label="Password *"
+            fullWidth
             type="password"
             variant="outlined"
             error={
               !!loginErrors?.password || !!account.loginForm.password.error
             }
             helperText={
-              loginErrors?.password?.message || account.loginForm.password.msg
+              loginErrors?.password?.message?.toString() ||
+              account.loginForm.password.msg
             }
             {...registerSignin("password", validation.password)}
           />
@@ -186,6 +192,6 @@ function Page() {
       </div>
     </div>
   );
-}
+};
 
-export default Sign;
+export default Page;

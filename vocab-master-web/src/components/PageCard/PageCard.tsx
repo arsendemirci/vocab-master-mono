@@ -15,11 +15,14 @@ const PageCard: React.FC<PageCardProps> = forwardRef(
     const divRef = useRef<any>();
 
     useEffect(() => {
+      console.log("Page CARD USE EFFECT", appStore.pageClass);
       if (
         appStore.pageClass === "page_closed" &&
         appStore.currentPath === pathName
-      )
+      ) {
         return;
+      }
+
       setMainClass(`${styles.main} ${styles[appStore.pageClass]}`);
 
       if (appStore.pageClass === "page_open") {
@@ -29,7 +32,7 @@ const PageCard: React.FC<PageCardProps> = forwardRef(
         }
       }
     }, [appStore.pageClass]);
-
+    console.log("PAGE CARD Renderrrrrr");
     return (
       <>
         <PageLoader show={appStore.pageClass !== "page_open"}></PageLoader>

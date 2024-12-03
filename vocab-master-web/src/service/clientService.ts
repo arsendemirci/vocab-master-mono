@@ -120,6 +120,15 @@ const ClientService: ClientServiceType = {
     },
   },
   game: {},
+  user: {
+    login: {
+      getUrl: () => `/api/user/login`,
+      call: async () => {
+        const data = await axios.get(ClientService.user.login.getUrl());
+        return data;
+      },
+    },
+  },
 };
 
 export default ClientService;

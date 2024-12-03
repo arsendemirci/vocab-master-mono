@@ -39,6 +39,12 @@ const routes: Array<NavLinkType> = [
     icon: "user",
     inMenu: true,
   },
+  {
+    name: "Account",
+    href: "/account",
+    icon: "login",
+    inMenu: false,
+  },
 ];
 
 export default routes;

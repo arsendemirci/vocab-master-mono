@@ -3,7 +3,7 @@ import { AppSliceType } from "@/types";
 
 const initialState: AppSliceType = {
   currentPath: "",
-  pageClass: "page_closed",
+  pageClass: "page_open",
   menuClass: "menu_open",
   loader: { show: false },
   modal: {

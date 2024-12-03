@@ -23,12 +23,18 @@ export enum ServiceNames {
   WORD = "word",
   LIST = "list",
   GAME = "game",
+  USER = "user",
 }
 export enum GridActionStateEnum {
   SAVE = "saved",
   DELETE = "deleted",
   CANCEL = "canceled",
   EDIT = "edited",
+}
+export enum TokenStatus {
+  INVALID = "invalid",
+  EXPIRED = "expired",
+  OK = "ok",
 }
 
 export default { GameStatus, QuestionType, QuizLength, GridStateEnum };

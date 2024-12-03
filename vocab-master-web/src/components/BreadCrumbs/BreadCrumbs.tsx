@@ -19,6 +19,8 @@ const BreadCrumbs = () => {
   const pathName = usePathname();
   const params = useParams();
   const [crumb, setCrumb] = useState<NavLinkType[]>([]);
+  const [path, setPath] = useState<String>("");
+
   useEffect(() => {
     const crumbList: NavLinkType[] = [];
     const parent = menu.find((i) => appStore.currentPath.includes(i.href));
@@ -40,16 +42,17 @@ const BreadCrumbs = () => {
     setCrumb(crumbList);
   }, [appStore.currentPath]);
   useEffect(() => {
-    if (!appStore.currentPath) {
+    if (!path) {
       //here means no app navigation history (user comes by the url)
+      setPath("loaded");
       dispatch(setCurrentPath(pathName));
     } else {
-      console.log(
-        "currentPath",
-        appStore.currentPath,
-        pathName,
-        window.history
-      );
+      // console.log(
+      //   "currentPath",
+      //   appStore.currentPath,
+      //   pathName,
+      //   window.history
+      // );
 
       if (pathName !== appStore.currentPath) {
         dispatch(closePage());

@@ -159,6 +159,10 @@ export interface ListFormType extends BaseObjectType {
   title: string;
   description: string;
 }
+export interface LoginFormType {
+  email: string;
+  password: string;
+}
 
 export interface WordFormType extends BaseObjectType {
   question: string;
