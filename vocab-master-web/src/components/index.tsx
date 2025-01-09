@@ -20,6 +20,7 @@ export { default as RowEditor } from "./RowEditor/RowEditor";
 // export { default as SplashScreen } from "./SplashScreen/SplashScreen.jsx";
 // export { default as HoverButton } from "./UI/HoverButton/HoverButton.jsx";
 export { default as PageLoader } from "./Loader/PageLoader.tsx";
+export { default as MainLoader } from "./Loader/MainLoader.tsx";
 // export { default as TimesSVG } from "./UI/AnimatedSVG/TimesSVG.jsx";
 // export { default as CheckSVG } from "./UI/AnimatedSVG/CheckSVG.jsx";
 // export { default as Modal } from "./Modal/Modal.jsx";

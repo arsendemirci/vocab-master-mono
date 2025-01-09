@@ -1,5 +1,7 @@
+"use client";
 import styles from "./page.module.scss";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const clWrap: string = `${styles.wrapper}`;

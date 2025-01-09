@@ -7,6 +7,13 @@ import {
   GridActionStateEnum,
 } from "@/config/enums";
 
+export interface ApiResponse {
+  data: {};
+  status: "success" | "fail";
+  error?: {
+    msg: string;
+  };
+}
 export interface IconType {
   [key: string]: SvgType;
 }
@@ -43,12 +50,16 @@ export interface LoaderPropsType {
 export interface AppSliceType {
   currentPath: string;
   pageClass: "page_open" | "page_closed";
-  menuClass: "menu_open" | "menu_closed";
   loader: { show: boolean };
   modal: {
     show: boolean;
     component: string;
   };
+}
+export interface PersistSliceType {
+  menuClass: "menu_open" | "menu_closed";
+  isAuthenticated: boolean;
+  user?: VMUser | null;
 }
 
 export interface GameSliceType {
@@ -87,6 +98,7 @@ export interface UserSliceType {
     email: string;
     name: string;
     verified: boolean;
+    image: string;
   };
   profile: {
     id: number;
@@ -101,6 +113,7 @@ export interface StoreType {
   gridSlice: GridSliceType;
   accountSlice: AccountSliceType;
   userSlice: UserSliceType;
+  persistSlice: PersistSliceType;
 }
 
 export interface GridDataType {
@@ -151,7 +164,9 @@ export interface GridStateType {
     deleteUrl?: Function;
   };
 }
-export type ApiUrl = `/api/${ServiceNames}/${string}`;
+export type ApiUrl =
+  | `/api/${ServiceNames}/${string}`
+  | `${string}/api/${ServiceNames}/${string}`;
 export interface BaseObjectType {
   id: number;
 }
@@ -176,3 +191,14 @@ export type ClientServiceType = {
     };
   };
 };
+export interface VMUser {
+  id: number;
+  name: string;
+  email: string;
+  picture: string;
+  accessToken: string;
+}
+export interface VMSession {
+  user: VMUser;
+  expires: string;
+}

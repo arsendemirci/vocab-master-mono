@@ -6,12 +6,12 @@ import * as slices from "@/store/slices";
 
 const persistConfig = { key: "root", storage };
 
-const persistedReducer = persistReducer(persistConfig, slices.appSlice);
+const persistedReducer = persistReducer(persistConfig, slices.persistSlice);
 
 export const store = configureStore({
   reducer: {
     ...slices,
-    appSlice: persistedReducer,
+    persistSlice: persistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

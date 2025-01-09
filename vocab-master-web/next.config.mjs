@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  env: {
+    NEXTAUTH_SECRET: "arsen",
+  },
   async redirects() {
     return [
       {

@@ -1,6 +1,11 @@
 import axios from "axios";
 
-import { ClientServiceType, WordFormType, ListFormType } from "@types";
+import {
+  ClientServiceType,
+  WordFormType,
+  ListFormType,
+  LoginFormType,
+} from "@types";
 
 const ClientService: ClientServiceType = {
   word: {
@@ -122,13 +127,22 @@ const ClientService: ClientServiceType = {
   game: {},
   user: {
     login: {
-      getUrl: () => `/api/user/login`,
-      call: async () => {
-        const data = await axios.get(ClientService.user.login.getUrl());
-        return data;
+      getUrl: (origin: string) => `${origin}/api/user/login`,
+      call: async (data: LoginFormType, headers, origin: string) => {
+        const response = await axios.post(
+          ClientService.user.login.getUrl(origin),
+          data,
+          { headers }
+        );
+        return response;
       },
     },
   },
 };
-
+export const {
+  user: UserService,
+  game: GameService,
+  list: ListService,
+  word: WordService,
+} = ClientService;
 export default ClientService;

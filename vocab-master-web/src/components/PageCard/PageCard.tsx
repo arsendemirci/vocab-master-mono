@@ -10,12 +10,15 @@ import { usePathname } from "next/navigation";
 const PageCard: React.FC<PageCardProps> = forwardRef(
   ({ children }: PageCardProps, refPage: any) => {
     const appStore = useSelector((state: StoreType) => state.appSlice);
+    const menuClass = useSelector(
+      (state: StoreType) => state.persistSlice.menuClass
+    );
     const [mainClass, setMainClass] = useState(`${styles.main}`);
     const pathName = usePathname();
     const divRef = useRef<any>();
 
     useEffect(() => {
-      console.log("Page CARD USE EFFECT", appStore.pageClass);
+      // console.log("Page CARD USE EFFECT", appStore.pageClass);
       if (
         appStore.pageClass === "page_closed" &&
         appStore.currentPath === pathName
@@ -32,15 +35,12 @@ const PageCard: React.FC<PageCardProps> = forwardRef(
         }
       }
     }, [appStore.pageClass]);
-    console.log("PAGE CARD Renderrrrrr");
+    // console.log("PAGE CARD Renderrrrrr");
     return (
       <>
         <PageLoader show={appStore.pageClass !== "page_open"}></PageLoader>
         <BreadCrumbs />
-        <section
-          ref={refPage}
-          className={`${mainClass} ${styles[appStore.menuClass]}`}
-        >
+        <section ref={refPage} className={`${mainClass} ${styles[menuClass]}`}>
           <div ref={divRef}></div>
           <div className={styles.wrapper}>
             <div className={styles.body}>{children}</div>

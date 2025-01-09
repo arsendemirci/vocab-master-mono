@@ -1,16 +1,17 @@
 import style from "./BreadCrumbs.module.scss";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openPage, closePage } from "@/store/slices/appSlice";
 import { useParams } from "next/navigation";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components";
 import { NavLinkType, StoreType } from "@/types";
 import { menu } from "@config";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { formatString } from "@/utils/stringUtils";
 import { setCurrentPath } from "@/store/slices/appSlice";
+import { RoutePathEnum } from "@/config/enums";
 
 const BreadCrumbs = () => {
   const appStore = useSelector((state: StoreType) => state.appSlice);
@@ -18,13 +19,43 @@ const BreadCrumbs = () => {
   const router = useRouter();
   const pathName = usePathname();
   const params = useParams();
+  const searchParams = useSearchParams();
   const [crumb, setCrumb] = useState<NavLinkType[]>([]);
-  const [path, setPath] = useState<String>("");
+
+  const setCurrentPage = useCallback(() => {
+    const search = searchParams.get("from");
+
+    if (!appStore.currentPath) {
+      //here means no app navigation history (user comes by the url)
+      dispatch(closePage());
+      setTimeout(() => dispatch(setCurrentPath(pathName)), 450);
+    } else {
+      //
+      if (pathName !== appStore.currentPath) {
+        dispatch(closePage());
+        setTimeout(() => {
+          if (
+            search === "redirect" &&
+            appStore.currentPath !== RoutePathEnum.HOME
+          ) {
+            dispatch(setCurrentPath(pathName));
+          } else {
+            router.push(appStore.currentPath);
+          }
+        }, 450);
+      } else {
+        if (search === "redirect") {
+          router.push(`${appStore.currentPath}?${searchParams.toString()}`);
+        }
+        dispatch(openPage());
+      }
+    }
+  }, [appStore.currentPath, pathName]);
 
   useEffect(() => {
     const crumbList: NavLinkType[] = [];
     const parent = menu.find((i) => appStore.currentPath.includes(i.href));
-    if (parent && parent.href !== "/home") {
+    if (parent && parent.href !== RoutePathEnum.HOME) {
       crumbList.push(parent);
       if (
         appStore.currentPath !== parent.href &&
@@ -42,31 +73,13 @@ const BreadCrumbs = () => {
     setCrumb(crumbList);
   }, [appStore.currentPath]);
   useEffect(() => {
-    if (!path) {
-      //here means no app navigation history (user comes by the url)
-      setPath("loaded");
-      dispatch(setCurrentPath(pathName));
-    } else {
-      // console.log(
-      //   "currentPath",
-      //   appStore.currentPath,
-      //   pathName,
-      //   window.history
-      // );
-
-      if (pathName !== appStore.currentPath) {
-        dispatch(closePage());
-        setTimeout(() => router.push(appStore.currentPath), 450);
-      } else {
-        dispatch(openPage());
-      }
-    }
-  }, [appStore.currentPath, pathName]);
+    setCurrentPage();
+  }, [setCurrentPage]);
 
   return (
     <div className={style.wrapper}>
       <Breadcrumbs separator={<NavigateNextIcon />} aria-label="breadcrumb">
-        <div onClick={() => dispatch(setCurrentPath("/home"))}>
+        <div onClick={() => dispatch(setCurrentPath(RoutePathEnum.HOME))}>
           <Icon icon="home" />
           <a>Home</a>
         </div>

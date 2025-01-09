@@ -6,7 +6,8 @@ import { Box, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 // import { httpConfig } from "#config";
 import { useSelector, useDispatch } from "react-redux";
-// import { setUserInfo, resetUserInfo } from "#userSlice";
+import { setUserInfo, resetUserInfo } from "#userSlice";
+import { showLoader, hideLoader } from "@slice/appSlice";
 import {
   validateLogin,
   validateRegister,
@@ -14,9 +15,11 @@ import {
 } from "@/store/slices/accountSlice";
 import validation from "@/utils/validation";
 import { StoreType } from "@types";
+import { UserService } from "@/service/clientService";
+import { signIn, useSession } from "next-auth/react";
 
 const Page = () => {
-  console.log("[RENDERING] Sign Component");
+  // console.log("[RENDERING] Sign Component");
   // const { showLoader, hideLoader, hideModal } = useAppState();
   const account = useSelector((state: StoreType) => state.accountSlice);
   const dispatch = useDispatch();
@@ -35,8 +38,27 @@ const Page = () => {
   } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
 
   const onSubmitLogin = async (data) => {
-    // showLoader();
-    // const loginData = await ipc.login(data.email, data.password);
+    console.log("geldi mi buraya?", UserService, data);
+    dispatch(showLoader());
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        username: data.email,
+        password: data.password,
+      });
+      if (res?.error) {
+        console.log("login response error ;::::", res);
+        dispatch(hideLoader());
+      } else {
+        console.log("logged In succesfully", res);
+        dispatch(hideLoader());
+      }
+    } catch {
+      console.log("login catch fail", data);
+    }
+    // const response = await UserService.login.call(data);
+    // console.log("response", response);
+    //const loginData = await ipc.login(data.email, data.password);
     // hideLoader(() => {
     //   if (loginData.error) {
     //     const { code, msg } = loginData.error;
@@ -57,6 +79,7 @@ const Page = () => {
     //     hideModal();
     //   }
     // });
+    // dispatch(hideLoader());
   };
   const onSubmitRegister = async (data) => {
     // const registerData = await ipc.register(

@@ -4,7 +4,9 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 
 function Topbar() {
-  const menuClass = useSelector((state: StoreType) => state.appSlice.menuClass);
+  const menuClass = useSelector(
+    (state: StoreType) => state.persistSlice.menuClass
+  );
   return (
     <div className={`${s.topBar} ${s[menuClass]}`}>
       <div className={s.topBarLogo}>

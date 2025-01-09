@@ -9,6 +9,7 @@ import { store, persistor } from "@/store/store.ts";
 import { Provider } from "react-redux";
 
 import App from "@/App";
+import { SessionProvider } from "next-auth/react";
 import { PersistGate } from "redux-persist/integration/react";
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -17,15 +18,19 @@ import { PersistGate } from "redux-persist/integration/react";
 
 export default function RootLayout({
   children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
+  session?: any;
 }>) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <App>{children}</App>
+            <SessionProvider session={session}>
+              <App>{children}</App>
+            </SessionProvider>
           </PersistGate>
         </Provider>
       </body>

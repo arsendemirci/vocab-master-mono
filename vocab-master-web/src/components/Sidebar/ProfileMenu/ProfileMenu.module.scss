@@ -120,8 +120,10 @@
     gap: 10px;
     align-items: center;
     transition: $menu-mode-transition;
+    cursor: pointer;
     label {
       text-wrap: nowrap;
+      cursor: inherit;
     }
     svg {
       transition: all 0.3s ease-in-out;

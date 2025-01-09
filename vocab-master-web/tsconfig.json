@@ -33,11 +33,14 @@
       "@icon": ["./src/components/shared/Icon/Icon"],
       "@config": ["./src/config"],
       "@api/*": ["./src/server/services/*"],
-      "@hooks": ["./src/hooks"]
+      "@hooks": ["./src/hooks"],
+      "@slice/*": ["./src/store/slices/*"],
+      "@enums": ["./src/config/enums"]
     }
   },
   "include": [
     "next-env.d.ts",
+    "types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",

@@ -4,7 +4,6 @@ import { AppSliceType } from "@/types";
 const initialState: AppSliceType = {
   currentPath: "",
   pageClass: "page_open",
-  menuClass: "menu_open",
   loader: { show: false },
   modal: {
     show: false,
@@ -39,16 +38,6 @@ export const appSlice = createSlice({
     hideLoader: (state) => {
       state.loader.show = false;
     },
-    openMenu: (state) => {
-      state.menuClass = "menu_open";
-    },
-    closeMenu: (state) => {
-      state.menuClass = "menu_closed";
-    },
-    toggleMenu: (state) => {
-      state.menuClass =
-        state.menuClass === "menu_open" ? "menu_closed" : "menu_open";
-    },
   },
 });
 
@@ -59,9 +48,6 @@ export const {
   hideLoader,
   setPageClass,
   setCurrentPath,
-  openMenu,
-  closeMenu,
-  toggleMenu,
   openPage,
   closePage,
 } = appSlice.actions;

@@ -6,6 +6,7 @@ const initialState: UserSliceType = {
     email: "",
     name: "Guest",
     verified: false,
+    image: "",
   },
   profile: {
     id: 0,

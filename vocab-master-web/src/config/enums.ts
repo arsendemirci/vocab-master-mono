@@ -36,8 +36,22 @@ export enum TokenStatus {
   EXPIRED = "expired",
   OK = "ok",
 }
+export enum RoutePathEnum {
+  HOME = "/home",
+  GAME = "/game",
+  ACCOUNT = "/account",
+  WORDS = "/words",
+  LISTS = "/lists",
+  PROFILE = "/profile",
+}
 
-export default { GameStatus, QuestionType, QuizLength, GridStateEnum };
+export default {
+  GameStatus,
+  QuestionType,
+  QuizLength,
+  GridStateEnum,
+  RoutePathEnum,
+};
 // export default {
 //   enum status {
 //     ACTIVE: "active",

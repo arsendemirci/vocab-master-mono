@@ -5,6 +5,7 @@ import { getUserByEmail, getUserInfoById } from "@api/user";
 import { validate, createToken } from "@/utils/authUtils";
 
 export const login = async ({ email, password }: LoginFormType) => {
+  debugger;
   const user = await getUserByEmail(email);
   //check user exeists
   const isPasswordValid = validate(password, user.password);

@@ -2,6 +2,7 @@
 import styles from "./MainLoader.module.scss";
 // import { hideLoader } from "@/store/slices/appSlice";
 import { StoreType } from "@/types";
+import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -23,6 +24,7 @@ const Loader = () => {
   //     }, 2500);
   //   }
   // }, [loader.show]);
+  useEffect(() => {}, [loader.show]);
   return (
     <div className={clBackdrop}>
       <div className={clWrapper}>
