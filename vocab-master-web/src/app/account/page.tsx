@@ -1,13 +1,10 @@
 "use client";
 import styles from "./page.module.scss";
-import { Box, TextField, Button } from "@mui/material";
-// import { Button, Icon } from "components";
-// import {  useAppState } from "#hooks";
+import { TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 // import { httpConfig } from "#config";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserInfo, resetUserInfo } from "#userSlice";
-import { showLoader, hideLoader } from "@slice/appSlice";
+import { showLoader, hideLoader, setCurrentPath } from "@slice/appSlice";
 import {
   validateLogin,
   validateRegister,
@@ -15,12 +12,11 @@ import {
 } from "@/store/slices/accountSlice";
 import validation from "@/utils/validation";
 import { StoreType } from "@types";
-import { UserService } from "@/service/clientService";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { RoutePathEnum } from "@/config/enums";
 
 const Page = () => {
   // console.log("[RENDERING] Sign Component");
-  // const { showLoader, hideLoader, hideModal } = useAppState();
   const account = useSelector((state: StoreType) => state.accountSlice);
   const dispatch = useDispatch();
 
@@ -38,7 +34,6 @@ const Page = () => {
   } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
 
   const onSubmitLogin = async (data) => {
-    console.log("geldi mi buraya?", UserService, data);
     dispatch(showLoader());
     try {
       const res = await signIn("credentials", {
@@ -46,12 +41,13 @@ const Page = () => {
         username: data.email,
         password: data.password,
       });
+
+      dispatch(hideLoader());
+
       if (res?.error) {
-        console.log("login response error ;::::", res);
-        dispatch(hideLoader());
+        console.error("login response error", res);
       } else {
-        console.log("logged In succesfully", res);
-        dispatch(hideLoader());
+        dispatch(setCurrentPath(RoutePathEnum.HOME));
       }
     } catch {
       console.log("login catch fail", data);

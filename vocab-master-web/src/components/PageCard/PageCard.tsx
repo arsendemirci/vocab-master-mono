@@ -6,13 +6,12 @@ import styles from "./PageCard.module.scss";
 import { PageCardProps } from "@types";
 import { PageLoader, BreadCrumbs } from "@/components";
 import { usePathname } from "next/navigation";
+import { usePersistSlice } from "@/hooks";
 
 const PageCard: React.FC<PageCardProps> = forwardRef(
   ({ children }: PageCardProps, refPage: any) => {
     const appStore = useSelector((state: StoreType) => state.appSlice);
-    const menuClass = useSelector(
-      (state: StoreType) => state.persistSlice.menuClass
-    );
+    const { menuClass } = usePersistSlice();
     const [mainClass, setMainClass] = useState(`${styles.main}`);
     const pathName = usePathname();
     const divRef = useRef<any>();

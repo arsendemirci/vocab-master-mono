@@ -3,16 +3,15 @@ import { PersistSliceType } from "@/types";
 
 const initialState: PersistSliceType = {
   menuClass: "menu_open",
-  isAuthenticated: false,
 };
 export const persistSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setAuthenticated: (state, { payload }) => {
-      state.isAuthenticated = payload.isAuthenticated;
+    signIn: (state, { payload }) => {
       state.user = payload.user;
     },
+    signOut: () => initialState,
     openMenu: (state) => {
       state.menuClass = "menu_open";
     },
@@ -26,6 +25,6 @@ export const persistSlice = createSlice({
   },
 });
 
-export const { openMenu, closeMenu, toggleMenu, setAuthenticated } =
+export const { openMenu, closeMenu, toggleMenu, signIn, signOut } =
   persistSlice.actions;
 export default persistSlice.reducer;

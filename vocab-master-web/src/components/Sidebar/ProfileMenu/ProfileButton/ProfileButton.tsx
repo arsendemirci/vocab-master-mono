@@ -2,20 +2,18 @@ import { Icon } from "@/components";
 import { Button } from "@mui/material";
 import { setCurrentPath } from "@/store/slices/appSlice";
 import { RoutePathEnum } from "@/config/enums";
-import { StoreType } from "@types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { signOut } from "next-auth/react";
+import { usePersistSlice } from "@hooks";
 
 const ProfileButton = ({ className }: { className?: string }) => {
-  const isAuth = useSelector(
-    (state: StoreType) => state.persistSlice.isAuthenticated
-  );
+  const { isAuthenticated } = usePersistSlice();
   const dispatch = useDispatch();
-  const btnText = isAuth ? "Sign Out" : "Sign In / Sign Up";
-  const icon = isAuth ? "power" : "login";
+  const btnText = isAuthenticated ? "Sign Out" : "Sign In / Sign Up";
+  const icon = isAuthenticated ? "power" : "login";
 
   const onClick = () => {
-    if (!isAuth) dispatch(setCurrentPath(RoutePathEnum.ACCOUNT));
+    if (!isAuthenticated) dispatch(setCurrentPath(RoutePathEnum.ACCOUNT));
     else {
       signOut();
     }

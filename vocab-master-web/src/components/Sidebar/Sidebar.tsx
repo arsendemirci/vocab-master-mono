@@ -6,12 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "@slice/persistSlice";
 import { StoreType } from "@/types";
 import Image from "next/image";
+import { usePersistSlice } from "@hooks";
 
 function Sidebar() {
   const dispatch = useDispatch();
-  const menuClass = useSelector(
-    (state: StoreType) => state.persistSlice.menuClass
-  );
+  const { menuClass } = usePersistSlice();
   return (
     <div className={`${s.main} ${s[menuClass]}`}>
       <div className={s.leftTop}>

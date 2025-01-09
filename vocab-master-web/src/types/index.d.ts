@@ -30,6 +30,7 @@ export interface NavLinkType {
   href: string;
   icon: string;
   inMenu: boolean;
+  public?: boolean;
   subRoutes?: NavLinkType[];
 }
 
@@ -58,7 +59,6 @@ export interface AppSliceType {
 }
 export interface PersistSliceType {
   menuClass: "menu_open" | "menu_closed";
-  isAuthenticated: boolean;
   user?: VMUser | null;
 }
 

@@ -1,12 +1,8 @@
-import { StoreType } from "@/types";
 import s from "./Topbar.module.scss";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-
+import { usePersistSlice } from "@hooks";
 function Topbar() {
-  const menuClass = useSelector(
-    (state: StoreType) => state.persistSlice.menuClass
-  );
+  const { menuClass } = usePersistSlice();
   return (
     <div className={`${s.topBar} ${s[menuClass]}`}>
       <div className={s.topBarLogo}>

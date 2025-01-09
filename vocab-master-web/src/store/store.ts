@@ -1,10 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { encryptTransform } from "redux-persist-transform-encrypt";
 
 import * as slices from "@/store/slices";
 
-const persistConfig = { key: "root", storage };
+const encryptor = encryptTransform({
+  secretKey: process.env.NEXTAUTH_SECRET as string,
+  onError: function (error) {
+    // Handle the error.
+  },
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+  transforms: [encryptor],
+};
 
 const persistedReducer = persistReducer(persistConfig, slices.persistSlice);
 

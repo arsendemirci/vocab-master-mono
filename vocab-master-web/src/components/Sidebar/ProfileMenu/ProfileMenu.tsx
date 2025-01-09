@@ -1,18 +1,13 @@
 import styles from "./ProfileMenu.module.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { StoreType } from "@/types";
-// import { useSession } from "next-auth/react";
+
+import { usePersistSlice } from "@/hooks";
 import ProfileButton from "./ProfileButton/ProfileButton";
 
-const ProfileMenu = (props) => {
-  const { user, menuClass } = useSelector(
-    (state: StoreType) => state.persistSlice
-  );
-  // const { data } = useSession();
+const ProfileMenu = () => {
+  const { currentUser, menuClass } = usePersistSlice();
   // console.log("[RENDERING] ProfileCard Component", data);
-  // const userState = useSelector((state:StoreType) => state);
-  //const dispatch = useDispatch();
-  const userName = user ? user.name : "Guest";
+
+  const userName = currentUser ? currentUser.name : "Guest";
   const userImage = "/assets/images/avatar/guest.png";
 
   const clCard = `${styles.card} ${styles[menuClass]}`;

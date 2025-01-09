@@ -5,6 +5,7 @@ const routes: Array<NavLinkType> = [
     name: "Home",
     href: "/home",
     icon: "home",
+    public: true,
     inMenu: true,
   },
   {
@@ -43,6 +44,7 @@ const routes: Array<NavLinkType> = [
     name: "Account",
     href: "/account",
     icon: "login",
+    public: true,
     inMenu: false,
   },
 ];
