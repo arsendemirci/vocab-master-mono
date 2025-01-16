@@ -5,11 +5,15 @@ import {
   GridStateEnum,
   ServiceNames,
   GridActionStateEnum,
+  RoutePathEnum,
+  RouteNameEnum,
+  IconEnum,
+  ApiUrlEnum,
 } from "@/config/enums";
 
 export interface ApiResponse {
-  data: {};
-  status: "success" | "fail";
+  data?: {};
+  status: "ok" | "fail";
   error?: {
     msg: string;
   };
@@ -23,15 +27,7 @@ export interface IconPropsType {
   width?: number;
   height?: number;
   bg?: any;
-}
-
-export interface NavLinkType {
-  name: string;
-  href: string;
-  icon: string;
-  inMenu: boolean;
-  public?: boolean;
-  subRoutes?: NavLinkType[];
+  type?: "svg" | "png" | "component";
 }
 
 export interface PageCardProps {
@@ -88,6 +84,9 @@ export interface AccountSliceType {
     password: FormFieldValidationType;
   };
   registerForm: {
+    email: FormFieldValidationType;
+  };
+  resetPasswordForm: {
     email: FormFieldValidationType;
   };
 }
@@ -157,11 +156,11 @@ export interface GridColumnType {
 export interface GridStateType {
   [key: string]: {
     columns: GridColumnType[];
-    dataUrl: (...args) => ApiUrl;
+    dataUrl: string;
     formData?: GridFormDataType;
-    editUrl?: Function;
-    editPostUrl?: ApiUrl;
-    deleteUrl?: Function;
+    editUrl?: string;
+    editPostUrl?: string;
+    deleteUrl?: string;
   };
 }
 export type ApiUrl =
@@ -178,18 +177,18 @@ export interface LoginFormType {
   email: string;
   password: string;
 }
+export interface RegisterFormType {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export interface WordFormType extends BaseObjectType {
   question: string;
   check: string;
 }
 export type ClientServiceType = {
-  [key in ServiceNames]: {
-    [key: string]: {
-      getUrl: (...args) => ApiUrl;
-      call: Function;
-    };
-  };
+  [key in ServiceNames]: { [key: string]: Function };
 };
 export interface VMUser {
   id: number;
@@ -201,4 +200,13 @@ export interface VMUser {
 export interface VMSession {
   user: VMUser;
   expires: string;
+}
+export interface Route {
+  path: RoutePathEnum | ApiUrl | ApiUrlEnum;
+  type: "api" | "page";
+  menu: boolean;
+  name?: RouteNameEnum;
+  icon?: IconEnum;
+  public: boolean;
+  children?: Array<Route>;
 }

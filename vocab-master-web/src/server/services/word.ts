@@ -1,5 +1,4 @@
 import db from "@/server/db/db";
-import { shuffle } from "@/utils/arrayUtils";
 import { WordFormType } from "@types";
 
 export const getWords = async () => {

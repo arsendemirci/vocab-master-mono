@@ -17,38 +17,21 @@ export const appSlice = createSlice({
     setPageClass: (state, { payload }) => {
       state.pageClass = payload;
     },
-    openPage: (state) => {
-      state.pageClass = "page_open";
-    },
-    closePage: (state) => {
-      state.pageClass = "page_closed";
-    },
     setCurrentPath: (state, { payload }) => {
       state.currentPath = payload;
     },
     showModal: (state, { payload }) => {
       state.modal = { show: true, ...payload };
     },
-    showLoader: (state) => {
-      state.loader.show = true;
+    setLoader: (state, { payload }) => {
+      state.loader.show = payload;
     },
     hideModal: (state) => {
       state.modal.show = false;
     },
-    hideLoader: (state) => {
-      state.loader.show = false;
-    },
   },
 });
 
-export const {
-  showModal,
-  hideModal,
-  showLoader,
-  hideLoader,
-  setPageClass,
-  setCurrentPath,
-  openPage,
-  closePage,
-} = appSlice.actions;
+export const { showModal, hideModal, setLoader, setPageClass, setCurrentPath } =
+  appSlice.actions;
 export default appSlice.reducer;

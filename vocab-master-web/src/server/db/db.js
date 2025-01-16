@@ -9,50 +9,50 @@ class AppDao {
       Path.dbFile, // my root folder if in dev mode
       (err) => {
         if (err) {
-          console.log(`Database Error: ${err}`);
-        } else {
-          console.log("Database Loaded");
+          console.error(`[DB ERROR Connection] ${err}`);
         }
       }
     );
     this.query = { ...query };
   }
   all(sqlQuery, params) {
-    console.debug("app dai alll", sqlQuery);
+    console.debug("[DB QUERY ALL]", sqlQuery);
     return new Promise((resolve, reject) => {
       this.db.all(sqlQuery, params, (err, rows) => {
         !this.keepOpen && this.close();
 
         if (err) {
-          // cascle error
+          console.error("[DB ERROR ALL]", err);
           reject(err);
         }
+        console.table(rows);
         resolve(rows);
       });
     });
   }
   get(sqlQuery, params) {
-    console.log("app dai get", sqlQuery);
+    console.log("[DB QUERY GET]", sqlQuery);
     return new Promise((resolve, reject) => {
       this.db.get(sqlQuery, params, (err, rows) => {
         !this.keepOpen && this.close();
         if (err) {
-          // case error
+          console.error("[DB ERROR GET]", err);
           reject(err);
         }
+        console.table(rows);
         resolve(rows);
       });
     });
   }
 
   run(sqlQuery, params) {
-    console.log("app dai run", sqlQuery);
+    console.log("[DB QUERY RUN]", sqlQuery);
     return new Promise((resolve, reject) => {
       const _self = this;
       this.db.run(sqlQuery, params, function (err) {
         !_self.keepOpen && _self.close();
         if (err) {
-          // case error
+          console.error("[DB ERROR RUN]", err);
           reject(err);
         }
         resolve(this.lastID || "OK");

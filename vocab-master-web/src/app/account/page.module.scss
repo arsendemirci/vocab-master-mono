@@ -1,3 +1,5 @@
+@import "/src/styles/_mixins";
+
 .container {
   min-height: 480px;
   width: 768px;
@@ -7,19 +9,10 @@
     height: 100%;
     transition: all 0.6s ease-in-out;
     .formPart {
-      background-color: #ffffff;
-      display: flex;
-      max-width: 550px;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 50px;
-      height: 100%;
-      text-align: center;
-      margin: 0 auto;
-      > * {
-        margin-bottom: 12px;
-      }
+      @include formBox;
+    }
+    .btnSignin {
+      @include primaryButton;
     }
     &.signup {
       left: 0;
@@ -31,6 +24,11 @@
       left: 0;
       width: 50%;
       z-index: 2;
+    }
+    .forgotLink {
+      align-self: end;
+      color: $menu-item-bg-color;
+      cursor: pointer;
     }
   }
   .overlayWrap {
@@ -131,5 +129,23 @@
   100% {
     opacity: 1;
     z-index: 5;
+  }
+}
+.noAccount {
+  align-self: end;
+}
+.formAction {
+  button {
+    transition: all 0.26s ease;
+  }
+  width: 100%;
+  position: relative;
+  p {
+    color: $mui-error-color;
+    position: absolute;
+    top: 0;
+  }
+  p + button {
+    margin-top: 50px;
   }
 }

@@ -11,7 +11,7 @@ import { ApiUrl, StoreType } from "@/types";
 type RowEditorProps = {
   [key: number]: number;
   id: number;
-  editPostUrl?: ApiUrl;
+  editPostUrl?: string;
 };
 const RowEditor = ({ id, editPostUrl }: RowEditorProps) => {
   const dispatch = useDispatch();

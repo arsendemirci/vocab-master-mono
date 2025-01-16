@@ -46,12 +46,14 @@
     animation: goClosedMenu 0.25s ease forwards;
     .pageContainer {
       width: $page-width-closed;
+      padding: 20px 30px $window-bottom-space 30px;
     }
   }
   &.menu_open {
     animation: goOpenMenu 0.25s ease forwards;
     .pageContainer {
       width: $page-width-open;
+      padding: 0px 30px $window-bottom-space 30px;
     }
   }
   .mainWrapper {
@@ -67,7 +69,7 @@
       // height: $page-height;
 
       border-radius: 16px;
-      padding: 25px 30px $window-bottom-space 30px;
+
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;

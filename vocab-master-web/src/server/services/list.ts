@@ -1,5 +1,4 @@
 import db from "@/server/db/db";
-import { shuffle } from "@/utils/arrayUtils";
 import { ListFormType } from "@types";
 
 export const getListById = async (listId: number) => {

@@ -1,69 +1,64 @@
 import style from "./BreadCrumbs.module.scss";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import { use, useCallback, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { openPage, closePage } from "@/store/slices/appSlice";
-import { useParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components";
-import { NavLinkType, StoreType } from "@/types";
-import { menu } from "@config";
+import { Route } from "@/types";
+import { routes } from "@config";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { formatString } from "@/utils/stringUtils";
-import { setCurrentPath } from "@/store/slices/appSlice";
-import { RoutePathEnum } from "@/config/enums";
+import { RoutePathEnum, RouteTypeEnum, IconEnum } from "@/config/enums";
+import { usePersistSlice, useAppSlice } from "@/hooks";
 
 const BreadCrumbs = () => {
-  const appStore = useSelector((state: StoreType) => state.appSlice);
-  const dispatch = useDispatch();
+  const { menuClass } = usePersistSlice();
+  const { redirectTo, openPage, closePage, currentPath } = useAppSlice();
   const router = useRouter();
   const pathName = usePathname();
-  const params = useParams();
   const searchParams = useSearchParams();
-  const [crumb, setCrumb] = useState<NavLinkType[]>([]);
+  const [crumb, setCrumb] = useState<Route[]>([]);
 
   const setCurrentPage = useCallback(() => {
     const search = searchParams.get("from");
 
-    if (!appStore.currentPath) {
+    if (!currentPath) {
       //here means no app navigation history (user comes by the url)
-      dispatch(closePage());
-      setTimeout(() => dispatch(setCurrentPath(pathName)), 450);
+      closePage();
+      setTimeout(() => redirectTo(pathName as RoutePathEnum), 450);
     } else {
       //
-      if (pathName !== appStore.currentPath) {
-        dispatch(closePage());
+      if (pathName !== currentPath) {
+        closePage();
         setTimeout(() => {
-          if (
-            search === "redirect" &&
-            appStore.currentPath !== RoutePathEnum.HOME
-          ) {
-            dispatch(setCurrentPath(pathName));
+          if (search === "redirect" && currentPath !== RoutePathEnum.HOME) {
+            redirectTo(pathName as RoutePathEnum);
           } else {
-            router.push(appStore.currentPath);
+            router.push(currentPath);
           }
         }, 450);
       } else {
         if (search === "redirect") {
-          router.push(`${appStore.currentPath}?${searchParams.toString()}`);
+          router.push(`${currentPath}?${searchParams.toString()}`);
         }
-        dispatch(openPage());
+        openPage();
       }
     }
-  }, [appStore.currentPath, pathName]);
+  }, [currentPath, pathName]);
 
   useEffect(() => {
-    const crumbList: NavLinkType[] = [];
-    const parent = menu.find((i) => appStore.currentPath.includes(i.href));
-    if (parent && parent.href !== RoutePathEnum.HOME) {
+    const crumbList: Route[] = [];
+
+    const parent = routes.find((i) => {
+      return i.type == RouteTypeEnum.PAGE && currentPath.includes(i.path);
+    });
+    if (parent && parent.path !== RoutePathEnum.HOME) {
       crumbList.push(parent);
       if (
-        appStore.currentPath !== parent.href &&
-        parent.subRoutes &&
-        parent.subRoutes.length
+        currentPath !== parent.path &&
+        parent.children &&
+        parent.children.length
       ) {
-        const subRoute = parent.subRoutes.find((i) =>
-          formatString(i.href, params.id)
+        const subRoute = parent.children.find((i) =>
+          i.path.includes(currentPath)
         );
         if (subRoute) {
           crumbList.push(subRoute);
@@ -71,28 +66,34 @@ const BreadCrumbs = () => {
       }
     }
     setCrumb(crumbList);
-  }, [appStore.currentPath]);
+  }, [currentPath]);
   useEffect(() => {
     setCurrentPage();
   }, [setCurrentPage]);
 
   return (
-    <div className={style.wrapper}>
-      <Breadcrumbs separator={<NavigateNextIcon />} aria-label="breadcrumb">
-        <div onClick={() => dispatch(setCurrentPath(RoutePathEnum.HOME))}>
-          <Icon icon="home" />
-          <a>Home</a>
-        </div>
-        {crumb.map((route) => (
-          <div
-            key={route.href}
-            onClick={() => dispatch(setCurrentPath(route.href))}
-          >
-            <Icon icon={route.icon} />
-            <a>{route.name}</a>
+    <div
+      className={`${style.wrapper} ${style[menuClass]} ${
+        !crumb.length && style["noCrumb"]
+      }`}
+    >
+      {!!crumb.length && (
+        <Breadcrumbs separator={<NavigateNextIcon />} aria-label="breadcrumb">
+          <div onClick={() => redirectTo(RoutePathEnum.HOME)}>
+            <Icon icon={IconEnum.HOME} />
+            <a>Home</a>
           </div>
-        ))}
-      </Breadcrumbs>
+          {crumb.map((route) => (
+            <div
+              key={route.path}
+              onClick={() => redirectTo(route.path as RoutePathEnum)}
+            >
+              <Icon icon={route.icon as string} />
+              <a>{route.name}</a>
+            </div>
+          ))}
+        </Breadcrumbs>
+      )}
     </div>
   );
 };

@@ -2,30 +2,37 @@
 import styles from "./page.module.scss";
 import { TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
-// import { httpConfig } from "#config";
-import { useSelector, useDispatch } from "react-redux";
-import { showLoader, hideLoader, setCurrentPath } from "@slice/appSlice";
-import {
-  validateLogin,
-  validateRegister,
-  setActivePanel,
-} from "@/store/slices/accountSlice";
+import { useAppSlice, useAccountSlice } from "@hooks";
+
 import validation from "@/utils/validation";
-import { StoreType } from "@types";
 import { signIn } from "next-auth/react";
 import { RoutePathEnum } from "@/config/enums";
+import { muiStyles } from "@/config";
+import { Icon } from "@/components";
+import { useState } from "react";
+import api from "@/service/clientService";
 
 const Page = () => {
+  const [isLoginError, setLoginError] = useState<Boolean>(false);
+  const inputs = {
+    signin: { password: "pswLogin", email: "emailLogin" },
+    signup: { name: "name", email: "emailSignup", password: "passwordSignup" },
+  };
+  const { showLoader, hideLoader, redirectTo } = useAppSlice();
   // console.log("[RENDERING] Sign Component");
-  const account = useSelector((state: StoreType) => state.accountSlice);
-  const dispatch = useDispatch();
+  const { setActivePanel, activePanel, registerForm, loginForm } =
+    useAccountSlice();
 
   const {
     register: registerSignin,
     handleSubmit: handleLogin,
     formState: { errors: loginErrors },
+    setError,
     reset: resetSignin,
-  } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
+  } = useForm({
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
   const {
     register: registerSignup,
     handleSubmit: handleRegister,
@@ -34,50 +41,45 @@ const Page = () => {
   } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
 
   const onSubmitLogin = async (data) => {
-    dispatch(showLoader());
+    showLoader();
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        username: data.email,
-        password: data.password,
+
+        username: data[inputs.signin.email],
+        password: data[inputs.signin.password],
       });
 
-      dispatch(hideLoader());
+      hideLoader();
 
       if (res?.error) {
         console.error("login response error", res);
+        setLoginError(true);
+        // setError(inputs.signin.password as string, {
+        //   type: "custom",
+        //   message: "ol artikkkkkkk",
+        // });
+        Object.values(inputs.signin).forEach((val) =>
+          setError(val, { type: "custom" })
+        );
       } else {
-        dispatch(setCurrentPath(RoutePathEnum.HOME));
+        redirectTo(RoutePathEnum.HOME);
       }
     } catch {
       console.log("login catch fail", data);
     }
-    // const response = await UserService.login.call(data);
-    // console.log("response", response);
-    //const loginData = await ipc.login(data.email, data.password);
-    // hideLoader(() => {
-    //   if (loginData.error) {
-    //     const { code, msg } = loginData.error;
-    //     const loginForm = {
-    //       email: {
-    //         error: code === httpConfig.errorCode.INVALID_EMAIL,
-    //         msg: code === httpConfig.errorCode.INVALID_EMAIL && msg,
-    //       },
-    //       password: {
-    //         error: code === httpConfig.errorCode.INVALID_PASSWORD,
-    //         msg: code === httpConfig.errorCode.INVALID_PASSWORD && msg,
-    //       },
-    //     };
-    //     dispatch(validateLogin({ loginForm }));
-    //   } else {
-    //     resetSignin();
-    //     dispatch(setUserInfo(loginData));
-    //     hideModal();
-    //   }
-    // });
-    // dispatch(hideLoader());
   };
   const onSubmitRegister = async (data) => {
+    const signup = {
+      name: data[inputs.signup.name],
+      email: data[inputs.signup.email],
+      password: data[inputs.signup.password],
+    };
+    console.log("ARSEN - state trace - signup", signup);
+
+    const response = await api.account.register(signup);
+    console.log("ARSEN - state trace - response", response);
+
     // const registerData = await ipc.register(
     //   data.name,
     //   data.email,
@@ -97,7 +99,7 @@ const Page = () => {
     //   );
     // }
   };
-  const containerClass = `${styles.container} ${styles[account.activePanel]}`;
+  const containerClass = `${styles.container} ${styles[activePanel]}`;
   const signinClass = `${styles.form} ${styles.signin}`;
   const signupClass = `${styles.form} ${styles.signup}`;
   const panelLeft = `${styles.panel} ${styles.panelLeft}`;
@@ -110,71 +112,120 @@ const Page = () => {
           className={styles.formPart}
           onSubmit={handleRegister(onSubmitRegister)}
         >
+          <Icon type="png" icon="user" width={48} height={48} />
           <h1>Create Account</h1>
+          <p>
+            Please fill the form and submit, you will receive a verification
+            link to confirm your account.
+          </p>
           <TextField
+            sx={muiStyles.form.textField}
             label="Name *"
             fullWidth
             type="text"
             variant="outlined"
             error={!!registerErrors?.name}
             helperText={registerErrors?.name?.message?.toString()}
-            {...registerSignup("name", validation.name)}
+            {...registerSignup(inputs.signup.name, validation.name)}
           />
           <TextField
             label="Email *"
+            sx={muiStyles.form.textField}
             fullWidth
             type="text"
             variant="outlined"
-            error={!!registerErrors?.email || account.registerForm.email.error}
+            error={!!registerErrors?.email || registerForm.email.error}
             helperText={
               registerErrors?.email?.message?.toString() ||
-              account.registerForm.email.msg
+              registerForm.email.msg
             }
-            {...registerSignup("email", validation.email)}
+            {...registerSignup(inputs.signup.email, validation.email)}
           />
           <TextField
             label="Password *"
+            sx={muiStyles.form.textField}
             fullWidth
             type="password"
             variant="outlined"
             error={!!registerErrors?.password}
             helperText={registerErrors?.password?.message?.toString()}
-            {...registerSignup("password", validation.password)}
+            {...registerSignup(inputs.signup.password, validation.password)}
           />
-          <Button type="submit">Sign Up</Button>
+          <Button
+            variant="contained"
+            type="submit"
+            className={styles.btnSignin}
+          >
+            Sign Up
+          </Button>
+          <div className={styles.noAccount}>
+            Already have an account?
+            <Button onClick={() => setActivePanel({ panel: "login" })}>
+              Sign In
+            </Button>
+          </div>
         </form>
       </div>
       <div className={signinClass}>
         <form className={styles.formPart} onSubmit={handleLogin(onSubmitLogin)}>
+          <Icon type="png" icon="signin" />
           <h1>Sign in</h1>
+          <p>Enter your credentials to sign in and start fun.</p>
+
           <TextField
+            sx={muiStyles.form.textField}
             label="Email *"
             fullWidth
             type="text"
             variant="outlined"
-            error={!!loginErrors?.email || !!account.loginForm.email.error}
-            helperText={
-              loginErrors?.email?.message?.toString() ||
-              account.loginForm.email.msg
+            error={
+              !!loginErrors?.[inputs.signin.email] || !!loginForm.email.error
             }
-            {...registerSignin("email", validation.email)}
+            helperText={
+              loginErrors?.[inputs.signin.email]?.message?.toString() ||
+              loginForm.email.msg
+            }
+            {...registerSignin(inputs.signin.email, validation.email)}
           />
           <TextField
             label="Password *"
+            sx={muiStyles.form.textField}
             fullWidth
             type="password"
             variant="outlined"
             error={
-              !!loginErrors?.password || !!account.loginForm.password.error
+              !!loginErrors?.[inputs.signin.password] ||
+              !!loginForm.password.error
             }
             helperText={
-              loginErrors?.password?.message?.toString() ||
-              account.loginForm.password.msg
+              loginErrors?.[inputs.signin.password]?.message?.toString() ||
+              loginForm.password.msg
             }
-            {...registerSignin("password", validation.password)}
+            {...registerSignin(inputs.signin.password, validation.password)}
           />
-          <a href="#">Forgot your password?</a>
-          <Button type="submit">Sign In</Button>
+          <div className={styles.formAction}>
+            {isLoginError && <p>* Email or password is incorrect!</p>}
+            <Button
+              variant="contained"
+              className={styles.btnSignin}
+              type="submit"
+            >
+              Sign In
+            </Button>
+          </div>
+
+          <div className={styles.noAccount}>
+            Forgot your password?
+            <Button onClick={() => redirectTo(RoutePathEnum.RESET_PASSWORD)}>
+              Reset Password
+            </Button>
+          </div>
+          <div className={styles.noAccount}>
+            Dont have an account?
+            <Button onClick={() => setActivePanel({ panel: "register" })}>
+              Sign Up
+            </Button>
+          </div>
         </form>
       </div>
       <div className={styles.overlayWrap}>
@@ -187,7 +238,7 @@ const Page = () => {
             </p>
             <p>
               If you already have an account click &nbsp;
-              <a onClick={() => dispatch(setActivePanel({ panel: "login" }))}>
+              <a onClick={() => setActivePanel({ panel: "login" })}>
                 <strong>here</strong>
               </a>
               &nbsp; to login.
@@ -199,9 +250,7 @@ const Page = () => {
             <p>Login to your VM account entering your e-mail and password.</p>
             <p>
               If you dont have a VM account click &nbsp;
-              <a
-                onClick={() => dispatch(setActivePanel({ panel: "register" }))}
-              >
+              <a onClick={() => setActivePanel({ panel: "register" })}>
                 <strong>here</strong>
               </a>
               &nbsp; to create.

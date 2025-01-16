@@ -1,4 +1,6 @@
 import { GridStateType } from "@types";
+import { formatString } from "@/utils/stringUtils";
+import { ApiUrlEnum, RoutePathEnum } from "@enums";
 import api from "@/service/clientService";
 
 const gridState: GridStateType = {
@@ -8,9 +10,9 @@ const gridState: GridStateType = {
       { header: "Question", key: "question" },
       { header: "Answer", key: "check" },
     ],
-    dataUrl: api.word.getWords.getUrl,
+    dataUrl: ApiUrlEnum.GET_WORDS,
     formData: {
-      postUrl: api.word.addWord.getUrl(),
+      postUrl: ApiUrlEnum.ADD_WORD,
       primaryKey: "id",
       defaultState: { question: "", check: "" },
       inputs: [
@@ -18,8 +20,8 @@ const gridState: GridStateType = {
         { header: "Answer", key: "check" },
       ],
     },
-    editPostUrl: api.word.updateWord.getUrl(),
-    deleteUrl: api.word.deleteWord.getUrl,
+    editPostUrl: ApiUrlEnum.UPDATE_WORD,
+    deleteUrl: ApiUrlEnum.DELETE_WORD,
   },
   lists: {
     columns: [
@@ -27,9 +29,9 @@ const gridState: GridStateType = {
       { header: "Name", key: "title" },
       { header: "Description", key: "description" },
     ],
-    dataUrl: api.list.getListsAll.getUrl,
+    dataUrl: ApiUrlEnum.GET_LISTS,
     formData: {
-      postUrl: api.list.addList.getUrl(),
+      postUrl: ApiUrlEnum.ADD_LIST,
       primaryKey: "id",
       defaultState: { title: "", description: "" },
       inputs: [
@@ -37,8 +39,8 @@ const gridState: GridStateType = {
         { header: "Description", key: "description" },
       ],
     },
-    editUrl: (id: number) => `/lists/edit/${id}`,
-    deleteUrl: api.list.deleteList.getUrl,
+    editUrl: RoutePathEnum.EDIT_LIST,
+    deleteUrl: ApiUrlEnum.DELETE_LIST,
   },
   listDetail: {
     columns: [
@@ -47,7 +49,7 @@ const gridState: GridStateType = {
       { header: "Answer", key: "check" },
     ],
     formData: {
-      postUrl: api.word.addWordToList.getUrl(),
+      postUrl: ApiUrlEnum.ADD_WORD_TO_LIST,
       primaryKey: "id",
       ownerKey: "listId",
       defaultState: { question: "", check: "" },
@@ -56,9 +58,9 @@ const gridState: GridStateType = {
         { header: "Answer", key: "check" },
       ],
     },
-    editPostUrl: api.word.updateWord.getUrl(),
-    dataUrl: api.list.getListById.getUrl,
-    deleteUrl: api.word.deleteWordFromList.getUrl,
+    editPostUrl: ApiUrlEnum.UPDATE_WORD,
+    dataUrl: ApiUrlEnum.GET_LIST_BY_ID,
+    deleteUrl: ApiUrlEnum.DELETE_WORD_FROM_LIST,
   },
 };
 export default gridState;

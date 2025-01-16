@@ -1,28 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { RoutePathEnum } from "@enums";
+import { RoutePathEnum, RouteTypeEnum } from "@enums";
 import { getToken } from "next-auth/jwt";
-
-const protectedRoutes = ["/game", "/lists", "/words", "/profile"];
-const publicRoutes = ["/account", "/home", "/"];
-const publicApiRoutes = /^(?!\/api\/auth\/|\/api\/user\/login\/)/;
+import { routes } from "@/config";
+import { validateToken } from "@/utils/tokenUtils";
+import { notFound } from "next/navigation";
 
 export default async function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.includes(path);
-  const isPublicRoute = publicRoutes.includes(path);
-  console.log("is public api route", path, publicApiRoutes.test(path));
+  const { route, isProtectedRoute, isPage, path } = getRouteConfig(req);
+
+  if (!route) {
+    return NextResponse.redirect(new URL(RoutePathEnum.NOT_FOUND, req.nextUrl));
+  }
+
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
   });
-
-  if (!isPublicRoute && !token?.accessToken) {
-    if (isProtectedRoute) {
+  console.log("MIDDLEWARE GOT TOKEN ->", token);
+  if (
+    isProtectedRoute &&
+    (!token?.user?.accessToken ||
+      !(await validateToken(token?.user?.accessToken)))
+  ) {
+    if (isPage) {
       const nextUrl = new URL(RoutePathEnum.ACCOUNT, req.nextUrl);
       nextUrl.searchParams.set("from", "redirect");
       return NextResponse.redirect(nextUrl);
-    }
-    if (publicApiRoutes.test(path)) {
+    } else {
       return NextResponse.json(
         { message: "Authorization required" },
         { status: 401 }
@@ -34,9 +38,25 @@ export default async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
+const getRouteConfig = (req: NextRequest) => {
+  const path = req.nextUrl.pathname;
+  let route = routes.find(
+    (r) =>
+      r.path.includes(path) ||
+      (r.children && r.children.find((ch) => ch.path.includes(path)))
+  );
+  if (route && !route.path.includes(path)) {
+    //ana route bulundu cocuklarinda araniyor
+    route = route.children?.find((ch) => ch.path.includes(path));
+  }
+  console.log(`[MIDDLEWARE LOG route - pat] ${route?.path} - ${path}`);
+
+  const isProtectedRoute = route && !route.public;
+  const isPage = !route || route.type == RouteTypeEnum.PAGE;
+
+  return { route, isProtectedRoute, isPage, path };
+};
 // Routes Middleware should not run on
 export const config = {
-  matcher: [
-    "/((?!api/user/login|api/auth|_next/static|_next/image|.*\\.png$).*)",
-  ],
+  matcher: ["/((?!api/auth|_next/static|_next/image|.*\\.png$).*)"],
 };

@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreType, DataGridCType } from "@/types";
 import { RowAdder, RowEditor } from "@/components";
 import { Fragment } from "react";
-import { setCurrentPath } from "@/store/slices/appSlice";
 import { gridState } from "@/config";
-import { GridActionStateEnum } from "@/config/enums";
+import { GridActionStateEnum, RoutePathEnum } from "@/config/enums";
+import { useAppSlice } from "@/hooks";
 import {
   setGridData,
   addToGridData,
@@ -15,13 +15,14 @@ import {
 } from "@/store/slices/gridSlice";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import { formatString } from "@/utils/stringUtils";
 import axios from "axios";
 const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
   const { columns, editUrl, editPostUrl, dataUrl, formData, deleteUrl } =
     gridState[gridType];
 
   const gridStore = useSelector((state: StoreType) => state.gridSlice);
-
+  const { redirectTo } = useAppSlice();
   const dispatch = useDispatch();
   // const [height, setHeight] = useState(0);
   const [isOverflow, setIsOverflow] = useState(false);
@@ -37,12 +38,15 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
   };
 
   const onClickEdit = (item: any) => {
+    console.log("[CLIENT LOG] ", editPostUrl, item.id);
     if (editPostUrl) {
       const { id, ...form } = item;
 
       dispatch(setActionState({ id, action: GridActionStateEnum.EDIT, form }));
     } else if (editUrl) {
-      dispatch(setCurrentPath(editUrl(item.id)));
+      const formattedString = formatString(editUrl, item.id);
+      console.log("[CLIENT LOG onClickEdit formatString] ", formattedString);
+      redirectTo(formattedString as RoutePathEnum);
     }
   };
 
@@ -55,7 +59,7 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
         delData = { [formData.primaryKey]: id, [formData.ownerKey]: ownerID };
       }
 
-      const response = await axios[method](deleteUrl(), delData);
+      const response = await axios[method](deleteUrl, delData);
       if (response?.data === "OK") {
         dispatch(setActionState({ id, action: GridActionStateEnum.DELETE }));
       }
@@ -72,7 +76,7 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
   });
   useEffect(() => {
     (async () => {
-      const response = (await axios.get(dataUrl(ownerID))).data;
+      const response = (await axios.get(formatString(dataUrl, ownerID))).data;
       dispatch(setGridData(response));
     })();
   }, []);

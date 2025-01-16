@@ -1,36 +1,34 @@
 import { useDispatch } from "react-redux";
-import { setCurrentPath } from "@/store/slices/appSlice";
 import { Icon } from "@/components";
 import styles from "./SideMenu.module.scss";
-import { menu } from "@config";
-import { useSelector } from "react-redux";
-import { StoreType } from "@/types";
-import { usePersistSlice } from "@hooks";
+import { routes } from "@config";
+import { usePersistSlice, useAppSlice } from "@hooks";
+import { RouteTypeEnum } from "@/config/enums";
 
 const SideMenu = () => {
   const dispatch = useDispatch();
-  const { currentPath } = useSelector((state: StoreType) => state.appSlice);
   const { isAuthenticated, menuClass } = usePersistSlice();
+  const { redirectTo, currentPath } = useAppSlice();
   const goTo = (path: any, index: number) => {
-    dispatch(setCurrentPath(path));
+    redirectTo(path);
   };
 
   return (
     <nav>
       <ul className={`${styles.sidebar} ${styles[menuClass]}`}>
-        {menu
-          .filter((i) => i.inMenu)
+        {routes
+          .filter((i) => i.menu && i.type === RouteTypeEnum.PAGE)
           .map((menu, index) => {
             const itemClass = `${styles.menuItem} ${
               !isAuthenticated && !menu.public && styles.disabled
-            } ${currentPath.includes(menu.href) && styles.active}`;
+            } ${currentPath.includes(menu.path) && styles.active}`;
             return (
               <li
                 className={itemClass}
                 key={menu.name}
-                onClick={() => goTo(menu.href, index)}
+                onClick={() => goTo(menu.path, index)}
               >
-                <Icon icon={menu.icon} /> <label>{menu.name}</label>
+                <Icon icon={menu.icon as string} /> <label>{menu.name}</label>
               </li>
             );
           })}

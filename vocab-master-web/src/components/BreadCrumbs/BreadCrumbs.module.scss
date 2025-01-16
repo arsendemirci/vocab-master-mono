@@ -2,11 +2,30 @@
   width: 100%;
   height: $breadCrumbsHeight;
   padding: 12px;
-  border-radius: 16px;
+
   overflow: hidden;
-  border: 1px solid gray;
-  background-color: white;
-  margin-bottom: 10px;
+
+  background-color: $layout-bg-color;
+  transition: all 0.3s ease;
+  &.menu_closed {
+    &:not(.noCrumb) {
+      background-color: $page-bg-color;
+      border-radius: 16px;
+      border: 1px solid gray;
+      margin-bottom: 6px;
+    }
+    &.noCrumb {
+      height: 0;
+    }
+  }
+  &.menu_open {
+    border-radius: 0;
+    border: none;
+  }
+  &.noCrumb {
+    height: 28px;
+    padding: 0;
+  }
   li {
     div {
       display: flex;

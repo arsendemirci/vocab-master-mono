@@ -8,7 +8,7 @@ const usePersistSlice = () => {
   const store = useSelector((state: StoreType) => state.persistSlice);
 
   return {
-    isAuthenticated: store.user ? true : false,
+    isAuthenticated: store.user && store.user.accessToken ? true : false,
     currentUser: store.user,
     menuClass: store.menuClass,
     signIn: (payload) => dispatch(signIn(payload)),

@@ -1,7 +1,6 @@
 import db from "@/server/db/db";
-import { LoginFormType, ApiResponse } from "@types";
-import { validate, createToken } from "@/utils/authUtils";
-
+import { createToken } from "@/utils/authUtils";
+import { createToken as encrypt } from "@/utils/tokenUtils";
 export const getUserByEmail = async (email) => {
   const dao = new db();
   const data = await dao.get(dao.query.GetUserByEmail(email));
@@ -18,10 +17,8 @@ export const createUser = async (name, email, password) => {
   const userId = await dao.run(dao.query.InsertUser(email, password));
   let verificationCode;
   if (userId) {
-    const defaultProfileId = await dao.run(
-      dao.query.InsertProfile(name, "", userId, "", 1)
-    );
-    verificationCode = Math.floor(Math.random() * 90000) + 10000;
+    await dao.run(dao.query.InsertProfile(name, "", userId, "guest.png", 1));
+    verificationCode = createToken(userId); //Math.floor(Math.random() * 90000) + 10000;
 
     const validDate = new Date();
     let time = validDate.getTime();
@@ -58,36 +55,13 @@ export const verifyUser = async (userId) => {
   return data;
 };
 
-export const login = async ({ email, password }: LoginFormType) => {
-  console.log("test from server", email, password);
-  let response: ApiResponse = { status: "success", data: {} };
-  //check user exeists
-  const user = await getUserByEmail(email);
-  console.log("USER INFOOO", user);
-
-  //check password is correct
-  const isPasswordValid = await validate(password, user.password);
-
-  if (!isPasswordValid) {
-    response.status = "fail";
-    response.error = { msg: "Email or Password is incorrect!" };
-  } else {
-    const auth = createToken(user.id);
-    response.data = await getSessionInfo({ userId: user.id, auth });
-  }
-
-  return response;
-};
-
-export const getSessionInfo = async ({ userId, auth }) => {
-  console.log("server GET SESSION INFO", userId, auth);
-  // const { userId, auth } = req;
+export const getSessionInfo = async (userId) => {
   //get user default profile
   const userInfo = await getUserInfoById(userId);
-
+  const accessToken = await encrypt(userId);
   const sesInfo = {
-    auth,
     user: {
+      accessToken,
       id: userId,
       email: userInfo.email,
       name: `${userInfo.firstName} ${userInfo.lastName}`.trim(),

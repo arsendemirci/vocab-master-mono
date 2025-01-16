@@ -13,6 +13,12 @@ const initialState: AccountSliceType = {
       msg: "",
     },
   },
+  resetPasswordForm: {
+    email: {
+      error: false,
+      msg: "",
+    },
+  },
   registerForm: {
     email: {
       error: false,
@@ -30,17 +36,23 @@ export const accountSlice = createSlice({
         state.registeredUserId = payload.userId;
       }
     },
-
-    validateLogin: (state, { payload }) => {
+    validateResetPasswordForm: (state, { payload }) => {
+      state.resetPasswordForm = payload.resetPasswordForm;
+    },
+    validateLoginForm: (state, { payload }) => {
       console.log("payload", payload);
       state.loginForm = payload.loginForm;
     },
-    validateRegister: (state, { payload }) => {
+    validateRegisterForm: (state, { payload }) => {
       state.registerForm.email = payload.registerEmailValidation;
     },
   },
 });
 
-export const { validateLogin, validateRegister, setActivePanel } =
-  accountSlice.actions;
+export const {
+  validateLoginForm,
+  validateRegisterForm,
+  validateResetPasswordForm,
+  setActivePanel,
+} = accountSlice.actions;
 export default accountSlice.reducer;

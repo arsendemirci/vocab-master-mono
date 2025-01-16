@@ -12,7 +12,7 @@ $transformOutEnter: perspective(1100px) translateX(-500px) rotateY(50deg)
 .main {
   width: 100%;
   padding: 20px;
-
+  // margin: 25px 0 $window-bottom-space 30px;
   // margin: 25px 30px $window-bottom-space 30px;
   // max-width: $pageMaxWidth;
   // margin-top: $pageMarginTop;
@@ -25,6 +25,7 @@ $transformOutEnter: perspective(1100px) translateX(-500px) rotateY(50deg)
   transition: background-color 0.65s ease-in-out, height 0.3s ease-out;
   transform: perspective(1200px) translateX(-500px) rotateY(50deg) scale(0.4);
   margin-bottom: 120px;
+  position: relative;
   &.menu_open {
     height: $page-height-open;
   }

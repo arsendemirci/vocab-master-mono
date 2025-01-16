@@ -20,7 +20,7 @@ export default function Page({ params }: { params: { id: number } }) {
 
   const onSaveClick = async (e: FormEvent) => {
     e.preventDefault();
-    const response = await api.list.updateListDetails.call(formData);
+    const response = await api.list.updateListDetails(formData);
 
     if (response?.data == "OK") {
       setSnackState(true);
@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { id: number } }) {
   };
   useEffect(() => {
     (async () => {
-      const { data } = await api.list.getListDetails.call(params.id);
+      const { data } = await api.list.getListDetails(params.id);
 
       setFormData(data);
     })();

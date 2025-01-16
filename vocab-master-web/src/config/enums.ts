@@ -24,6 +24,7 @@ export enum ServiceNames {
   LIST = "list",
   GAME = "game",
   USER = "user",
+  ACCOUNT = "account",
 }
 export enum GridActionStateEnum {
   SAVE = "saved",
@@ -43,6 +44,56 @@ export enum RoutePathEnum {
   WORDS = "/words",
   LISTS = "/lists",
   PROFILE = "/profile",
+  RESET_PASSWORD = "/account/reset-password",
+  EDIT_LIST = "/lists/edit/{0}",
+  VERIFY_EMAIL = "/account/verify-email?token={0}",
+  NOT_FOUND = "/not-found",
+}
+export enum ApiUrlEnum {
+  LOGIN = "/api/account/login",
+  RESET_PASSWORD = "/api/account/resetPassword",
+  REGISTER = "/api/account/register",
+  GET_WORDS = "/api/word/getWords",
+  ADD_WORD = "/api/word/addWord",
+  UPDATE_WORD = "/api/word/updateWord",
+  ADD_WORD_TO_LIST = "/api/word/addWordToList",
+  DELETE_WORD = "/api/word/deleteWord",
+  DELETE_WORD_FROM_LIST = "/api/word/deleteWordFromList",
+  GET_LIST_BY_ID = "/api/list/getListById/{0}",
+  GET_LIST_DETAILS = "/api/list/getListDetails/{0}",
+  GET_LISTS = "/api/list/getListsAll",
+  ADD_LIST = "/api/list/addList",
+  UPDATE_LIST = "/api/list/updateListDetails",
+  DELETE_LIST = "/api/list/deleteList",
+  LOGIN_WITH_TOKEN = "/api/account/loginWithToken",
+}
+
+export enum RouteTypeEnum {
+  API = "api",
+  PAGE = "page",
+}
+export enum RouteNameEnum {
+  HOME = "Home",
+  GAME = "Create Game",
+  WORDS = "Words",
+  LISTS = "Lists",
+  EDIT_LIST = "Edit List",
+  PROFILE = "Profile",
+  ACCOUNT = "Account",
+  RESET_PASSWORD = "Reset Password",
+  VERIFY_EMAIL = "Verify Email",
+  NOT_FOUNT = "Not Found",
+}
+export enum IconEnum {
+  HOME = "Home",
+  GAME = "Joystick",
+  WORDS = "Words",
+  LISTS = "List",
+  EDIT_LIST = "EditList",
+  PROFILE = "Avatar",
+  ACCOUNT = "Account",
+  NOT_FOUND = "AlertTriangle",
+  LOGOUT = "Logout",
 }
 
 export default {
@@ -51,6 +102,10 @@ export default {
   QuizLength,
   GridStateEnum,
   RoutePathEnum,
+  ApiUrlEnum,
+  RouteTypeEnum,
+  RouteNameEnum,
+  IconEnum,
 };
 // export default {
 //   enum status {

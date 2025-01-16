@@ -14,9 +14,9 @@ export default function App({
   const refPage = useRef<any>();
   const { data } = useSession();
   const { signIn, signOut, menuClass } = usePersistSlice();
-  console.log("[RENDERING] App Component", data);
+  // console.log("[RENDERING] App Component", data);
   useEffect(() => {
-    if (data?.user) {
+    if (data && data.user && data.user.accessToken) {
       signIn({ user: data.user });
     } else if (data === null) {
       signOut();

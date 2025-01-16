@@ -1,0 +1,30 @@
+@import "variables/variables";
+
+@mixin primaryButton() {
+  background: $button-primary-bg-color;
+  color: $button-secondary-bg-color;
+  width: 100%;
+  margin-bottom: 10px;
+  font-weight: bold;
+  border: 2px solid white;
+}
+
+@mixin formBox {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  //max-height: calc(100% - 60px);
+  //height: 450px;
+  width: 500px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px lightgray;
+  padding: 40px;
+  background-color: #ffffff;
+  display: flex;
+  max-width: 550px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

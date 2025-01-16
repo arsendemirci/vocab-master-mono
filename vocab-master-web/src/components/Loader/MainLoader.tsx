@@ -1,14 +1,9 @@
-// import { useEffect } from "react";
 import styles from "./MainLoader.module.scss";
-// import { hideLoader } from "@/store/slices/appSlice";
-import { StoreType } from "@/types";
 import { useEffect } from "react";
-
-import { useSelector } from "react-redux";
+import { useAppSlice } from "@hooks";
 
 const Loader = () => {
-  const loader = useSelector((store: StoreType) => store.appSlice.loader);
-  //   const dispatch = useDispatch();
+  const { loader } = useAppSlice();
   const clBackdrop = `${styles.backdrop} ${loader.show && styles.show}`;
   const clWrapper = `${styles.wrapper}`;
   const clLoader = `${styles.loader}`;

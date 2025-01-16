@@ -1,0 +1,11 @@
+@import "/src/styles/_mixins";
+
+.formPart {
+  @include formBox;
+  .btnSubmit {
+    @include primaryButton;
+  }
+  .signup {
+    align-self: flex-end;
+  }
+}
