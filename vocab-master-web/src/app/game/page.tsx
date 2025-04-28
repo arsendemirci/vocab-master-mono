@@ -1,7 +1,7 @@
 "use client";
+import Enum from "@enums";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { GameStatus, QuestionType, QuizLength } from "@/config/enums";
 import { GameSliceType, StoreType } from "@/types";
 import { enumMap } from "@/utils/arrayUtils";
 import {
@@ -23,10 +23,9 @@ import {
   Button,
 } from "@mui/material";
 import axios from "axios";
+import { ListService } from "@/lib/router/apiRoutes";
 
 function CreateGame() {
-  console.log("[RENDERING] CreateGame Component", Object.entries(QuizLength));
-
   const gameStore = useSelector((state: StoreType) => state.gameSlice);
   // const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,11 +34,9 @@ function CreateGame() {
     dispatch(selectList({ ...selectedOption }));
   };
   const onSelectQuestionType = (event: any, selectedOption: any) => {
-    console.log("selected Option", selectedOption);
     dispatch(selectQuestionType(selectedOption));
   };
   const onSelectQuizLength = (event: any, selectedOption: any) => {
-    console.log("selected Option", selectedOption);
     dispatch(selectQuizLength(selectedOption));
   };
 
@@ -50,7 +47,7 @@ function CreateGame() {
 
   useEffect(() => {
     (async function getListData() {
-      const response = (await axios.get("/api/list/getListsAll")).data;
+      const response = (await ListService.LIST_GET.call()).data;
 
       dispatch(getGameLists({ lists: response }));
     })();
@@ -81,7 +78,7 @@ function CreateGame() {
               name="radio-qType"
               onChange={onSelectQuestionType}
             >
-              {enumMap(QuestionType, ([key, value]) => (
+              {enumMap(Enum.QuestionType, ([key, value]) => (
                 <FormControlLabel
                   value={value}
                   control={<Radio />}
@@ -101,7 +98,7 @@ function CreateGame() {
               name="radio-length"
               onChange={onSelectQuizLength}
             >
-              {enumMap(QuizLength, ([key, value]) => (
+              {enumMap(Enum.QuizLength, ([key, value]) => (
                 <FormControlLabel
                   value={value}
                   control={<Radio />}

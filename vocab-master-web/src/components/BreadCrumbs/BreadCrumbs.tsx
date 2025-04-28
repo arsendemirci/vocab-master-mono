@@ -3,40 +3,46 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Icon } from "@/components";
-import { Route } from "@/types";
-import { routes } from "@config";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { RoutePathEnum, RouteTypeEnum, IconEnum } from "@/config/enums";
 import { usePersistSlice, useAppSlice } from "@/hooks";
-
+import { pageRoutes, pageRoutesArray } from "@/lib/router";
+import Enum from "@enums";
 const BreadCrumbs = () => {
   const { menuClass } = usePersistSlice();
-  const { redirectTo, openPage, closePage, currentPath } = useAppSlice();
+  const { redirectTo, openPage, closePage, currentPath, path } = useAppSlice();
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const [crumb, setCrumb] = useState<Route[]>([]);
+  const [crumb, setCrumb] = useState<any[]>([]);
 
   const setCurrentPage = useCallback(() => {
     const search = searchParams.get("from");
-
+    if (pathName === pageRoutes.SIGNOUT.path) {
+      if (currentPath !== pageRoutes.ACCOUNT.path) {
+        closePage();
+        setTimeout(() => redirectTo(pageRoutes.ACCOUNT.path), 450);
+      }
+    }
     if (!currentPath) {
       //here means no app navigation history (user comes by the url)
-      closePage();
-      setTimeout(() => redirectTo(pathName as RoutePathEnum), 450);
+      // closePage();
+      // setTimeout(() => redirectTo(pathName), 450);
     } else {
       //
-      if (pathName !== currentPath) {
+      if (pathName !== path) {
         closePage();
         setTimeout(() => {
-          if (search === "redirect" && currentPath !== RoutePathEnum.HOME) {
-            redirectTo(pathName as RoutePathEnum);
+          if (
+            search === Enum.QueryParam.NO_ACCEES &&
+            currentPath !== pageRoutes.HOME.path
+          ) {
+            redirectTo(pathName);
           } else {
             router.push(currentPath);
           }
         }, 450);
       } else {
-        if (search === "redirect") {
+        if (search === Enum.QueryParam.NO_ACCEES) {
           router.push(`${currentPath}?${searchParams.toString()}`);
         }
         openPage();
@@ -45,12 +51,12 @@ const BreadCrumbs = () => {
   }, [currentPath, pathName]);
 
   useEffect(() => {
-    const crumbList: Route[] = [];
+    const crumbList: any[] = [];
 
-    const parent = routes.find((i) => {
-      return i.type == RouteTypeEnum.PAGE && currentPath.includes(i.path);
+    const parent = pageRoutesArray.find((i) => {
+      return i.type == Enum.Route.Type.PAGE && currentPath.includes(i.path);
     });
-    if (parent && parent.path !== RoutePathEnum.HOME) {
+    if (parent && parent.path !== pageRoutes.HOME.path) {
       crumbList.push(parent);
       if (
         currentPath !== parent.path &&
@@ -79,15 +85,12 @@ const BreadCrumbs = () => {
     >
       {!!crumb.length && (
         <Breadcrumbs separator={<NavigateNextIcon />} aria-label="breadcrumb">
-          <div onClick={() => redirectTo(RoutePathEnum.HOME)}>
-            <Icon icon={IconEnum.HOME} />
+          <div onClick={() => redirectTo(pageRoutes.HOME.path)}>
+            <Icon icon={Enum.Icon.HOME} />
             <a>Home</a>
           </div>
           {crumb.map((route) => (
-            <div
-              key={route.path}
-              onClick={() => redirectTo(route.path as RoutePathEnum)}
-            >
+            <div key={route.path} onClick={() => redirectTo(route.path)}>
               <Icon icon={route.icon as string} />
               <a>{route.name}</a>
             </div>

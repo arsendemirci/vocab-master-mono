@@ -1,0 +1,382 @@
+{
+  "words": [
+    {
+      "id": 187,
+      "question": "loom",
+      "check": "belirmek",
+      "inLists": null
+    },
+    {
+      "id": 188,
+      "question": "masthead",
+      "check": "künye",
+      "inLists": null
+    },
+    {
+      "id": 189,
+      "question": "plosive",
+      "check": "patlama sesi",
+      "inLists": null
+    },
+    {
+      "id": 190,
+      "question": "plaited",
+      "check": "örgülü",
+      "inLists": null
+    },
+    {
+      "id": 191,
+      "question": "thump",
+      "check": "gümbürtü",
+      "inLists": null
+    },
+    {
+      "id": 192,
+      "question": "eminence",
+      "check": "saygınlık",
+      "inLists": null
+    },
+    {
+      "id": 193,
+      "question": "sidle",
+      "check": "sokulmak",
+      "inLists": null
+    },
+    {
+      "id": 194,
+      "question": "sole",
+      "check": "tek",
+      "inLists": null
+    },
+    {
+      "id": 195,
+      "question": "tasseled",
+      "check": "püsküllü",
+      "inLists": null
+    },
+    {
+      "id": 196,
+      "question": "loafer",
+      "check": "mokasen",
+      "inLists": null
+    },
+    {
+      "id": 197,
+      "question": "crony",
+      "check": "dost",
+      "inLists": null
+    },
+    {
+      "id": 198,
+      "question": "malodorous",
+      "check": "kötü kokulu",
+      "inLists": null
+    },
+    {
+      "id": 199,
+      "question": "maddening",
+      "check": "çıldırtıcı",
+      "inLists": null
+    },
+    {
+      "id": 200,
+      "question": "cursory",
+      "check": "yüzeysel",
+      "inLists": null
+    },
+    {
+      "id": 201,
+      "question": "demise",
+      "check": "ölüm",
+      "inLists": null
+    },
+    {
+      "id": 202,
+      "question": "condiment",
+      "check": "baharat",
+      "inLists": null
+    },
+    {
+      "id": 203,
+      "question": "Nazarene",
+      "check": "nasıralı",
+      "inLists": null
+    },
+    {
+      "id": 204,
+      "question": "stud",
+      "check": "çivi",
+      "inLists": null
+    },
+    {
+      "id": 205,
+      "question": "shrug",
+      "check": "omuz silkmek",
+      "inLists": null
+    },
+    {
+      "id": 206,
+      "question": "elopement",
+      "check": "kaçmak",
+      "inLists": null
+    },
+    {
+      "id": 207,
+      "question": "jism",
+      "check": "sperm",
+      "inLists": null
+    },
+    {
+      "id": 208,
+      "question": "weary",
+      "check": "yorgun",
+      "inLists": null
+    },
+    {
+      "id": 209,
+      "question": "resemble",
+      "check": "benzemek",
+      "inLists": "3"
+    },
+    {
+      "id": 210,
+      "question": "clatter",
+      "check": "takırtı",
+      "inLists": "3"
+    },
+    {
+      "id": 211,
+      "question": "gurney",
+      "check": "sedye",
+      "inLists": "3"
+    },
+    {
+      "id": 212,
+      "question": "pavement",
+      "check": "kaldırım",
+      "inLists": "3"
+    },
+    {
+      "id": 213,
+      "question": "peer out",
+      "check": "dışarı bakmak",
+      "inLists": "3"
+    },
+    {
+      "id": 214,
+      "question": "hitch",
+      "check": "bağlamak",
+      "inLists": "3"
+    },
+    {
+      "id": 215,
+      "question": "tote bag",
+      "check": "kadın çantası",
+      "inLists": "3"
+    },
+    {
+      "id": 216,
+      "question": "pace",
+      "check": "tempo",
+      "inLists": "3"
+    },
+    {
+      "id": 217,
+      "question": "mutter",
+      "check": "mırıldanmak",
+      "inLists": "3"
+    },
+    {
+      "id": 218,
+      "question": "afflicted",
+      "check": "sarsılmış",
+      "inLists": "3"
+    },
+    {
+      "id": 219,
+      "question": "ogle ",
+      "check": "aşıkane bakmak",
+      "inLists": "3"
+    },
+    {
+      "id": 220,
+      "question": "diddly",
+      "check": "zerre kadar",
+      "inLists": "3"
+    },
+    {
+      "id": 221,
+      "question": "glee",
+      "check": "sevinç",
+      "inLists": "3"
+    },
+    {
+      "id": 222,
+      "question": "pablum",
+      "check": "bebek maması",
+      "inLists": "3"
+    },
+    {
+      "id": 223,
+      "question": "goo-goo",
+      "check": "aşk dolu",
+      "inLists": "3"
+    },
+    {
+      "id": 224,
+      "question": "upheaval",
+      "check": "çalkantı",
+      "inLists": "3"
+    },
+    {
+      "id": 225,
+      "question": "affidavit",
+      "check": "taahüt",
+      "inLists": "3"
+    },
+    {
+      "id": 226,
+      "question": "preincarceration",
+      "check": "hapis öncesi",
+      "inLists": "3"
+    },
+    {
+      "id": 227,
+      "question": "crayon",
+      "check": "boya kalemi",
+      "inLists": "3"
+    },
+    {
+      "id": 228,
+      "question": "syllogism",
+      "check": "kıyaslama",
+      "inLists": "3"
+    },
+    {
+      "id": 229,
+      "question": "synthesis",
+      "check": "sentez",
+      "inLists": "3"
+    },
+    {
+      "id": 230,
+      "question": "fraternize",
+      "check": "dost olmak",
+      "inLists": "3"
+    },
+    {
+      "id": 231,
+      "question": "prior",
+      "check": "öncelikli",
+      "inLists": "3"
+    },
+    {
+      "id": 232,
+      "question": "rap sheet",
+      "check": "sabıka kaydı",
+      "inLists": "3"
+    },
+    {
+      "id": 233,
+      "question": "jurisdiction",
+      "check": "yargı",
+      "inLists": "3"
+    },
+    {
+      "id": 234,
+      "question": "expung",
+      "check": "silmek",
+      "inLists": "3"
+    },
+    {
+      "id": 235,
+      "question": "lawn ",
+      "check": "çimenlik",
+      "inLists": "3"
+    },
+    {
+      "id": 239,
+      "question": "syndicate",
+      "check": "sendika",
+      "inLists": null
+    },
+    {
+      "id": 240,
+      "question": "barbell",
+      "check": "halter",
+      "inLists": null
+    }
+  ],
+  "vocabularylists": [
+    {
+      "id": 3,
+      "title": "Hannibal",
+      "description": "contains English-Turkish words from book Hannibal",
+      "wordIds": [
+        187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200,
+        201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214,
+        215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228,
+        229, 230, 231, 232, 233, 234, 235, 239, 240
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "demirci.arsen@gmail.com",
+      "password": "$2b$10$7YwtSg8f4PdDnNnTkQdWcuVZC55HnN3MEZ8TpBKDFxjlXTfYwLAqC",
+      "verified": 1
+    },
+    {
+      "id": 35,
+      "email": "aresgregor5@gmail.com",
+      "password": "$2b$10$ZribcIA/QOqRICZylmgSLOPeUsI3CHLHZXTFQL8UrDFGpDDSgQVLa",
+      "verified": 1
+    },
+    {
+      "id": 37,
+      "email": "ares.gregor5@gmail.com",
+      "password": "$2b$10$jlzhwItwqoz/bWYhXS4yF.RJLo1RHsTlsxPtJ80r4f9JLf3tsfBHu",
+      "verified": 0
+    }
+  ],
+  "profiles": [
+    {
+      "id": 1,
+      "firstName": "Arsen",
+      "lastName": "Demircian",
+      "userId": 1,
+      "avatar": "guest.png",
+      "isDefault": 1
+    },
+    {
+      "id": 29,
+      "firstName": "Ares Gregor",
+      "lastName": "",
+      "userId": 35,
+      "avatar": "guest.png",
+      "isDefault": 1
+    },
+    {
+      "id": 31,
+      "firstName": "Ares Gregor",
+      "lastName": "",
+      "userId": 37,
+      "avatar": "guest.png",
+      "isDefault": 1
+    }
+  ],
+  "useritems": [
+    {
+      "id": 1,
+      "userId": 1,
+      "wordIds": [
+        187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200,
+        201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214,
+        215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228,
+        229, 230, 231, 232, 233, 234, 235, 239, 240
+      ],
+      "listIds": [3]
+    }
+  ]
+}

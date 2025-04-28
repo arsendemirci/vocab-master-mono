@@ -1,0 +1,26 @@
+@import "/src/styles/_mixins";
+
+.formPart {
+  @include formBox;
+  .btnSubmit {
+    @include primaryButton;
+  }
+  .signup {
+    align-self: flex-end;
+  }
+}
+.formAction {
+  button {
+    transition: all 0.26s ease;
+  }
+  width: 100%;
+  position: relative;
+  p {
+    color: $mui-error-color;
+    position: absolute;
+    top: 0;
+  }
+  p + button {
+    margin-top: 50px;
+  }
+}

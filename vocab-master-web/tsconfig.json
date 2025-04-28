@@ -2,6 +2,7 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "checkJs": true,
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
@@ -35,17 +36,19 @@
       "@api/*": ["./src/server/services/*"],
       "@hooks": ["./src/hooks"],
       "@slice/*": ["./src/store/slices/*"],
-      "@enums": ["./src/config/enums"]
+      "@service": ["./src/service/clientService"],
+      "@enums": ["./src/config/enums"],
+      "@modals": ["./src/components/Modal/ModalContents"],
+      "@IModels": ["./src/models/interfaces"],
+      "@Db": ["./src/models"]
     }
   },
   "include": [
     "next-env.d.ts",
-    "types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "types",
+    "src",
     ".next/types/**/*.ts",
-    "src/app/game/page.tsx",
-    "src/server/db/db.js"
+    "types/global.d.ts"
   ],
   "exclude": ["node_modules"]
 }

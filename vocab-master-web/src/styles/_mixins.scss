@@ -1,12 +1,12 @@
 @import "variables/variables";
 
 @mixin primaryButton() {
-  background: $button-primary-bg-color;
-  color: $button-secondary-bg-color;
-  width: 100%;
-  margin-bottom: 10px;
-  font-weight: bold;
-  border: 2px solid white;
+  background: $button-primary-bg-color !important;
+  color: $button-secondary-bg-color !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+  font-weight: bold !important;
+  border: 2px solid white !important;
 }
 
 @mixin formBox {

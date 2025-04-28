@@ -1,12 +1,10 @@
-import { useDispatch } from "react-redux";
 import { Icon } from "@/components";
 import styles from "./SideMenu.module.scss";
-import { routes } from "@config";
+// import { routes } from "@config";
 import { usePersistSlice, useAppSlice } from "@hooks";
-import { RouteTypeEnum } from "@/config/enums";
-
+import { pageRoutesArray } from "@/lib/router";
+import Enum from "@enums";
 const SideMenu = () => {
-  const dispatch = useDispatch();
   const { isAuthenticated, menuClass } = usePersistSlice();
   const { redirectTo, currentPath } = useAppSlice();
   const goTo = (path: any, index: number) => {
@@ -16,11 +14,12 @@ const SideMenu = () => {
   return (
     <nav>
       <ul className={`${styles.sidebar} ${styles[menuClass]}`}>
-        {routes
-          .filter((i) => i.menu && i.type === RouteTypeEnum.PAGE)
+        {pageRoutesArray
+          .filter((i) => i.menu && i.type === Enum.Route.Type.PAGE)
+          .sort((a, b) => a.menu.order - b.menu.order)
           .map((menu, index) => {
             const itemClass = `${styles.menuItem} ${
-              !isAuthenticated && !menu.public && styles.disabled
+              !isAuthenticated && !menu.isPublic && styles.disabled
             } ${currentPath.includes(menu.path) && styles.active}`;
             return (
               <li

@@ -1,0 +1,15 @@
+.wrapper {
+  text-align: center;
+  img {
+    max-width: 100%;
+    height: auto;
+    width: 500px;
+  }
+  button {
+    // background-color: $button-primary-bg-color;
+    // color: $button-secondary-bg-color;
+    // font-weight: bold;
+    @include primaryButton;
+    width: unset;
+  }
+}

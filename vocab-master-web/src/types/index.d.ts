@@ -1,22 +1,11 @@
-import {
-  GameStatus,
-  QuestionType,
-  QuizLength,
-  GridStateEnum,
-  ServiceNames,
-  GridActionStateEnum,
-  RoutePathEnum,
-  RouteNameEnum,
-  IconEnum,
-  ApiUrlEnum,
-} from "@/config/enums";
-
+import { PageRoute } from "@/lib/router/pageRoutes";
+import { ReactNode } from "react";
+import Enum from "@enums";
 export interface ApiResponse {
-  data?: {};
+  data?: any;
   status: "ok" | "fail";
-  error?: {
-    msg: string;
-  };
+  message?: string;
+  error?: Enum.Api.Response.Error;
 }
 export interface IconType {
   [key: string]: SvgType;
@@ -123,13 +112,18 @@ export interface GridSliceType {
   search: string;
   tableData: any[];
   actionState:
-    | { [key: number]: { action: GridActionStateEnum; form: any | undefined } }
+    | {
+        [key: number]: {
+          action: Enum.GridActionStateEnum;
+          form: any | undefined;
+        };
+      }
     | {};
   formState: { [key: number]: BaseObjectType };
 }
 
 export interface DataGridCType {
-  gridType: GridStateEnum;
+  gridType: Enum.GridStateEnum;
   ownerID?: number;
   height?: any;
 }
@@ -137,17 +131,22 @@ export interface ToolbarProps {
   title?: string;
 }
 export interface GridFormDataType {
-  postUrl: ApiUrl;
-  primaryKey: string;
+  postRoute: ApiRoute;
   defaultState: Object;
   ownerKey?: string;
   inputs: GridColumnType[];
 }
 export interface RowAdderProps {
+  primaryKey: string;
   formData: GridFormDataType;
   rowStyle: string;
   onSave: Function;
-  ownerId?: number;
+  ownerId?: any;
+}
+export interface RowEditorProps {
+  [key: number]: number;
+  id: number;
+  editPostUrl?: ApiRoute;
 }
 export interface GridColumnType {
   header: string;
@@ -155,20 +154,38 @@ export interface GridColumnType {
 }
 export interface GridStateType {
   [key: string]: {
+    primaryKey: string;
     columns: GridColumnType[];
-    dataUrl: string;
+    dataRoute: ApiRoute;
     formData?: GridFormDataType;
-    editUrl?: string;
-    editPostUrl?: string;
-    deleteUrl?: string;
+    editRoute?: PageRoute;
+    editPostRoute?: ApiRoute;
+    deleteRoute?: ApiRoute;
   };
 }
 export type ApiUrl =
   | `/api/${ServiceNames}/${string}`
   | `${string}/api/${ServiceNames}/${string}`;
+
 export interface BaseObjectType {
   id: number;
 }
+export interface SearchParams {
+  [key: string]: string | undefined | null;
+}
+export interface RouteOptions {
+  path: string;
+  type?: Enum.Route.Type;
+  isPublic?: boolean;
+  searchKeys?: string[];
+  menu?: { order: number };
+  token?: boolean;
+  children?: PageRoute[];
+  method?: "get" | "post" | "delete";
+  name?: Enum.Route.Name;
+  icon?: Enum.Icon;
+}
+
 export interface ListFormType extends BaseObjectType {
   title: string;
   description: string;
@@ -187,26 +204,47 @@ export interface WordFormType extends BaseObjectType {
   question: string;
   check: string;
 }
-export type ClientServiceType = {
-  [key in ServiceNames]: { [key: string]: Function };
-};
+
 export interface VMUser {
   id: number;
   name: string;
   email: string;
   picture: string;
   accessToken: string;
+  refreshToken: string;
 }
 export interface VMSession {
   user: VMUser;
   expires: string;
 }
-export interface Route {
-  path: RoutePathEnum | ApiUrl | ApiUrlEnum;
-  type: "api" | "page";
-  menu: boolean;
-  name?: RouteNameEnum;
-  icon?: IconEnum;
-  public: boolean;
-  children?: Array<Route>;
+export interface ModalContentType {
+  open: boolean;
+  title: string;
+  message: string;
+  iconImage: string;
+  actionContent: ReactNode;
+}
+
+export interface TokenInfo {
+  accessToken: string;
+  accessTokenExpires: number;
+  refreshToken: string;
+}
+export namespace DbEntity {
+  export interface User {
+    id: number;
+    email: string;
+    name: string;
+    password: string;
+    verified: number;
+  }
+  export interface EmailUser extends User {
+    name: string;
+  }
+}
+
+export type Handler<T = any> = (args: RequestDTO) => Promise<T>;
+export interface RequestDTO {
+  userId?: number;
+  data?: any;
 }

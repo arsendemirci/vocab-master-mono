@@ -40,7 +40,6 @@ export const accountSlice = createSlice({
       state.resetPasswordForm = payload.resetPasswordForm;
     },
     validateLoginForm: (state, { payload }) => {
-      console.log("payload", payload);
       state.loginForm = payload.loginForm;
     },
     validateRegisterForm: (state, { payload }) => {

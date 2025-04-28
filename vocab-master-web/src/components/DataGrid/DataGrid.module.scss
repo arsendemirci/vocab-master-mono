@@ -4,27 +4,36 @@ $shadow_default: 0 0px 0px 0px #40404000;
   scrollerHeight: $page-scroller-height;
 }
 .scroller {
-  overflow: auto;
+  // overflow: auto;
   box-shadow: 0 0 20px 0 rgba(119, 136, 153, 0.297);
   border-radius: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  border: $default-border;
   &.scrolling {
-    padding-right: 10px;
-
+    // padding-right: 10px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     .table {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+      // border-right: $default-border;
     }
   }
 }
 .table {
   overflow: hidden;
-  border: $default-border;
+  // border: $default-border;
   border-radius: 12px;
   background-color: white;
   font-size: 18px;
   animation: shrinkFadeIn 0.6s forwards;
   transform: scales(1.18);
   opacity: 0;
+  // min-height: 121px;
+  flex: 1;
+  height: min-content;
 
   @keyframes slideFadeInLeft {
     to {
@@ -85,6 +94,12 @@ $shadow_default: 0 0px 0px 0px #40404000;
   }
 }
 
+.loader {
+  position: absolute !important;
+  transform: translate(50%, -50%);
+  right: 50%;
+  top: 50%;
+}
 @mixin rowAnimateEdited($name, $color) {
   animation: $name 0.6s forwards ease-out;
   @keyframes #{$name} {
@@ -121,6 +136,14 @@ $shadow_default: 0 0px 0px 0px #40404000;
   margin-right: 0;
   margin-bottom: 0;
   box-shadow: $shadow_default;
+  &.adder {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    background: white;
+    border-bottom: $default-border;
+  }
   &.deleted {
     border-color: $mui-error-color;
     opacity: 1;
@@ -163,9 +186,9 @@ $shadow_default: 0 0px 0px 0px #40404000;
     }
   }
   > div {
-    &:not(:first-child) {
-      border-left: 1px solid gray;
-    }
+    // &:not(:first-child) {
+    //   border-left: 1px solid gray;
+    // }
     &:last-child {
       width: 10%;
       border-width: 3px;

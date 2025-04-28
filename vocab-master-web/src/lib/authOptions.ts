@@ -1,8 +1,10 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
-import { AccountService } from "@/service/clientService";
+import { apiRoutes } from "@/lib/router";
+import Enum from "@enums";
 
 const authReturn = (res) => {
+  console.log("ARSEN - res -> ", res);
   if (res.status == "ok") {
     return {
       ...res.data.auth,
@@ -30,45 +32,75 @@ const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
-        if (!credentials?.password && req.query?.token) {
-          const res = await AccountService.loginWithToken({
+        if (!credentials) return null;
+
+        if (!credentials.password && req.query?.token) {
+          console.log("ARSEN - req.query?.token -> ", req.query?.token);
+          const res = await apiRoutes.ACCOUNT_LOGIN_WITH_TOKEN.call({
             token: req.query.token,
           });
 
           return authReturn(res);
         } else {
-          const data = {
-            email: credentials?.username,
-            password: credentials?.password,
-          };
+          try {
+            const data = {
+              email: credentials.username,
+              password: credentials.password,
+            };
 
-          const headers = {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            credentials: JSON.stringify(credentials),
-          };
+            const headers = {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              credentials: JSON.stringify(credentials),
+            };
 
-          const res = await AccountService.login(data, headers);
-          console.log("[CLIENNT LOG RESPONSE]", res);
+            const res = await apiRoutes.ACCOUNT_LOGIN.call(data, headers);
 
-          return authReturn(res);
+            return authReturn(res);
+          } catch (error) {
+            console.error("Authorization error:", error);
+            return null;
+          }
         }
       },
     }),
   ],
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: Enum.Token.Expires.SESSION as number,
+  },
   callbacks: {
-    async jwt({ token, user }) {
-      console.log("JWTye gelir", token, user);
+    async jwt({ token, user, trigger }) {
+      if (trigger === "update") {
+        if (
+          token &&
+          token.user &&
+          token.user.refreshToken &&
+          token.user.accessTokenExpires < Date.now()
+        ) {
+          try {
+            const headers = {
+              [Enum.Api.SourceHeader.KEY]: Enum.Api.SourceHeader.NEXT_AUTH,
+            };
+            const res = await apiRoutes.ACCOUNT_REFRESH_TOKEN.call(
+              { token: token.user.refreshToken },
+              headers
+            );
+            if (res.status == Enum.Api.Response.Status.OK) {
+              return { ...token, user: { ...token.user, ...res.data } };
+            }
+          } catch (error) {}
+        }
+      }
+
       if (user) {
-        token.user = user;
+        return { ...token, user };
       }
 
       return token;
     },
     async session({ session, token }) {
-      console.log("Sessionaaa ye gelir", session, token);
-      session.user = token.user as any;
+      session.user = token.user;
       return session;
     },
   },

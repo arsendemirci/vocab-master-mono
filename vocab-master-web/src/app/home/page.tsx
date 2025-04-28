@@ -1,18 +1,28 @@
 "use client";
 import styles from "./page.module.scss";
+import { AppButton } from "@/components";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { apiRoutes } from "@/lib/router";
+import { ApiResponse } from "@/types";
 
 export default function Home() {
   const clWrap: string = `${styles.wrapper}`;
   const clFeatures: string = `${styles.features}`;
   const clCard: string = `${styles.card}`;
   const clHead: string = `${styles.headline}`;
-
+  const handleStartSeed = () => {
+    try {
+      const res: any = apiRoutes.SEED_DATA.call();
+      console.log(res.message);
+    } catch (err) {
+      console.error("Error seeding words:", err);
+    }
+  };
   return (
     <div className={clWrap}>
       <div className={clHead}>
         <h2>Vocab Master</h2>
+        <AppButton onClick={handleStartSeed}>Start Seeding</AppButton>
         <p>
           Welcome to Vocab Master,
           <br /> You can try the quick game, if you want the perfect experience

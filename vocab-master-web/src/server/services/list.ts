@@ -1,44 +1,61 @@
-import db from "@/server/db/db";
-import { ListFormType } from "@types";
+import { getNextId } from "@/utils/dbUtils";
+import { Db } from "@Db";
+import { RequestDTO } from "@/types";
 
-export const getListById = async (listId: number) => {
-  const dao = new db();
-  const data = await dao.all(dao.query.GetListWordsByListId(listId));
+export const getListById = async ({ data: { listId } }: RequestDTO) => {
+  const list = await Db.Model.VocabularyList.findOne({ id: listId });
 
-  return data;
-};
-export const getListDetails = async (listId: number) => {
-  const dao = new db();
-  const data = await dao.get(dao.query.GetListDetails(listId));
+  if (!list) throw new Error("Vocabulary list not found");
 
-  return data;
+  // 2. Use the wordIds array to find matching Word documents
+  const words = await Db.Model.Word.find({
+    id: { $in: list.wordIds },
+  }).lean();
+
+  return words;
 };
-export const getListsAll = async () => {
-  const dao = new db();
-  const data = await dao.all(dao.query.GetListsAll());
-  return data;
+export const getListDetails = async ({ data: { listId } }: RequestDTO) => {
+  return await Db.Model.VocabularyList.findOne({ id: listId }).lean();
 };
-export const addList = async ({ title, description }: ListFormType) => {
-  const dao = new db();
-  const data = await dao.run(dao.query.InsertList(title, description));
-  return data;
+
+export const getListsAll = async ({ userId }: RequestDTO) => {
+  const result = await Db.Model.UserItem.findOne({ userId })
+    .select("listIds")
+    .lean<{ listIds: number[] }>();
+  const listIds = result?.listIds ?? [];
+  const lists = await Db.Model.VocabularyList.find({
+    id: { $in: listIds },
+  }).lean();
+
+  return lists;
 };
-export const updateListDetails = async ({
-  id,
-  title,
-  description,
-}: ListFormType) => {
-  const dao = new db();
-  const lastID = await dao.run(
-    dao.query.UpdateListDetails(id, title, description)
+export const addList = async ({ userId, data: list }: RequestDTO) => {
+  console.log("ARSEN - data -> ", list);
+  const nextId = await getNextId("VocabularyList");
+  const newList = new Db.Model.VocabularyList({ ...list, id: nextId });
+  await newList.save();
+
+  await Db.Model.UserItem.findOneAndUpdate(
+    { userId },
+    { $addToSet: { listIds: nextId } }, // avoid duplicates
+    { new: true, upsert: true } // create UserItem if it doesn't exist
   );
-  return lastID;
+  return nextId;
 };
-export const deleteList = async (id: number) => {
-  const dao = new db();
-  const data = await dao.run(dao.query.DeleteList(id));
-  if (data === "OK") {
-    await dao.run(dao.query.DeleteListWords(id));
-  }
-  return data;
+export const updateListDetails = async ({ data: list }: RequestDTO) => {
+  const updatedList = await Db.Model.VocabularyList.findOneAndUpdate(
+    { id: list.id },
+    list,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  return updatedList;
+};
+export const deleteList = async ({ userId, data: { id } }: RequestDTO) => {
+  await Db.Model.VocabularyList.deleteOne({ id });
+  await Db.Model.UserItem.updateOne({ userId }, { $pull: { listIds: id } });
+
+  return { success: true };
 };

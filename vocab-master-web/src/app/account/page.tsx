@@ -1,25 +1,32 @@
 "use client";
 import styles from "./page.module.scss";
-import { TextField, Button } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAppSlice, useAccountSlice } from "@hooks";
-
+import Enum from "@enums";
 import validation from "@/utils/validation";
-import { signIn } from "next-auth/react";
-import { RoutePathEnum } from "@/config/enums";
+import { signIn, signOut } from "next-auth/react";
 import { muiStyles } from "@/config";
-import { Icon } from "@/components";
-import { useState } from "react";
-import api from "@/service/clientService";
+import { Icon, AppModal, AppButton } from "@/components";
+import { useEffect, useState } from "react";
+import { apiRoutes, pageRoutes } from "@/lib/router";
+import { RegisterModals } from "@modals";
 
 const Page = () => {
   const [isLoginError, setLoginError] = useState<Boolean>(false);
+  const [modalData, setModalData] = useState<{
+    modal?: any;
+    open: boolean;
+    onClose?: Function;
+  }>({
+    modal: () => <></>,
+    open: false,
+  });
   const inputs = {
     signin: { password: "pswLogin", email: "emailLogin" },
     signup: { name: "name", email: "emailSignup", password: "passwordSignup" },
   };
   const { showLoader, hideLoader, redirectTo } = useAppSlice();
-  // console.log("[RENDERING] Sign Component");
   const { setActivePanel, activePanel, registerForm, loginForm } =
     useAccountSlice();
 
@@ -63,41 +70,62 @@ const Page = () => {
           setError(val, { type: "custom" })
         );
       } else {
-        redirectTo(RoutePathEnum.HOME);
+        redirectTo(pageRoutes.HOME.path);
       }
     } catch {
       console.log("login catch fail", data);
     }
   };
   const onSubmitRegister = async (data) => {
+    showLoader();
     const signup = {
       name: data[inputs.signup.name],
       email: data[inputs.signup.email],
       password: data[inputs.signup.password],
     };
-    console.log("ARSEN - state trace - signup", signup);
 
-    const response = await api.account.register(signup);
-    console.log("ARSEN - state trace - response", response);
+    const response = await apiRoutes.ACCOUNT_REGISTER.call(signup);
+    resetSignup();
+    setTimeout(() => {
+      hideLoader();
+      registerResponseValidation(response);
+    }, 2000);
+  };
+  const registerResponseValidation = (response) => {
+    if (response.status === Enum.Api.Response.Status.OK) {
+      resetSignup();
+      setModalData({
+        open: true,
+        modal: RegisterModals.Success,
+        onClose: () => {
+          setModalData({ ...modalData, open: false });
+        },
+      });
+      setActivePanel({ panel: "login" });
+    } else {
+      if (response.error === Enum.Api.Response.Error.NOT_VERIFIED) {
+        setModalData({
+          ...modalData,
+          open: true,
+          modal: RegisterModals.Verify,
+          onClose: () => {
+            setModalData({ ...modalData, open: false });
 
-    // const registerData = await ipc.register(
-    //   data.name,
-    //   data.email,
-    //   data.password
-    // );
-    // if (registerData.error) {
-    //   const { code, msg } = registerData.error;
-    //   const registerEmailValidation = {
-    //     error: code === httpConfig.errorCode.REGISTERED_EMAIL,
-    //     msg: code === httpConfig.errorCode.REGISTERED_EMAIL && msg,
-    //   };
-    //   dispatch(validateRegister({ registerEmailValidation }));
-    // } else {
-    //   resetSignup();
-    //   dispatch(
-    //     setActivePanel({ panel: "verify", userId: registerData.userId })
-    //   );
-    // }
+            setActivePanel({ panel: "login" });
+          },
+        });
+      } else if (
+        response.error === Enum.Api.Response.Error.ALREADY_REGISTERED
+      ) {
+        setModalData({
+          open: true,
+          modal: RegisterModals.Error,
+          onClose: () => {
+            setModalData({ ...modalData, open: false });
+          },
+        });
+      }
+    }
   };
   const containerClass = `${styles.container} ${styles[activePanel]}`;
   const signinClass = `${styles.form} ${styles.signin}`;
@@ -105,6 +133,13 @@ const Page = () => {
   const panelLeft = `${styles.panel} ${styles.panelLeft}`;
   const panelRight = `${styles.panel} ${styles.panelRight}`;
 
+  useEffect(() => {
+    const signoutKey = localStorage.getItem("SIGNOUT");
+    if (signoutKey) {
+      localStorage.removeItem("SIGNOUT");
+      signOut();
+    }
+  }, []);
   return (
     <div className={containerClass}>
       <div className={signupClass}>
@@ -151,18 +186,15 @@ const Page = () => {
             helperText={registerErrors?.password?.message?.toString()}
             {...registerSignup(inputs.signup.password, validation.password)}
           />
-          <Button
-            variant="contained"
-            type="submit"
-            className={styles.btnSignin}
-          >
-            Sign Up
-          </Button>
+          <AppButton type="submit">Sign Up</AppButton>
           <div className={styles.noAccount}>
             Already have an account?
-            <Button onClick={() => setActivePanel({ panel: "login" })}>
+            <AppButton
+              variant="text"
+              onClick={() => setActivePanel({ panel: "login" })}
+            >
               Sign In
-            </Button>
+            </AppButton>
           </div>
         </form>
       </div>
@@ -205,26 +237,26 @@ const Page = () => {
           />
           <div className={styles.formAction}>
             {isLoginError && <p>* Email or password is incorrect!</p>}
-            <Button
-              variant="contained"
-              className={styles.btnSignin}
-              type="submit"
-            >
-              Sign In
-            </Button>
+            <AppButton type="submit">Sign In</AppButton>
           </div>
 
           <div className={styles.noAccount}>
             Forgot your password?
-            <Button onClick={() => redirectTo(RoutePathEnum.RESET_PASSWORD)}>
+            <AppButton
+              variant="text"
+              onClick={() => redirectTo(pageRoutes.FORGOT_PASSWORD.path)}
+            >
               Reset Password
-            </Button>
+            </AppButton>
           </div>
           <div className={styles.noAccount}>
             Dont have an account?
-            <Button onClick={() => setActivePanel({ panel: "register" })}>
+            <AppButton
+              variant="text"
+              onClick={() => setActivePanel({ panel: "register" })}
+            >
               Sign Up
-            </Button>
+            </AppButton>
           </div>
         </form>
       </div>
@@ -243,7 +275,6 @@ const Page = () => {
               </a>
               &nbsp; to login.
             </p>
-            {/* <Button onClick={() => setActiveRight("")}>Sign In</Button> */}
           </div>
           <div className={panelRight}>
             <h1>Welcome Back!</h1>
@@ -258,6 +289,14 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <AppModal
+        open={modalData.open}
+        onClose={modalData.onClose}
+        title="Welcome"
+      >
+        <modalData.modal onClose={modalData.onClose}></modalData.modal>
+      </AppModal>
     </div>
   );
 };

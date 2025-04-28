@@ -3,15 +3,15 @@ import { FC, useState } from "react";
 import { Save, Add } from "@mui/icons-material";
 import { IconButton, TextField } from "@mui/material";
 import { RowAdderProps } from "@types";
-import axios from "axios";
-
+import Enums from "@enums";
 const RowAdder: FC<RowAdderProps> = ({
+  primaryKey,
   onSave,
   rowStyle,
   formData,
   ownerId,
 }) => {
-  const { postUrl, defaultState, inputs, primaryKey, ownerKey } = formData;
+  const { postRoute, defaultState, inputs, ownerKey } = formData;
 
   const [inputFields, setInputFields] = useState<any>(defaultState);
 
@@ -20,16 +20,17 @@ const RowAdder: FC<RowAdderProps> = ({
     for (let prop in inputFields) {
       if (!inputFields[prop]) return;
     }
-    if (!postUrl) return;
+    if (!postRoute) return;
     const postData = { ...inputFields };
     if (ownerKey && ownerId) {
       postData[ownerKey] = ownerId;
     }
-    const res = await axios.post(postUrl, postData);
-
-    const addData = { ...inputFields, [primaryKey]: res.data };
-    onSave(addData);
-    setInputFields(defaultState);
+    const { status, data } = await postRoute.call(postData);
+    if (status === Enums.Api.Response.Status.OK) {
+      const addData = { ...inputFields, [primaryKey]: data };
+      onSave(addData);
+      setInputFields(defaultState);
+    }
   };
   return (
     <form key="rowAdd" className={rowStyle} onSubmit={postData}>

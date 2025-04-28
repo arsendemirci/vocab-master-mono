@@ -5,7 +5,6 @@ import ProfileButton from "./ProfileButton/ProfileButton";
 
 const ProfileMenu = () => {
   const { currentUser, menuClass } = usePersistSlice();
-  // console.log("[RENDERING] ProfileCard Component", data);
 
   const userName = currentUser ? currentUser.name : "Guest";
   const userImage = "/assets/images/avatar/guest.png";

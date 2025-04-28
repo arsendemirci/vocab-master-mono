@@ -1,4 +1,3 @@
-import iconConfig from "@/config/svgIcons";
 import { IconPropsType } from "@types";
 import { useEffect, useState } from "react";
 
@@ -7,7 +6,6 @@ const Icon: React.FC<IconPropsType> = ({
   height,
   color,
   icon,
-  bg,
   type,
 }) => {
   if (type == "png")
@@ -31,16 +29,10 @@ const Icon: React.FC<IconPropsType> = ({
 
     return SvgIcon ? (
       <SvgIcon
-        style={{ backgroundColor: iconConfig[icon]?.bg || "" }}
-        height={height ?? 20}
-        width={width ?? 20}
-        fill={
-          color
-            ? `${color}`
-            : iconConfig[icon]?.fill
-            ? `${iconConfig[icon].fill}`
-            : `currentColor`
-        }
+        {...(color && { fill: color })}
+        height={height ?? 22}
+        width={width ?? 22}
+        // fill={color ? `${color}` : `currentColor`}
       />
     ) : null;
   }

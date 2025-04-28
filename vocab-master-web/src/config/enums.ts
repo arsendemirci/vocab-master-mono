@@ -1,149 +1,183 @@
-export enum GameStatus {
-  ACTIVE = 1,
-  NOT_STARTED,
-  GAME_OVER,
-}
-export enum QuestionType {
-  NORMAL = 1,
-  MIXED,
-  REVERSE,
-}
-export enum QuizLength {
-  SHORT = 5,
-  NORMAL = 10,
-  LONG = 15,
-  ALL = 999,
-}
-export enum GridStateEnum {
-  WORDS = "words",
-  LISTS = "lists",
-  LIST_DETAIL = "listDetail",
-}
-export enum ServiceNames {
-  WORD = "word",
-  LIST = "list",
-  GAME = "game",
-  USER = "user",
-  ACCOUNT = "account",
-}
-export enum GridActionStateEnum {
-  SAVE = "saved",
-  DELETE = "deleted",
-  CANCEL = "canceled",
-  EDIT = "edited",
-}
-export enum TokenStatus {
-  INVALID = "invalid",
-  EXPIRED = "expired",
-  OK = "ok",
-}
-export enum RoutePathEnum {
-  HOME = "/home",
-  GAME = "/game",
-  ACCOUNT = "/account",
-  WORDS = "/words",
-  LISTS = "/lists",
-  PROFILE = "/profile",
-  RESET_PASSWORD = "/account/reset-password",
-  EDIT_LIST = "/lists/edit/{0}",
-  VERIFY_EMAIL = "/account/verify-email?token={0}",
-  NOT_FOUND = "/not-found",
-}
-export enum ApiUrlEnum {
-  LOGIN = "/api/account/login",
-  RESET_PASSWORD = "/api/account/resetPassword",
-  REGISTER = "/api/account/register",
-  GET_WORDS = "/api/word/getWords",
-  ADD_WORD = "/api/word/addWord",
-  UPDATE_WORD = "/api/word/updateWord",
-  ADD_WORD_TO_LIST = "/api/word/addWordToList",
-  DELETE_WORD = "/api/word/deleteWord",
-  DELETE_WORD_FROM_LIST = "/api/word/deleteWordFromList",
-  GET_LIST_BY_ID = "/api/list/getListById/{0}",
-  GET_LIST_DETAILS = "/api/list/getListDetails/{0}",
-  GET_LISTS = "/api/list/getListsAll",
-  ADD_LIST = "/api/list/addList",
-  UPDATE_LIST = "/api/list/updateListDetails",
-  DELETE_LIST = "/api/list/deleteList",
-  LOGIN_WITH_TOKEN = "/api/account/loginWithToken",
+namespace Enum {
+  export enum Icon {
+    HOME = "Home",
+    GAME = "Joystick",
+    WORDS = "Book",
+    LISTS = "List",
+    EDIT_LIST = "EditList",
+    PROFILE = "Avatar",
+    ACCOUNT = "Account",
+    NOT_FOUND = "AlertTriangle",
+    LOGOUT = "Logout",
+  }
+  export enum QueryParam {
+    NO_ACCEES = "noAccess",
+  }
+
+  export namespace Token {
+    export enum Status {
+      INVALID = "invalid",
+      EXPIRED = "expired",
+      OK = "ok",
+    }
+    export enum Type {
+      REFRESH = "refresh",
+      ACCESS = "access",
+      VERIFICATION = "verify",
+      ACTIVATION = "activation",
+      RESET = "reset",
+    }
+    export enum Expires {
+      SESSION_INTERVAL = 1800000, //30m in miliseconds
+      SESSION = 2592000, // 30d in seconds,
+      ACCESS_INTERVAL = 518400000, //6d in miliseconds
+      ACCESS = "7d",
+      VERIFICATION = "1d",
+      REFRESH = "30d",
+    }
+  }
+  export enum GameStatus {
+    ACTIVE = 1,
+    NOT_STARTED,
+    GAME_OVER,
+  }
+  export enum QuestionType {
+    NORMAL = 1,
+    MIXED,
+    REVERSE,
+  }
+  export enum QuizLength {
+    SHORT = 5,
+    NORMAL = 10,
+    LONG = 15,
+    ALL = 999,
+  }
+  export enum GridStateEnum {
+    WORDS = "words",
+    LISTS = "lists",
+    LIST_DETAIL = "listDetail",
+  }
+
+  export enum GridActionStateEnum {
+    SAVE = "saved",
+    DELETE = "deleted",
+    CANCEL = "canceled",
+    EDIT = "edited",
+  }
+  export namespace Route {
+    export enum SearchKey {
+      TOKEN = "token",
+      TOKEN_TYPE = "token-type",
+    }
+    export enum Path {
+      HOME = "/home",
+      GAME = "/game",
+      ACCOUNT = "/account",
+      WORDS = "/words",
+      LISTS = "/lists",
+      PROFILE = "/profile",
+      FORGOT_PASSWORD = "/account/forgot-password",
+      RESET_PASSWORD = "/account/reset-password",
+      EDIT_LIST = "/lists/edit",
+      VERIFY_EMAIL = "/account/verify-email",
+      SIGNOUT = "/account/signout",
+      NOT_FOUND = "/not-found",
+    }
+    export enum Name {
+      HOME = "Home",
+      GAME = "Create Game",
+      WORDS = "Words",
+      LISTS = "Lists",
+      EDIT_LIST = "Edit List",
+      PROFILE = "Profile",
+      ACCOUNT = "Account",
+      FORGOT_PASSWORD = "Forgot Password",
+      RESET_PASSWORD = "Reset Password",
+      VERIFY_EMAIL = "Verify Email",
+      NOT_FOUND = "Not Found",
+      SIGNOUT = "Signout",
+    }
+    export enum Type {
+      API = "api",
+      PAGE = "page",
+    }
+  }
+  export namespace Api {
+    export enum Url {
+      ACCOUNT_LOGIN = "/api/account/login",
+      ACCOUNT_FORGOT_PASSWORD = "/api/account/forgotPassword",
+      ACCOUNT_RESET_PASSWORD = "/api/account/resetPassword",
+      ACCOUNT_REFRESH_TOKEN = "/api/account/refreshToken",
+      ACCOUNT_REGISTER = "/api/account/register",
+      ACCOUNT_LOGIN_WITH_TOKEN = "/api/account/loginWithToken",
+      ACCOUNT_SIGNOUT = "/api/account/logout",
+      WORD_GET = "/api/word/getWords",
+      WORD_ADD = "/api/word/addWord",
+      WORD_UPDATE = "/api/word/updateWord",
+      WORD_ADD_TO_LIST = "/api/word/addWordToList",
+      WORD_DELETE = "/api/word/deleteWord",
+      WORD_DELETE_FROM_LIST = "/api/word/deleteWordFromList",
+      LIST_GET_BY_ID = "/api/list/getListById",
+      LIST_GET_DETAILS = "/api/list/getListDetails",
+      LIST_GET = "/api/list/getListsAll",
+      LIST_ADD = "/api/list/addList",
+      LIST_UPDATE = "/api/list/updateListDetails",
+      LIST_DELETE = "/api/list/deleteList",
+      AUTH_SESSION = "/api/auth/session",
+      AUTH_CSRF = "/api/auth/csrf",
+    }
+    export enum Method {
+      ACCOUNT_LOGIN = "login",
+      ACCOUNT_FORGOT_PASSWORD = "forgotPassword",
+      ACCOUNT_RESET_PASSWORD = "resetPassword",
+      ACCOUNT_REFRESH_TOKEN = "refreshToken",
+      ACCOUNT_REGISTER = "register",
+      ACCOUNT_LOGIN_WITH_TOKEN = "loginWithToken",
+      ACCOUNT_SIGNOUT = "logout",
+      WORD_GET = "getWords",
+      WORD_ADD = "addWord",
+      WORD_UPDATE = "updateWord",
+      WORD_ADD_TO_LIST = "addWordToList",
+      WORD_DELETE = "deleteWord",
+      WORD_DELETE_FROM_LIST = "deleteWordFromList",
+      LIST_GET_BY_ID = "getListById",
+      LIST_GET_DETAILS = "getListDetails",
+      LIST_GET = "getListsAll",
+      LIST_ADD = "addList",
+      LIST_UPDATE = "updateListDetails",
+      LIST_DELETE = "deleteList",
+      AUTH_SESSION = "session",
+      AUTH_CSRF = "csrf",
+    }
+    export enum Service {
+      WORD = "word",
+      LIST = "list",
+      GAME = "game",
+      USER = "user",
+      ACCOUNT = "account",
+    }
+    export namespace Response {
+      export enum Status {
+        OK = "ok",
+        FAIL = "fail",
+      }
+      export enum Error {
+        NOT_REGISTERED = "Specified email is not registered!",
+        NOT_VERIFIED = "Email not verified!",
+        INVALID_CREDENTIALS = "Email or password is incorrect!",
+        TOKEN_NOT_OK = "Invalid Or Expired Token!",
+        SERVER_ERROR = "Server Error!",
+        ALREADY_REGISTERED = "Email already registered!",
+        TOKEN_EXPIRED = "Token expired!",
+        TOKEN_NOT_FOUND = "Token not found!",
+        UNAUTHORIZED = "Unauthorized",
+      }
+    }
+    export enum SourceHeader {
+      KEY = "vm-Source",
+      NEXT_AUTH = "NextAuthCallback",
+    }
+  }
 }
 
-export enum RouteTypeEnum {
-  API = "api",
-  PAGE = "page",
-}
-export enum RouteNameEnum {
-  HOME = "Home",
-  GAME = "Create Game",
-  WORDS = "Words",
-  LISTS = "Lists",
-  EDIT_LIST = "Edit List",
-  PROFILE = "Profile",
-  ACCOUNT = "Account",
-  RESET_PASSWORD = "Reset Password",
-  VERIFY_EMAIL = "Verify Email",
-  NOT_FOUNT = "Not Found",
-}
-export enum IconEnum {
-  HOME = "Home",
-  GAME = "Joystick",
-  WORDS = "Words",
-  LISTS = "List",
-  EDIT_LIST = "EditList",
-  PROFILE = "Avatar",
-  ACCOUNT = "Account",
-  NOT_FOUND = "AlertTriangle",
-  LOGOUT = "Logout",
-}
-
-export default {
-  GameStatus,
-  QuestionType,
-  QuizLength,
-  GridStateEnum,
-  RoutePathEnum,
-  ApiUrlEnum,
-  RouteTypeEnum,
-  RouteNameEnum,
-  IconEnum,
-};
-// export default {
-//   enum status {
-//     ACTIVE: "active",
-//     NOT_STARTED: "not_started",
-//     GAME_OVER: "game_over",
-//   },
-//   list: {
-//     VERBS: "verbs",
-//     NOUNS: "nouns",
-//     ADJECTIVES: "adjectives",
-//   },
-//   length: {
-//     5: 5,
-//     10: 10,
-//     15: 15,
-//     ALL: 999,
-//   },
-//   questionType: {
-//     NORMAL: 1,
-//     MIXED: 2,
-//     REVERSE: 3,
-//   },
-//   mode: {
-//     TIME_TRIAL: {
-//       name: "Time Trial",
-//       description:
-//         "You get to answer as much question as you can in a certain time. Score is based on how many correct answer you got.",
-//     },
-//     MARATHON: {
-//       name: "Marathon",
-//       description:
-//         "You get to answer all the questions in the selected vocabulary list. Score will be based on the number of correct answers",
-//     },
-//     SURVIVAL: {
-//       name: "Survival",
-//       description:
-//         "You will be given three lives, a live will be lost on each wrong answer you give. Game over if all the lives are lost or vocabulary list is finished ",
-//     },
-//   },
-// };
+export default Enum;

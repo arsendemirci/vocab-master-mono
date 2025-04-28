@@ -3,11 +3,11 @@ import style from "./DataGrid.module.scss";
 import { FC, useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreType, DataGridCType } from "@/types";
-import { RowAdder, RowEditor } from "@/components";
+import { RowAdder, RowEditor, Spinner } from "@/components";
 import { Fragment } from "react";
 import { gridState } from "@/config";
-import { GridActionStateEnum, RoutePathEnum } from "@/config/enums";
 import { useAppSlice } from "@/hooks";
+
 import {
   setGridData,
   addToGridData,
@@ -15,17 +15,22 @@ import {
 } from "@/store/slices/gridSlice";
 import { Edit, Delete } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import { formatString } from "@/utils/stringUtils";
-import axios from "axios";
+import Enum from "@enums";
 const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
-  const { columns, editUrl, editPostUrl, dataUrl, formData, deleteUrl } =
-    gridState[gridType];
-
+  const {
+    primaryKey,
+    columns,
+    editRoute,
+    editPostRoute,
+    dataRoute,
+    formData,
+    deleteRoute,
+  } = gridState[gridType];
   const gridStore = useSelector((state: StoreType) => state.gridSlice);
   const { redirectTo } = useAppSlice();
   const dispatch = useDispatch();
-  // const [height, setHeight] = useState(0);
   const [isOverflow, setIsOverflow] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const refTable = useRef<HTMLDivElement>(null);
   const refArea = useRef<HTMLDivElement>(null);
   const isOverflowActive = (event: any) => {
@@ -38,30 +43,30 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
   };
 
   const onClickEdit = (item: any) => {
-    console.log("[CLIENT LOG] ", editPostUrl, item.id);
-    if (editPostUrl) {
+    console.log("ARSEN - item -> ", item);
+    if (editPostRoute) {
       const { id, ...form } = item;
 
-      dispatch(setActionState({ id, action: GridActionStateEnum.EDIT, form }));
-    } else if (editUrl) {
-      const formattedString = formatString(editUrl, item.id);
-      console.log("[CLIENT LOG onClickEdit formatString] ", formattedString);
-      redirectTo(formattedString as RoutePathEnum);
+      dispatch(
+        setActionState({ id, action: Enum.GridActionStateEnum.EDIT, form })
+      );
+    } else if (editRoute) {
+      redirectTo(editRoute.pathWithSearch(item.id));
     }
   };
 
   const onClickDelete = async (id: number) => {
-    if (deleteUrl) {
-      let method = "delete";
-      let delData: any = { data: id };
-      if (formData && formData.primaryKey && formData.ownerKey) {
-        method = "post";
-        delData = { [formData.primaryKey]: id, [formData.ownerKey]: ownerID };
+    if (deleteRoute) {
+      let delData: any = { [primaryKey]: id };
+      if (formData && formData.ownerKey) {
+        delData = { [primaryKey]: id, [formData.ownerKey]: ownerID };
       }
-
-      const response = await axios[method](deleteUrl, delData);
-      if (response?.data === "OK") {
-        dispatch(setActionState({ id, action: GridActionStateEnum.DELETE }));
+      console.log("ARSEN - delData -> ", delData);
+      const response = await deleteRoute.call(delData);
+      if (response.status === Enum.Api.Response.Status.OK) {
+        dispatch(
+          setActionState({ id, action: Enum.GridActionStateEnum.DELETE })
+        );
       }
     }
   };
@@ -75,11 +80,18 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
     }
   });
   useEffect(() => {
+    setIsLoading(true);
+    dispatch(setGridData([]));
     (async () => {
-      const response = (await axios.get(formatString(dataUrl, ownerID))).data;
-      dispatch(setGridData(response));
+      let response;
+      setTimeout(async () => {
+        if (ownerID) response = await dataRoute.setQuery(ownerID).call();
+        else response = await dataRoute.call();
+        dispatch(setGridData(response.data));
+        setIsLoading(false);
+      }, 1500);
     })();
-  }, []);
+  }, [dataRoute]);
 
   return (
     <>
@@ -96,20 +108,25 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
       <div
         style={{
           maxHeight: `calc(${style.scrollerHeight} - ${height || 0}px)`,
+          minHeight: `calc(${style.scrollerHeight} - ${height || 0}px)`,
+          height: `calc(${style.scrollerHeight} - ${height || 0}px)`,
         }}
         className={`${style.scroller} ${isOverflow && style.scrolling}`}
         ref={refArea}
       >
+        {isLoading && <Spinner className={style.loader} />}
+        {!!formData && (
+          <RowAdder
+            onSave={(addData: any) => dispatch(addToGridData(addData))}
+            rowStyle={`${style.row} ${style.adder}`}
+            formData={formData}
+            primaryKey={primaryKey}
+            ownerId={ownerID}
+          />
+        )}
         <div className={style.table} ref={refTable}>
-          {!!formData && (
-            <RowAdder
-              onSave={(addData: any) => dispatch(addToGridData(addData))}
-              rowStyle={style.row}
-              formData={formData}
-              ownerId={ownerID}
-            />
-          )}
-          {!!gridStore.tableData.length &&
+          {gridStore.tableData &&
+            gridStore.tableData.length > 0 &&
             gridStore.tableData
               .filter(
                 (item) =>
@@ -145,14 +162,15 @@ const DataGrid: FC<DataGridCType> = ({ gridType, ownerID, height }) => {
                     </div>
                     {gridStore.actionState[l.id] &&
                       gridStore.actionState[l.id].form && (
-                        <RowEditor id={l.id} editPostUrl={editPostUrl} />
+                        <RowEditor id={l.id} editPostUrl={editPostRoute} />
                       )}
                   </Fragment>
                 );
               })}
-          {!gridStore.tableData.length && (
-            <div className={style.noData}>There is nothing to display!</div>
-          )}
+          {(!gridStore.tableData || !gridStore.tableData.length) &&
+            !isLoading && (
+              <div className={style.noData}>There is nothing to display!</div>
+            )}
         </div>
       </div>
     </>

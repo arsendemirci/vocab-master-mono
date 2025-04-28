@@ -17,7 +17,6 @@ export const gridSlice = createSlice({
     setActionState: (state, { payload }) => {
       if (payload.action) {
         if (payload.form) {
-          console.log("buraya girdi mi");
           state.actionState[payload.id] = {
             action: payload.action,
             form: payload.form,

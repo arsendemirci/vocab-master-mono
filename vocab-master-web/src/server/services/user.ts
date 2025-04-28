@@ -1,67 +1,127 @@
-import db from "@/server/db/db";
-import { createToken } from "@/utils/authUtils";
-import { createToken as encrypt } from "@/utils/tokenUtils";
+import { createTokenSet, createToken } from "@/utils/tokenUtils";
+
+import Enum from "@enums";
+import { wrapResponse, wrapRequest } from "@/utils/apiUtils";
+import { Db } from "@Db";
+import { getNextId } from "@/utils/dbUtils";
+
 export const getUserByEmail = async (email) => {
-  const dao = new db();
-  const data = await dao.get(dao.query.GetUserByEmail(email));
-  return data;
-};
-export const getUserInfoById = async (userId) => {
-  const dao = new db();
-  const data = await dao.get(dao.query.GetUserInfoById(userId));
+  const user: any = await Db.Model.User.findOne({ email })
+    .select("id password verified")
+    .lean();
+  console.log("ARSEN - user -> ", user);
+  if (!user) return null;
 
-  return data;
+  const profile = await Db.Model.Profile.findOne({
+    userId: user.id,
+    isDefault: true,
+  }).select("firstName");
+  if (!profile) return null;
+
+  return { ...user, name: profile.firstName };
 };
+
+export const getUserInfoById = async (userId) =>
+  wrapResponse(async () => {
+    const user = await Db.Model.User.findOne({ id: userId });
+    if (!user) return null;
+
+    const profile = await Db.Model.Profile.findOne({
+      userId: user.id,
+      isDefault: true,
+    });
+    if (!profile) return null;
+
+    return {
+      userId: user.id,
+      email: user.email,
+      verified: user.verified,
+      profileId: profile.id,
+      avatar: profile.avatar,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+    };
+  });
 export const createUser = async (name, email, password) => {
-  const dao = new db(true);
-  const userId = await dao.run(dao.query.InsertUser(email, password));
-  let verificationCode;
-  if (userId) {
-    await dao.run(dao.query.InsertProfile(name, "", userId, "guest.png", 1));
-    verificationCode = createToken(userId); //Math.floor(Math.random() * 90000) + 10000;
+  //create user
+  const nextUserId = await getNextId("User");
+  const newUser = new Db.Model.User({
+    email,
+    password,
+    id: nextUserId,
+    verified: false,
+  });
+  await newUser.save();
+  //create profile
+  const nextProfileId = await getNextId("Profile");
+  const newProfile = new Db.Model.Profile({
+    firstName: name,
+    lastName: "",
+    userId: nextUserId,
+    avatar: "guest.png",
+    isDefault: true,
+    id: nextProfileId,
+  });
+  await newProfile.save();
 
-    const validDate = new Date();
-    let time = validDate.getTime();
-    let validTime = time + 2 * 60 * 60 * 1000;
-    validDate.setTime(validTime);
+  //create verification code
+  const { token, expires } = await createToken(nextUserId);
 
-    dao
-      .run(
-        dao.query.InsertUserVerification(
-          verificationCode,
-          userId,
-          validDate.toJSON()
-        )
-      )
-      .then((res) => {})
-      .catch((err) => {})
-      .finally(() => {
-        dao.close();
-      });
-  }
+  const nextVerificationId = await getNextId("UserVerification");
+  const newVerification = new Db.Model.UserVerification({
+    code: token,
+    userId: nextUserId,
+    validDate: expires,
+    id: nextVerificationId,
+  });
+  await newVerification.save();
 
-  return { userId, verificationCode };
+  return { userId: nextUserId, verificationCode: token };
 };
-export const getUserVerification = async (userId, code) => {
-  const dao = new db();
-  const data = await dao.get(dao.query.GetUserVerification(userId, code));
 
-  return data;
+export const getUserVerification = async ({ code, type }) => {
+  const verification = await Db.Model.UserVerification.findOne({ code });
+  if (!verification || !verification.validDate)
+    throw new Error(Enum.Api.Response.Error.TOKEN_NOT_FOUND);
+
+  const currentDate = new Date();
+  if (currentDate > verification.validDate)
+    new Error(Enum.Api.Response.Error.TOKEN_EXPIRED);
+
+  return { status: Enum.Token.Status.OK, userId: verification.userId };
 };
-export const verifyUser = async (userId) => {
-  const dao = new db();
-  const data = await dao.run(dao.query.UpdateUserVerified(userId));
 
-  return data;
+export const verifyUserRegistration = async (userId) => {
+  await Db.Model.User.updateOne({ id: userId }, { verified: true });
+  return { success: true };
+};
+export const addUserVerification = async (
+  verification: Db.Dto.UserVerification
+) => {
+  const nextVerificationId = await getNextId("UserVerification");
+  await Db.Model.UserVerification.findOneAndUpdate(
+    { userId: verification.userId }, // match by userId
+    {
+      $set: {
+        code: verification.code,
+        validDate: verification.validDate,
+      },
+      $setOnInsert: {
+        id: nextVerificationId,
+        userId: verification.userId,
+      },
+    },
+    { upsert: true, new: true, runValidators: true }
+  );
+  return { success: true };
 };
 
 export const getSessionInfo = async (userId) => {
-  //get user default profile
-  const userInfo = await getUserInfoById(userId);
-  const accessToken = await encrypt(userId);
-  const sesInfo = {
+  const { data: userInfo } = await getUserInfoById(userId);
+  const tokenData = await createTokenSet(userId);
+  return {
     user: {
-      accessToken,
+      ...tokenData,
       id: userId,
       email: userInfo.email,
       name: `${userInfo.firstName} ${userInfo.lastName}`.trim(),
@@ -74,6 +134,19 @@ export const getSessionInfo = async (userId) => {
       avatar: userInfo.avatar,
     },
   };
-
-  return sesInfo;
 };
+
+export const deleteUserVerification = async (userId, code) => {
+  await Db.Model.UserVerification.deleteOne({ userId });
+  return { success: true };
+};
+
+export const updateUserPassword = async (userId, password) =>
+  wrapResponse(async () => {
+    await Db.Model.User.findOneAndUpdate(
+      { id: userId }, // filter by custom ID field
+      { password }, // update the password field
+      { new: true, runValidators: true } // return updated doc and validate
+    );
+    return { success: true };
+  });

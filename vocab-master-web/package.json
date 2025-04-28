@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npx next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,9 +16,11 @@
     "@reduxjs/toolkit": "^2.2.8",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "crypto-js": "^4.2.0",
     "fs": "^0.0.1-security",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
     "next": "14.2.3",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.9.16",

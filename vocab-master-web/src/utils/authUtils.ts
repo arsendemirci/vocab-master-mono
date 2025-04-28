@@ -1,19 +1,11 @@
 const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
-// import { TokenStatus } from "@/config/enums";
-// const accessTokenSecret =
-//   "ffc0db4712ccbfd7a3a4a457eb11e4fbfbe93af11ba3e7ef40a2808b6b44197c";
-// const refreshTokenSecret =
-//   "3ac0fbd92232ddd01a68879f837ad51ecd6df437d44e44a3897b279c5b38068bea58c762e1d79f790a6b4e3a9fc408c1aada386721ea9de792dd49e970ad5a3b";
 
 export const createHash = async (word) => {
   const hashedPassword = await new Promise((resolve, reject) => {
     bcrypt.hash(word, 10, function (err, hash) {
       if (err) {
-        console.log("ARSEN - SERVER - hash error - ", err);
         reject(err);
       }
-      console.log("ARSEN - SERVER - hash success - ", hash);
       resolve(hash);
     });
   });
@@ -31,7 +23,6 @@ export const validate = async (word, hash) => {
 //   // const refreshToken = jwt.sign({ userId }, refreshTokenSecret, {
 //   //   expiresIn: "7d",
 //   // });
-//   console.log("SERVER TOKEN", userId, process.env.NEXTAUTH_SECRET);
 //   return accessToken;
 // };
 
@@ -40,12 +31,12 @@ export const validate = async (word, hash) => {
 //   let userId = null;
 //   try {
 //     const decoded = jwt.verify(token, process.env.NEXTAUTH_SECRET);
-//     status = TokenStatus.OK;
+//     status = Enum.TokenenStatus.OK;
 //     userId = decoded.userId;
 //   } catch (err: any) {
-//     if (err.name == "TokenExpiredError") status = TokenStatus.EXPIRED;
+//     if (err.name == "TokenExpiredError") status = Enum.TokenenStatus.EXPIRED;
 //     else {
-//       status = TokenStatus.INVALID;
+//       status = Enum.TokenenStatus.INVALID;
 //     }
 //   }
 
@@ -53,5 +44,5 @@ export const validate = async (word, hash) => {
 // };
 // export const validateToken = (token: string): boolean => {
 //   const { status } = verifyToken(token);
-//   return status === TokenStatus.OK;
+//   return status === Enum.TokenenStatus.OK;
 // };

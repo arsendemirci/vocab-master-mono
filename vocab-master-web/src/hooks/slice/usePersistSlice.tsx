@@ -13,6 +13,8 @@ const usePersistSlice = () => {
     menuClass: store.menuClass,
     signIn: (payload) => dispatch(signIn(payload)),
     signOut: () => dispatch(signOut()),
+    accessToken: store.user?.accessToken,
+    refreshToken: store.user?.refreshToken,
   };
 };
 

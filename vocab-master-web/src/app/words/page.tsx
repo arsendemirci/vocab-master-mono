@@ -1,13 +1,12 @@
 "use client";
 
-import { GridStateEnum } from "@/config/enums";
 import { DataGrid, Toolbar } from "@/components";
-
+import Enum from "@enums";
 export default function Words() {
   return (
     <div>
       <Toolbar title="All Words" />
-      <DataGrid gridType={GridStateEnum.WORDS} />
+      <DataGrid gridType={Enum.GridStateEnum.WORDS} />
     </div>
   );
 }

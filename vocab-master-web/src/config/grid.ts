@@ -1,56 +1,54 @@
 import { GridStateType } from "@types";
-import { formatString } from "@/utils/stringUtils";
-import { ApiUrlEnum, RoutePathEnum } from "@enums";
-import api from "@/service/clientService";
+import { pageRoutes, apiRoutes } from "@/lib/router";
 
 const gridState: GridStateType = {
   words: {
+    primaryKey: "id",
     columns: [
       { header: "ID", key: "id" },
       { header: "Question", key: "question" },
       { header: "Answer", key: "check" },
     ],
-    dataUrl: ApiUrlEnum.GET_WORDS,
+    dataRoute: apiRoutes.WORD_GET,
     formData: {
-      postUrl: ApiUrlEnum.ADD_WORD,
-      primaryKey: "id",
+      postRoute: apiRoutes.WORD_ADD,
       defaultState: { question: "", check: "" },
       inputs: [
         { header: "Question", key: "question" },
         { header: "Answer", key: "check" },
       ],
     },
-    editPostUrl: ApiUrlEnum.UPDATE_WORD,
-    deleteUrl: ApiUrlEnum.DELETE_WORD,
+    editPostRoute: apiRoutes.WORD_UPDATE,
+    deleteRoute: apiRoutes.WORD_DELETE,
   },
   lists: {
+    primaryKey: "id",
     columns: [
       { header: "ID", key: "id" },
       { header: "Name", key: "title" },
       { header: "Description", key: "description" },
     ],
-    dataUrl: ApiUrlEnum.GET_LISTS,
+    dataRoute: apiRoutes.LIST_GET,
     formData: {
-      postUrl: ApiUrlEnum.ADD_LIST,
-      primaryKey: "id",
+      postRoute: apiRoutes.LIST_ADD,
       defaultState: { title: "", description: "" },
       inputs: [
         { header: "Name", key: "title" },
         { header: "Description", key: "description" },
       ],
     },
-    editUrl: RoutePathEnum.EDIT_LIST,
-    deleteUrl: ApiUrlEnum.DELETE_LIST,
+    editRoute: pageRoutes.EDIT_LIST,
+    deleteRoute: apiRoutes.LIST_DELETE,
   },
   listDetail: {
+    primaryKey: "id",
     columns: [
       { header: "ID", key: "id" },
       { header: "Question", key: "question" },
       { header: "Answer", key: "check" },
     ],
     formData: {
-      postUrl: ApiUrlEnum.ADD_WORD_TO_LIST,
-      primaryKey: "id",
+      postRoute: apiRoutes.WORD_ADD_TO_LIST,
       ownerKey: "listId",
       defaultState: { question: "", check: "" },
       inputs: [
@@ -58,9 +56,10 @@ const gridState: GridStateType = {
         { header: "Answer", key: "check" },
       ],
     },
-    editPostUrl: ApiUrlEnum.UPDATE_WORD,
-    dataUrl: ApiUrlEnum.GET_LIST_BY_ID,
-    deleteUrl: ApiUrlEnum.DELETE_WORD_FROM_LIST,
+    editPostRoute: apiRoutes.WORD_UPDATE,
+    dataRoute: apiRoutes.LIST_GET_BY_ID,
+    deleteRoute: apiRoutes.WORD_DELETE_FROM_LIST,
   },
 };
+
 export default gridState;

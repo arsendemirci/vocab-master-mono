@@ -25,9 +25,14 @@ export default {
             ORDER BY RANDOM() LIMIT ${num}`;
   },
   GetUserByEmail: (email) => {
-    return `select id, email,password, verified
-    from Users 
+    return `select u.id, u.email,u.password, u.verified, p.firstName as name
+    from Users u
+    INNER JOIN Profiles p ON p.userId = u.id AND p.isDefault = 1
     where email = "${email}"`;
+  },
+  GetAllUsers: () => {
+    return `SELECT id, email,password, verified
+    FROM Users `;
   },
   GetUserInfoById: (userId) => {
     return `select u.id as userId, u.email, u.verified, p.id as profileId, p.avatar , p.firstName, p.lastName
@@ -82,10 +87,19 @@ export default {
   InsertUserVerification: (verificationCode, userId, validDate) => {
     return `INSERT OR REPLACE INTO UserVerifications(userId,code,validDate) VALUES (${userId},"${verificationCode}","${validDate}")`;
   },
-  GetUserVerification: (userId, code) => {
-    return `SELECT userId, code, validDate FROM UserVerifications WHERE userId = ${userId} AND code = ${code}`;
+  GetUserVerification: (code) => {
+    return `SELECT userId, code, validDate FROM UserVerifications WHERE code = "${code}"`;
+  },
+  GetUserVerificationByUserId: (userId) => {
+    return `SELECT userId, code, validDate FROM UserVerifications WHERE userId = ${userId}`;
+  },
+  DeleteUserVerification: (userId, code) => {
+    return `DELETE FROM UserVerifications WHERE userId = ${userId} AND code = "${code}"`;
   },
   UpdateUserVerified: (userId) => {
     return `UPDATE Users SET verified = 1 WHERE id = ${userId} `;
+  },
+  UpdateUserPassword: (userId, password) => {
+    return `UPDATE Users SET password = "${password}" WHERE id = ${userId}`;
   },
 };
